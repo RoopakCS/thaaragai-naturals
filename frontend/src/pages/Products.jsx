@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../utils/axiosInstance';
 import ProductCard from '../components/ProductCard';
 
 const CATEGORIES = [
@@ -25,7 +25,7 @@ export default function Products() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axiosInstance.get('/api/products');
         setProducts(response.data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
