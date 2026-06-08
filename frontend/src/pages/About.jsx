@@ -1,184 +1,197 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import heroImage from '../assets/product-hero.webp';
+import spllingGhee from '../assets/splling-ghee.webp'
+import shopBanner from '../assets/shop-banner.webp'
+import { Leaf, Heart, ShieldCheck, Clock } from 'lucide-react';
 
 export default function About() {
-  const values = [
-    { icon: '🌾', title: 'Traditional Recipes', desc: 'Ancient Tamil grain recipes' },
-    { icon: '🏠', title: 'Homemade Quality', desc: 'Made in small batches at home' },
-    { icon: '🌱', title: 'No Preservatives', desc: 'Pure ingredients only' },
-    { icon: '❤️', title: 'Made with Love', desc: 'Every product handcrafted with care' }
-  ];
-
-  const highlights = [
-    {
-      title: 'Millet Laddus',
-      desc: '9 varieties of traditional grain laddus, made fresh on order',
-      emoji: '🍬'
-    },
-    {
-      title: 'Herbal Beverages',
-      desc: 'From Karuppatti coffee to ABC Health Malt, 7 healthy drink mixes',
-      emoji: '🍵'
-    },
-    {
-      title: 'Herbal Personal Care',
-      desc: 'Natural hair oils, herbal face packs and ayurvedic creams',
-      emoji: '🌿'
-    }
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-
   return (
-    <div className="bg-[#FDFAF5] min-h-screen">
-      {/* SECTION 1 - HERO */}
-      <section className="bg-[#2D6A2D] text-white py-20 px-4 text-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
-        >
-          <div className="inline-block border border-white/40 rounded-full px-4 py-1 text-sm font-medium mb-6">
-            Our Story
+    <div className="bg-[#FDFAF5] min-h-screen font-sans pb-24 overflow-hidden">
+      
+      {/* 1. HERO SECTION (Deep green, image bleeding in from right) */}
+      <section className="relative bg-[#1a3a28] rounded-b-[3rem] lg:rounded-b-[4rem] overflow-visible">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-20 md:py-32 flex flex-col md:flex-row items-center relative z-10">
+          <div className="md:w-3/5 text-left z-20">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white mb-6 leading-tight">
+              Bringing traditional wellness <br className="hidden md:block"/> to modern homes
+            </h1>
+            <p className="text-[#a8d3b8] text-lg md:text-xl mb-10 max-w-lg">
+              Create a healthier lifestyle with our 100% natural, homemade products rooted in Tamil heritage.
+            </p>
+            <Link to="/products" className="inline-block bg-white text-[#1a3a28] px-8 py-4 rounded-full font-bold hover:bg-gray-100 transition-colors shadow-lg">
+              View our products
+            </Link>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            🌿 Made with Love, Rooted in Tradition 🌿
-          </h1>
-          <p className="text-lg md:text-xl text-green-100 max-w-2xl mx-auto leading-relaxed">
-            A small family business from Ramanathapuram, bringing traditional Tamil health foods to your doorstep
-          </p>
-        </motion.div>
-      </section>
-
-      {/* SECTION 2 - OUR STORY */}
-      <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-[#8B1A1A] font-bold text-3xl mb-6">How Thaaragai Naturals Began</h2>
-            <div className="space-y-4 text-gray-700 leading-relaxed text-lg">
-              <p>
-                Thaaragai Naturals was born from a mother's love for her family's health. Started in Ramanathapuram, Tamil Nadu, our journey began with simple millet laddus made from traditional family recipes passed down through generations.
-              </p>
-              <p>
-                Every product we make is handcrafted at home with no artificial preservatives, no factory processing — just pure ingredients, traditional methods, and love in every batch.
-              </p>
-              <p>
-                What started as making healthy snacks for family has grown into a mission to bring back forgotten superfoods like millets, traditional herbs, and natural ingredients to modern Tamil households.
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="bg-[#f0f7f0] rounded-2xl p-8 text-center shadow-sm border border-green-100"
-          >
-            <div className="text-6xl mb-4">🫙</div>
-            <h3 className="text-2xl font-bold text-[#2D6A2D] mb-2">Est. with Love</h3>
-            <p className="text-gray-600 mb-8">Ramanathapuram, Tamil Nadu</p>
-            
-            <div className="flex flex-col sm:flex-row justify-center gap-6 sm:gap-12">
-              <div>
-                <div className="text-2xl font-bold text-[#8B1A1A]">30+</div>
-                <div className="text-sm font-medium text-gray-600 mt-1">Products</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-[#8B1A1A]">100%</div>
-                <div className="text-sm font-medium text-gray-600 mt-1">Natural</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-[#8B1A1A]">0</div>
-                <div className="text-sm font-medium text-gray-600 mt-1">Preservatives</div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION 3 - OUR VALUES */}
-      <section className="bg-white py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-center text-[#8B1A1A] font-bold text-3xl mb-12">What We Stand For</h2>
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
-            {values.map((value, idx) => (
-              <motion.div 
-                key={idx}
-                variants={itemVariants}
-                className="bg-white border border-[#2D6A2D] rounded-2xl p-6 text-center hover:shadow-md transition-shadow"
-              >
-                <div className="text-4xl mb-4">{value.icon}</div>
-                <h3 className="font-bold text-gray-800 text-lg mb-2">{value.title}</h3>
-                <p className="text-gray-600 text-sm">{value.desc}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION 4 - PRODUCT HIGHLIGHTS */}
-      <section className="bg-[#f0f7f0] py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-center text-[#2D6A2D] font-bold text-3xl mb-12">Our Specialties</h2>
-          <div className="flex overflow-x-auto lg:grid lg:grid-cols-3 gap-6 pb-6 snap-x">
-            {highlights.map((highlight, idx) => (
-              <div 
-                key={idx}
-                className="bg-white shadow-md rounded-2xl p-6 min-w-[280px] lg:min-w-0 snap-center flex flex-col items-center text-center border border-transparent hover:border-[#8B1A1A] transition-colors"
-              >
-                <div className="text-5xl mb-4">{highlight.emoji}</div>
-                <h3 className="font-bold text-gray-800 text-xl mb-3">{highlight.title}</h3>
-                <p className="text-gray-600 mb-6 flex-grow">{highlight.desc}</p>
-                <Link 
-                  to="/products"
-                  className="inline-block border-2 border-[#8B1A1A] text-[#8B1A1A] hover:bg-[#8B1A1A] hover:text-white px-6 py-2 rounded-xl font-medium transition-colors w-full"
-                >
-                  Shop Now
-                </Link>
-              </div>
-            ))}
+          
+          <div className="md:w-2/5 relative h-64 md:h-auto w-full mt-12 md:mt-0 z-10">
+            {/* Bleeding out-of-box image */}
+            <motion.img 
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              src={spllingGhee} 
+              alt="Natural Products" 
+              className="absolute -right-8 md:-right-32 top-1/2 -translate-y-1/2 w-[140%] max-w-[500px] md:max-w-[700px] object-contain drop-shadow-2xl pointer-events-none"
+            />
           </div>
         </div>
       </section>
 
-      {/* SECTION 5 - CTA */}
-      <section className="bg-[#8B1A1A] text-white py-16 px-4 text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8">Experience the Taste of Tradition</h2>
-          <a 
-            href="https://wa.me/919952981365"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#25D366] text-white px-8 py-3 rounded-full text-lg font-bold hover:bg-green-600 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-          >
-            <span>Order on WhatsApp</span>
-          </a>
+      {/* 2. OUR MISSION / STORY */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 mt-24 mb-24 md:mt-32 md:mb-32">
+        <div className="flex flex-col md:flex-row gap-16 md:gap-24 items-center">
+          <div className="md:w-5/12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1a3a28] mb-6">Our Mission</h2>
+            <p className="text-gray-600 text-lg mb-6 leading-relaxed">
+              We help families turn their daily meals into nutritious, wholesome experiences. 
+              Started in Ramanathapuram, our journey began with simple millet laddus made from traditional recipes.
+            </p>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              Even in a fast-paced modern world, your health shouldn't take a backseat. We create unique, 
+              preservative-free products that boost your well-being.
+            </p>
+          </div>
+          
+          <div className="md:w-7/12 w-full relative md:pl-16">
+            {/* The background box fits exactly to the image */}
+            <div className="bg-[#eaf2eb] rounded-[2rem] w-full shadow-sm flex overflow-hidden">
+              <img 
+                src={shopBanner} 
+                alt="Products" 
+                className="w-full h-auto object-cover rounded-[2rem]"
+              />
+            </div>
+          </div>
         </div>
       </section>
+
+      {/* 3. STATS BAR */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 mb-24 md:mb-32">
+        <div className="bg-[#eaf2eb] rounded-[2rem] p-10 md:p-14 flex flex-col md:flex-row justify-around items-center gap-12 md:gap-4 text-center">
+          <div>
+            <div className="text-5xl md:text-7xl font-bold text-[#2D5A40] mb-3 font-serif">100%</div>
+            <div className="text-[#1a3a28] font-bold tracking-wide uppercase text-sm">Natural Ingredients</div>
+          </div>
+          <div className="hidden md:block w-px h-20 bg-[#2D5A40]/20"></div>
+          <div>
+            <div className="text-5xl md:text-7xl font-bold text-[#2D5A40] mb-3 font-serif">30+</div>
+            <div className="text-[#1a3a28] font-bold tracking-wide uppercase text-sm">Unique Products</div>
+          </div>
+          <div className="hidden md:block w-px h-20 bg-[#2D5A40]/20"></div>
+          <div>
+            <div className="text-5xl md:text-7xl font-bold text-[#2D5A40] mb-3 font-serif">0</div>
+            <div className="text-[#1a3a28] font-bold tracking-wide uppercase text-sm">Chemical Preservatives</div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. REASONS / FEATURES GRID */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 mb-24 md:mb-32">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12">
+          
+          <div className="md:w-1/2 flex flex-col">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1a3a28] mb-10 leading-tight">
+              4 reasons why <br className="hidden md:block" /> you can trust us
+            </h2>
+            <div className="grid grid-cols-1 gap-6 flex-grow">
+              
+              <div className="bg-[#eaf2eb]/50 p-8 rounded-[2rem]">
+                <h3 className="text-xl font-bold text-[#1a3a28] mb-3 flex items-center gap-3">
+                   <ShieldCheck className="w-6 h-6 text-[#2D5A40]" /> Purity First
+                </h3>
+                <p className="text-gray-600 font-medium">We use only the finest natural herbs and grains, maintaining their original goodness for years to come.</p>
+              </div>
+
+              <div className="bg-[#eaf2eb]/50 p-8 rounded-[2rem]">
+                <h3 className="text-xl font-bold text-[#1a3a28] mb-3 flex items-center gap-3">
+                   <Clock className="w-6 h-6 text-[#2D5A40]" /> Fresh on Order
+                </h3>
+                <p className="text-gray-600 font-medium">We value your health, guaranteeing freshly made batches directly upon your request instead of stocking up.</p>
+              </div>
+
+            </div>
+          </div>
+
+          <div className="md:w-1/2 flex flex-col gap-6 md:mt-20">
+             <div className="bg-[#eaf2eb]/50 p-8 rounded-[2rem]">
+                <h3 className="text-xl font-bold text-[#1a3a28] mb-3 flex items-center gap-3">
+                   <Heart className="w-6 h-6 text-[#2D5A40]" /> Handcrafted with Love
+                </h3>
+                <p className="text-gray-600 font-medium">Every product is crafted carefully at home, retaining the authentic taste and nutrition of traditional recipes.</p>
+             </div>
+             
+             {/* Large feature block with image bleeding out top */}
+             <div className="bg-[#eaf2eb] p-8 pt-40 md:pt-48 rounded-[2rem] flex-grow relative overflow-visible shadow-sm mt-16 md:mt-24">
+                <h3 className="text-xl font-bold text-[#1a3a28] mb-3 flex items-center gap-3 relative z-10">
+                   <Leaf className="w-6 h-6 text-[#2D5A40]" /> Wide Variety
+                </h3>
+                <p className="text-gray-600 font-medium relative z-10 md:max-w-[75%]">From Laddus to Face packs, we offer a vast range of natural solutions tailored to your needs.</p>
+                
+                <img 
+                  src={heroImage} 
+                  alt="Variety" 
+                  className="absolute bottom-1/2 md:bottom-24 -right-10 md:-right-16 w-64 md:w-80 h-64 md:h-80 object-contain drop-shadow-2xl z-0 pointer-events-none origin-bottom"
+                />
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. CONTACT / BOTTOM SECTION */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 mt-16 md:mt-40 mb-10">
+        <div className="flex flex-col md:flex-row gap-20 items-center">
+          
+          {/* Bleeding Image Container */}
+          <div className="md:w-1/2 w-full relative mt-16 md:mt-0 pr-8">
+            <div className="bg-[#2D5A40] w-[85%] aspect-square rounded-[3rem] relative shadow-xl">
+              <motion.img 
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.5 }}
+                src={heroImage} 
+                alt="Contact us" 
+                className="absolute bottom-0 -right-16 w-[120%] h-[120%] object-contain drop-shadow-2xl origin-bottom"
+              />
+            </div>
+          </div>
+
+          {/* Form */}
+          <div className="md:w-1/2 w-full">
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#1a3a28] mb-12">Get in touch</h2>
+            <form className="flex flex-col gap-8">
+              <div className="relative">
+                <input 
+                  type="text" 
+                  placeholder="Name" 
+                  className="w-full border-b-2 border-gray-300 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] placeholder-gray-400 font-medium"
+                />
+              </div>
+              <div className="relative">
+                <input 
+                  type="tel" 
+                  placeholder="Phone" 
+                  className="w-full border-b-2 border-gray-300 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] placeholder-gray-400 font-medium"
+                />
+              </div>
+              <div className="relative">
+                <input 
+                  type="text" 
+                  placeholder="Comment" 
+                  className="w-full border-b-2 border-gray-300 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] placeholder-gray-400 font-medium"
+                />
+              </div>
+              <button 
+                type="button"
+                className="bg-[#1a3a28] text-white px-10 py-4 rounded-full font-bold hover:bg-[#2D5A40] transition-colors mt-6 self-start md:w-auto w-full text-lg shadow-lg"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
     </div>
   );
 }

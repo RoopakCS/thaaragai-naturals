@@ -16,14 +16,14 @@ export const useCartStore = create((set, get) => ({
     }
   },
 
-  addItem: async (product) => {
+  addItem: async (product, quantity = 1) => {
     set({ loading: true });
     try {
       await axiosInstance.post('/api/cart/add', {
         productId: product._id,
         name: product.name,
         price: product.price,
-        quantity: 1,
+        quantity: quantity,
         weight: product.weight
       });
       await get().fetchCart();

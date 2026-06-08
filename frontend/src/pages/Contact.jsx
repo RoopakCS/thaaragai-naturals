@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { MapPin, Mail, MessageCircle, ArrowRight } from 'lucide-react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -16,14 +17,11 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Basic validation
     if (!formData.name || !formData.email || !formData.message) {
       alert('Please fill in all required fields');
       return;
     }
 
-    // Build WhatsApp message
     const message = `New enquiry from ${formData.name}
 Email: ${formData.email}
 Phone: ${formData.phone || 'N/A'}
@@ -33,195 +31,234 @@ Message: ${formData.message}`;
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/919952981365?text=${encodedMessage}`;
 
-    // Show success and redirect
     alert("Message sent! We'll get back to you soon 🌿");
     window.open(whatsappUrl, '_blank');
     
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: 'Product Enquiry',
-      message: ''
-    });
+    setFormData({ name: '', email: '', phone: '', subject: 'Product Enquiry', message: '' });
   };
 
   return (
-    <div className="bg-[#FDFAF5] min-h-screen py-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        
-        {/* SECTION 1 - HERO */}
-        <section className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-4xl md:text-5xl font-bold text-[#8B1A1A] mb-4">Get in Touch</h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We'd love to hear from you. Reach out for orders, queries, or just to say hello!
-            </p>
-          </motion.div>
-        </section>
+    <div className="bg-[#FDFAF5] min-h-[calc(100vh-88px)] font-sans pb-24">
+      
+      {/* 1. HERO SECTION */}
+      <section className="bg-[#1a3a28] rounded-b-[3rem] lg:rounded-b-[4rem] text-white pt-24 pb-40 px-6 md:px-12 text-center relative overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto relative z-10"
+        >
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-6">Let's talk naturally.</h1>
+          <p className="text-[#a8d3b8] text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            Whether you have a question about our traditional recipes, want to place a bulk order, or just want to say hello — we're here for you.
+          </p>
+        </motion.div>
+      </section>
 
-        {/* SECTION 2 - CONTACT CARDS ROW */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          {/* Card 1 - WhatsApp */}
-          <motion.div 
-            whileHover={{ y: -5 }}
-            className="bg-[#25D366] text-white rounded-2xl p-6 text-center shadow-md flex flex-col h-full"
-          >
-            <div className="text-4xl mb-4">💬</div>
-            <h3 className="text-xl font-bold mb-2">Chat on WhatsApp</h3>
-            <p className="mb-6 flex-grow font-medium">+91 99529 81365</p>
-            <a 
+      {/* 2. SPLIT LAYOUT: INFO & FORM */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 -mt-24 relative z-20">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+          
+          {/* Left: Contact Info Cards */}
+          <div className="lg:w-5/12 flex flex-col gap-6">
+            
+            {/* WhatsApp Card */}
+            <motion.a 
               href="https://wa.me/919952981365"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white text-[#25D366] px-6 py-2 rounded-xl font-bold hover:bg-green-50 transition-colors inline-block w-full"
+              whileHover={{ scale: 1.02 }}
+              className="bg-white p-8 rounded-[2rem] shadow-lg border border-gray-100 flex items-start gap-6 group hover:shadow-xl transition-all cursor-pointer"
             >
-              Start Chat
-            </a>
-          </motion.div>
-
-          {/* Card 2 - Email */}
-          <motion.div 
-            whileHover={{ y: -5 }}
-            className="bg-[#8B1A1A] text-white rounded-2xl p-6 text-center shadow-md flex flex-col h-full"
-          >
-            <div className="text-4xl mb-4">📧</div>
-            <h3 className="text-xl font-bold mb-2">Send an Email</h3>
-            <p className="mb-6 flex-grow font-medium">thaaragainaturals@gmail.com</p>
-            <a 
-              href="mailto:thaaragainaturals@gmail.com"
-              className="bg-white text-[#8B1A1A] px-6 py-2 rounded-xl font-bold hover:bg-red-50 transition-colors inline-block w-full"
-            >
-              Send Email
-            </a>
-          </motion.div>
-
-          {/* Card 3 - Instagram */}
-          <motion.div 
-            whileHover={{ y: -5 }}
-            className="bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-2xl p-6 text-center shadow-md flex flex-col h-full"
-          >
-            <div className="text-4xl mb-4">📸</div>
-            <h3 className="text-xl font-bold mb-2">Follow Us</h3>
-            <p className="mb-6 flex-grow font-medium">@thaaragai.naturals</p>
-            <a 
-              href="https://instagram.com/thaaragai.naturals"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white text-pink-500 px-6 py-2 rounded-xl font-bold hover:bg-pink-50 transition-colors inline-block w-full"
-            >
-              Follow
-            </a>
-          </motion.div>
-        </section>
-
-        {/* SECTION 3 - ENQUIRY FORM */}
-        <section className="max-w-2xl mx-auto mb-16">
-          <div className="bg-white shadow-lg rounded-2xl p-8 border border-gray-100">
-            <h2 className="text-2xl font-bold text-[#2D6A2D] text-center mb-8">Send us a Message</h2>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2D6A2D] focus:border-[#2D6A2D] outline-none transition-all"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2D6A2D] focus:border-[#2D6A2D] outline-none transition-all"
-                  />
-                </div>
+              <div className="bg-[#eaf2eb] w-14 h-14 rounded-full flex items-center justify-center shrink-0 group-hover:bg-[#1a3a28] transition-colors">
+                <MessageCircle className="w-6 h-6 text-[#2D5A40] group-hover:text-white transition-colors" />
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2D6A2D] focus:border-[#2D6A2D] outline-none transition-all"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2D6A2D] focus:border-[#2D6A2D] outline-none transition-all bg-white"
-                  >
-                    <option value="Product Enquiry">Product Enquiry</option>
-                    <option value="Place an Order">Place an Order</option>
-                    <option value="Bulk Order">Bulk Order</option>
-                    <option value="Feedback">Feedback</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-              </div>
-
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message *</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows="5"
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#2D6A2D] focus:border-[#2D6A2D] outline-none transition-all resize-none"
-                ></textarea>
+                <h3 className="text-xl font-bold text-[#1a3a28] mb-2">Chat with us</h3>
+                <p className="text-gray-500 font-medium mb-3">Fastest way to get answers.</p>
+                <div className="text-[#2D5A40] font-bold flex items-center gap-2 group-hover:text-[#1a3a28] transition-colors">
+                  +91 99529 81365 <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </motion.a>
+
+            {/* Email Card */}
+            <motion.a 
+              href="mailto:thaaragainaturals@gmail.com"
+              whileHover={{ scale: 1.02 }}
+              className="bg-white p-8 rounded-[2rem] shadow-lg border border-gray-100 flex items-start gap-6 group hover:shadow-xl transition-all cursor-pointer"
+            >
+              <div className="bg-[#eaf2eb] w-14 h-14 rounded-full flex items-center justify-center shrink-0 group-hover:bg-[#1a3a28] transition-colors">
+                <Mail className="w-6 h-6 text-[#2D5A40] group-hover:text-white transition-colors" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-[#1a3a28] mb-2">Email us</h3>
+                <p className="text-gray-500 font-medium mb-3">For business and bulk queries.</p>
+                <div className="text-[#2D5A40] font-bold flex items-center gap-2 group-hover:text-[#1a3a28] transition-colors">
+                  thaaragainaturals@gmail.com <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </motion.a>
+
+            {/* Location & Socials */}
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="bg-white p-8 rounded-[2rem] shadow-lg border border-gray-100 flex flex-col gap-6 h-full group hover:shadow-xl transition-all"
+            >
+              <div className="flex items-start gap-6">
+                <div className="bg-[#eaf2eb] w-14 h-14 rounded-full flex items-center justify-center shrink-0 group-hover:bg-[#1a3a28] transition-colors">
+                  <MapPin className="w-6 h-6 text-[#2D5A40] group-hover:text-white transition-colors" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-[#1a3a28] mb-2">Visit Our Store</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed">
+                    Ramanathapuram,<br/>Tamil Nadu, India
+                  </p>
+                </div>
               </div>
 
-              <button
-                type="submit"
-                className="w-full bg-[#8B1A1A] text-white py-3 rounded-xl font-bold hover:bg-red-900 transition-colors shadow-md hover:shadow-lg"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
-        </section>
+              {/* Google Maps Embed */}
+              <div className="flex-grow w-full relative min-h-[200px] rounded-2xl overflow-hidden shadow-inner border border-black/5 group">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3936.7173042419417!2d78.8784422!3d9.358265000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0197368e4b346b%3A0x2e83f9c4d6a50827!2sThaaragai%20Naturals!5e0!3m2!1sen!2sin!4v1780942237806!5m2!1sen!2sin" 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen="" 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="absolute inset-0 w-full h-full grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
+                ></iframe>
+              </div>
+            </motion.div>
 
-        {/* SECTION 4 - LOCATION CARD */}
-        <section className="max-w-xl mx-auto">
-          <div className="bg-[#f0f7f0] rounded-2xl p-8 text-center border border-green-100 shadow-sm">
-            <h3 className="text-xl font-bold text-[#2D6A2D] mb-4">📍 Based in Ramanathapuram, Tamil Nadu, India</h3>
-            <p className="text-gray-600 mb-6">
-              We deliver across Tamil Nadu. For outstation orders, please contact us via WhatsApp.
-            </p>
-            
-            {/* Map Placeholder */}
-            <div className="bg-[#2D6A2D] bg-opacity-20 rounded-xl h-32 flex items-center justify-center">
-              <span className="text-[#2D6A2D] font-bold text-lg">Ramanathapuram, TN 📍</span>
+          </div>
+
+          {/* Right: Form */}
+          <div className="lg:w-7/12">
+            <div className="bg-white p-10 md:p-14 rounded-[2rem] shadow-xl border border-gray-100 h-full">
+              <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1a3a28] mb-10">Send an Enquiry</h2>
+              
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="relative group">
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      placeholder="Your Name *"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full border-b-2 border-gray-200 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] placeholder-gray-400 font-medium"
+                    />
+                  </div>
+                  <div className="relative group">
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="Your Email *"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full border-b-2 border-gray-200 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] placeholder-gray-400 font-medium"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Phone Number (Optional)"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full border-b-2 border-gray-200 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] placeholder-gray-400 font-medium"
+                    />
+                  </div>
+                  <div className="relative">
+                    <select
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="w-full border-b-2 border-gray-200 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] font-medium appearance-none cursor-pointer"
+                    >
+                      <option value="Product Enquiry">Product Enquiry</option>
+                      <option value="Bulk Order">Bulk Order</option>
+                      <option value="Feedback">Feedback</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <textarea
+                    name="message"
+                    required
+                    placeholder="How can we help you? *"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows="5"
+                    className="w-full border-b-2 border-gray-200 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] placeholder-gray-400 font-medium resize-none"
+                  ></textarea>
+                </div>
+
+                <button 
+                  type="submit"
+                  className="bg-[#1a3a28] text-white px-10 py-4 rounded-full font-bold hover:bg-[#2D5A40] transition-colors mt-6 w-full md:w-auto text-lg shadow-lg flex items-center justify-center gap-3 group"
+                >
+                  Send Message <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </form>
+
+              {/* Creative Gap Filler: The Thaaragai Promise */}
+              <div className="mt-auto pt-16">
+                <div className="border-t border-gray-100 pt-8">
+                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">The Thaaragai Promise</h4>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    {/* Value 1 */}
+                    <div className="flex flex-col gap-2 group">
+                      <div className="w-10 h-10 rounded-full bg-[#eaf2eb] flex items-center justify-center mb-2 group-hover:bg-[#1a3a28] transition-colors">
+                        <svg className="w-5 h-5 text-[#2D5A40] group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                      </div>
+                      <p className="text-sm font-bold text-[#1a3a28]">100% Natural</p>
+                      <p className="text-xs text-gray-500 font-medium pr-2">No chemicals, no preservatives. Just pure ingredients from earth.</p>
+                    </div>
+                    
+                    {/* Value 2 */}
+                    <div className="flex flex-col gap-2 group">
+                      <div className="w-10 h-10 rounded-full bg-[#eaf2eb] flex items-center justify-center mb-2 group-hover:bg-[#1a3a28] transition-colors">
+                        <svg className="w-5 h-5 text-[#2D5A40] group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                      </div>
+                      <p className="text-sm font-bold text-[#1a3a28]">Made with Love</p>
+                      <p className="text-xs text-gray-500 font-medium pr-2">Handcrafted in small batches to ensure the highest quality and taste.</p>
+                    </div>
+
+                    {/* Value 3 */}
+                    <div className="flex flex-col gap-2 group">
+                      <div className="w-10 h-10 rounded-full bg-[#eaf2eb] flex items-center justify-center mb-2 group-hover:bg-[#1a3a28] transition-colors">
+                        <svg className="w-5 h-5 text-[#2D5A40] group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                      </div>
+                      <p className="text-sm font-bold text-[#1a3a28]">Traditional Wisdom</p>
+                      <p className="text-xs text-gray-500 font-medium pr-2">Rooted in ancient Tamil recipes passed down through generations.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
-        </section>
 
-      </div>
+        </div>
+      </section>
+
     </div>
   );
 }

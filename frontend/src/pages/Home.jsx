@@ -53,7 +53,7 @@ export default function Home() {
   return (
     <div className="bg-[#FDFAF5] min-h-screen">
       {/* SECTION 1 — HERO (ROCKSTAR MULTI-LAYER PARALLAX) */}
-      <section ref={heroRef} className="relative h-screen flex flex-col items-center bg-[#cae5d6] overflow-hidden">
+      <section ref={heroRef} className="relative h-[calc(100vh-88px)] flex flex-col items-center bg-[#cae5d6] overflow-hidden">
         
         {/* Layer 1: Background Gradient (Scales Up slowly) */}
         <motion.div 
@@ -96,18 +96,6 @@ export default function Home() {
               Rooted in Nature, Made with Love.
             </motion.p>
             
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-0 md:mb-2">
-              <Link to="/products">
-                <motion.button whileHover={{ scale: 1.05 }} className="bg-[#2D5A40] text-white px-8 py-3.5 rounded-full font-medium shadow-md hover:bg-[#1f422e] transition-colors w-full sm:w-auto">
-                  Explore Products
-                </motion.button>
-              </Link>
-              <Link to="/about">
-                <motion.button whileHover={{ scale: 1.05 }} className="border border-[#2D5A40] text-[#2D5A40] px-8 py-3.5 rounded-full font-medium flex items-center justify-center hover:bg-white/30 transition-colors backdrop-blur-sm w-full sm:w-auto">
-                  <Sparkles size={18} className="mr-2" /> Our Story
-                </motion.button>
-              </Link>
-            </motion.div>
           </motion.div>
         </motion.div>
         
@@ -124,6 +112,25 @@ export default function Home() {
             alt="Thaaragai Naturals Product" 
             className="w-full h-full object-contain object-bottom drop-shadow-2xl"
           />
+        </motion.div>
+
+        {/* Layer 4: Action Buttons (Floating Bottom Right) */}
+        <motion.div 
+          className="absolute bottom-10 right-6 md:bottom-16 md:right-16 z-30 flex flex-col gap-4 pointer-events-auto"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+        >
+          <Link to="/products">
+            <motion.button whileHover={{ scale: 1.05 }} className="bg-[#1a3a28] text-white px-8 py-4 rounded-full font-bold shadow-2xl hover:bg-[#2D5A40] transition-colors w-full md:w-56 text-lg border border-[#1a3a28]/20">
+              Explore Products
+            </motion.button>
+          </Link>
+          <Link to="/about">
+            <motion.button whileHover={{ scale: 1.05 }} className="bg-white/90 backdrop-blur-md text-[#1a3a28] px-8 py-4 rounded-full font-bold shadow-xl hover:bg-white transition-colors flex items-center justify-center w-full md:w-56 text-lg border border-white/40">
+              <Sparkles size={18} className="mr-2 text-[#2D5A40]" /> Our Story
+            </motion.button>
+          </Link>
         </motion.div>
       </section>
 

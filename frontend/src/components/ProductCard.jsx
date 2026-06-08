@@ -43,9 +43,11 @@ export default function ProductCard({ product }) {
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   };
-
   return (
-    <div className="flex flex-col bg-white border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300 rounded-[2rem] overflow-hidden group">
+    <div 
+      onClick={() => navigate(`/product/${product._id}`)}
+      className="flex flex-col bg-white border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300 rounded-[2rem] overflow-hidden group cursor-pointer"
+    >
        {/* Image/Icon Area */}
        <div className="relative h-56 bg-[#FDFAF5] flex items-center justify-center p-6 border-b border-gray-50 overflow-hidden">
          <img src={heroImage} alt={product.name} className="w-3/4 h-3/4 object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-xl" />

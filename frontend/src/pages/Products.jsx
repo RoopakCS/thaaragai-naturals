@@ -96,11 +96,24 @@ export default function Products() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFAF5] pt-[88px]">
+    <div className="min-h-[calc(100vh-88px)] flex flex-col bg-[#FDFAF5] pb-24">
+      
+      {/* 1. HERO SECTION */}
+      <section className="bg-[#1a3a28] rounded-b-[3rem] lg:rounded-b-[4rem] text-white pt-24 pb-40 px-6 md:px-12 text-center relative overflow-hidden">
+        <div className="max-w-4xl mx-auto relative z-10">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-6">Our Complete Catalog.</h1>
+          <p className="text-[#a8d3b8] text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            Explore our range of 100% natural, homemade products crafted with traditional Tamil wisdom.
+          </p>
+        </div>
+      </section>
 
-      {/* FILTER & SORT BAR */}
-      <div className="sticky top-[88px] z-40 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      {/* 2. OVERLAPPING CONTENT (FILTER + GRID) */}
+      <div className="relative z-20 max-w-7xl mx-auto w-full px-4 md:px-8 -mt-24 flex-grow flex flex-col">
+        
+        {/* FILTER & SORT BAR */}
+        <div className="sticky top-[100px] z-40 bg-white/95 backdrop-blur-md border border-gray-100 shadow-xl rounded-[2rem] transition-all mb-12">
+          <div className="px-6 py-5 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           
           {/* Categories Scroll */}
           <div className="flex overflow-x-auto space-x-2 pb-2 lg:pb-0 flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
@@ -166,9 +179,9 @@ export default function Products() {
         </div>
       </div>
 
-      {/* PRODUCT GRID */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
-        {loading ? (
+        {/* PRODUCT GRID */}
+        <div className="flex-grow">
+          {loading ? (
           <div className="flex flex-col justify-center items-center h-64 text-[#2D5A40]">
             <div className="w-12 h-12 border-4 border-[#2D5A40] border-t-transparent rounded-full animate-spin mb-4"></div>
             <p className="font-bold">Loading Catalog...</p>
@@ -196,6 +209,7 @@ export default function Products() {
             )}
           </div>
         )}
+        </div>
       </div>
     </div>
   );
