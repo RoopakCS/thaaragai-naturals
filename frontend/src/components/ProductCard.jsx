@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets, Loader2 } from 'lucide-react';
+import heroImage from '../assets/product-hero.webp';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
 
@@ -19,12 +19,17 @@ const categoryIcons = {
 export default function ProductCard({ product }) {
   const [added, setAdded] = useState(false);
   const addItem = useCartStore(state => state.addItem);
-  const loading = useCartStore(state => state.loading);
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
   const navigate = useNavigate();
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleAddToCart = async () => {
+  // MOCK STOCK FOR DEMO (Replace with product.stock later)
+  const stock = product.stock !== undefined ? product.stock : Math.floor(Math.random() * 15);
+  const isLowStock = stock > 0 && stock <= 5;
+  const isOutOfStock = stock === 0;
+
+  const handleAddToCart = async (e) => {
+    e.stopPropagation();
     if (!isAuthenticated) {
       alert("Please login to add items to cart");
       navigate('/login');
@@ -39,68 +44,70 @@ export default function ProductCard({ product }) {
     setTimeout(() => setAdded(false), 1500);
   };
 
-  const Icon = categoryIcons[product.category] || Package;
-
   return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      className="bg-white rounded-2xl shadow-md border border-transparent hover:border-[#2D6A2D] hover:shadow-xl transition-all duration-300 flex flex-col h-full"
-    >
-      {/* Top section (image area) */}
-      <div className="bg-[#f0f7f0] rounded-t-2xl h-40 flex items-center justify-center">
-        <Icon className="w-16 h-16 text-[#2D6A2D]" />
-      </div>
+    <div className="flex flex-col bg-white border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300 rounded-[2rem] overflow-hidden group">
+       {/* Image/Icon Area */}
+       <div className="relative h-56 bg-[#FDFAF5] flex items-center justify-center p-6 border-b border-gray-50 overflow-hidden">
+         <img src={heroImage} alt={product.name} className="w-3/4 h-3/4 object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-xl" />
+         
+         {/* Badges absolute top */}
+         <div className="absolute top-4 left-4 flex flex-col gap-2">
+            {isOutOfStock ? (
+              <span className="bg-[#8B1A1A]/10 text-[#8B1A1A] text-xs font-bold px-3 py-1 rounded-full border border-[#8B1A1A]/20">Out of Stock</span>
+            ) : isLowStock ? (
+              <span className="bg-[#EACD38]/20 text-[#8a7617] text-xs font-bold px-3 py-1 rounded-full border border-[#EACD38]/30 animate-pulse">Low Stock</span>
+            ) : null}
+         </div>
+       </div>
 
-      {/* Bottom section (details) */}
-      <div className="p-4 flex flex-col flex-grow">
-        <div className="flex-grow">
-          <h3 className="font-semibold text-gray-800 text-sm leading-tight mb-2">
-            {product.name}
-          </h3>
-          {product.weight && product.weight !== 'null' && (
-            <span className="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full mb-3">
-              {product.weight}
-            </span>
-          )}
-        </div>
-
-        <div className="mt-4">
-          <div className="mb-3">
-            {product.price > 0 ? (
-              <span className="text-[#8B1A1A] font-bold text-lg">₹{product.price}</span>
-            ) : (
-              <span className="text-gray-500 italic text-sm">Price on request</span>
-            )}
+       {/* Content Area */}
+       <div className="p-6 flex flex-col flex-grow">
+          <div className="flex justify-between items-start mb-2">
+             <h3 className="font-serif font-bold text-[#1a3a28] text-xl leading-tight pr-2">
+               {product.name}
+             </h3>
+             {product.weight && product.weight !== 'null' && (
+               <span className="text-gray-500 text-sm whitespace-nowrap bg-gray-100 px-2 py-0.5 rounded-md">{product.weight}</span>
+             )}
           </div>
-
-          {product.price > 0 ? (
-            <button
-              onClick={handleAddToCart}
-              disabled={isAdding}
-              className={`w-full py-2 rounded-xl font-medium transition-colors flex items-center justify-center ${
-                added ? 'bg-green-600 text-white' : 'bg-[#8B1A1A] text-white hover:bg-red-900'
-              } ${isAdding ? 'opacity-75 cursor-not-allowed' : ''}`}
-            >
-              {isAdding ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : added ? (
-                '✓ Added!'
-              ) : (
-                'Add to Cart'
-              )}
-            </button>
-          ) : (
-            <a
-              href={`https://wa.me/919952981365?text=${encodeURIComponent(`Hi, I'm interested in ${product.name}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full text-center py-2 rounded-xl bg-[#25D366] text-white font-medium hover:bg-green-600 transition-colors"
-            >
-              Enquire on WhatsApp
-            </a>
-          )}
-        </div>
-      </div>
-    </motion.div>
+          
+          <div className="mt-auto pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+             <span className="text-[#8B1A1A] font-bold text-2xl">
+               {product.price > 0 ? `₹${product.price}` : 'On request'}
+             </span>
+             
+             {isOutOfStock ? (
+                <a
+                  href={`https://wa.me/919952981365?text=${encodeURIComponent(`Hi, I saw the ${product.name} is out of stock. When will the next fresh batch be available?`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-gray-100 text-gray-600 px-5 py-2.5 rounded-full text-sm font-bold hover:bg-gray-200 transition-colors w-full sm:w-auto text-center"
+                >
+                  Inquire
+                </a>
+             ) : product.price > 0 ? (
+                <button
+                  onClick={handleAddToCart}
+                  disabled={isAdding}
+                  className={`px-6 py-2.5 rounded-full font-bold text-sm transition-colors flex items-center justify-center w-full sm:w-auto ${
+                    added ? 'bg-[#25D366] text-white' : 'bg-[#1a3a28] text-white hover:bg-[#2D5A40]'
+                  } ${isAdding ? 'opacity-75 cursor-not-allowed' : ''}`}
+                >
+                  {isAdding ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                  {added ? '✓ Added' : 'Add to Cart'}
+                </button>
+             ) : (
+                <a
+                  href={`https://wa.me/919952981365?text=${encodeURIComponent(`Hi, I'm interested in ${product.name}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#25D366] text-white px-5 py-2.5 rounded-full text-sm font-bold hover:bg-[#1fa952] transition-colors w-full sm:w-auto text-center"
+                >
+                  WhatsApp
+                </a>
+             )}
+          </div>
+       </div>
+    </div>
   );
 }

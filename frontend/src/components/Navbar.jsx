@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
 
@@ -24,59 +23,53 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#FDFAF5] border-b border-[#2D6A2D]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          {/* Brand */}
-          <Link to="/" className="text-[#8B1A1A] font-bold font-serif text-2xl">
-            Thaaragai Naturals
+    <nav className="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 py-5 px-6 md:px-10 lg:px-12 transition-all duration-300">
+      <div className="max-w-[1500px] mx-auto">
+        <div className="flex justify-between items-center h-12">
+          {/* Brand - Abstract Geometric Logo from reference */}
+          <Link to="/" className="text-[#0a1f13] hover:opacity-80 transition-opacity flex items-center justify-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" fill="currentColor" fillOpacity="0.1"/>
+              <path d="M12 22L2 17V7L12 12V22Z" fill="currentColor" fillOpacity="0.8"/>
+              <path d="M22 17L12 22V12L22 7V17Z" fill="currentColor"/>
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" fillOpacity="0.4"/>
+            </svg>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex space-x-8 items-center">
+          <div className="hidden lg:flex space-x-6 xl:space-x-8 items-center">
             {navLinks.map((link) => (
-              <Link key={link.name} to={link.path} className="relative group text-gray-800 hover:text-[#8B1A1A] transition-colors font-medium">
+              <Link 
+                key={link.name} 
+                to={link.path} 
+                className="flex items-center text-[#0a1f13] hover:text-[#0a1f13]/60 transition-colors font-medium text-[14px] tracking-tight"
+              >
                 {link.name}
-                <motion.span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#8B1A1A] group-hover:w-full transition-all duration-300"></motion.span>
+                {link.hasDropdown && (
+                  <svg className="w-3.5 h-3.5 ml-1 opacity-70 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                )}
               </Link>
             ))}
+          </div>
 
-            {/* Auth Section Desktop */}
-            <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-gray-300">
-              {isAuthenticated ? (
-                <>
-                  {user?.role === 'admin' && (
-                    <Link to="/admin" className="text-white bg-red-600 px-3 py-1 rounded-full text-xs font-bold hover:bg-red-700 transition-colors mr-2">
-                      Admin
-                    </Link>
-                  )}
-                  <Link to="/orders" className="text-gray-800 hover:text-[#8B1A1A] font-medium transition-colors mr-4">
-                    My Orders
-                  </Link>
-                  <span className="text-[#2D6A2D] font-medium flex items-center">
-                    <User className="w-4 h-4 mr-1" />
-                    {user?.name?.split(' ')[0]}
-                  </span>
-                  <button 
-                    onClick={logout}
-                    className="text-gray-600 hover:text-red-600 text-sm font-medium transition-colors ml-4"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" className="text-gray-800 hover:text-[#8B1A1A] font-medium transition-colors">Login</Link>
-                  <Link to="/register" className="bg-[#8B1A1A] text-white px-4 py-1.5 rounded-full text-sm font-medium hover:bg-red-900 transition-colors">Register</Link>
-                </>
-              )}
-            </div>
-            
-            {/* Cart Icon */}
-            <Link to="/cart" className="relative text-gray-800 hover:text-[#8B1A1A] transition-colors ml-4">
-              <ShoppingCart className="w-6 h-6" />
+          {/* Right Actions - Delicate thin icons */}
+          <div className="hidden lg:flex items-center space-x-5 text-[#0a1f13]">
+            {isAuthenticated ? (
+              <Link to="/orders" className="hover:opacity-60 transition-opacity flex items-center">
+                <User className="w-[18px] h-[18px]" strokeWidth={1.5} />
+              </Link>
+            ) : (
+              <Link to="/login" className="hover:opacity-60 transition-opacity">
+                <User className="w-[18px] h-[18px]" strokeWidth={1.5} />
+              </Link>
+            )}
+
+            <Link to="/cart" className="relative hover:opacity-60 transition-opacity">
+              <ShoppingCart className="w-[18px] h-[18px]" strokeWidth={1.5} />
               {isAuthenticated && totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-2 bg-[#e03b3b] text-white text-[9px] font-bold rounded-full w-[15px] h-[15px] flex items-center justify-center shadow-sm">
                   {totalItems}
                 </span>
               )}
@@ -84,17 +77,17 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="md:hidden flex items-center space-x-4">
-            <Link to="/cart" className="relative text-gray-800">
-              <ShoppingCart className="w-6 h-6" />
+          <div className="lg:hidden flex items-center space-x-4">
+            <Link to="/cart" className="relative text-[#0a1f13]">
+              <ShoppingCart className="w-[22px] h-[22px]" strokeWidth={1.5} />
               {isAuthenticated && totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-2 bg-[#e03b3b] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </Link>
-            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-800">
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <button onClick={() => setIsOpen(!isOpen)} className="text-[#0a1f13]">
+              {isOpen ? <X className="w-6 h-6" strokeWidth={1.5} /> : <Menu className="w-6 h-6" strokeWidth={1.5} />}
             </button>
           </div>
         </div>
@@ -102,31 +95,35 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-[#FDFAF5] border-t border-[#2D6A2D]">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-[#f2f8f2] shadow-xl border-t border-[#0a1f13]/10">
+          <div className="px-4 pt-4 pb-6 space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-[#2D6A2D] hover:text-white"
+                className="flex items-center justify-between px-3 py-2.5 rounded-lg text-base font-medium text-[#0a1f13] hover:bg-[#0a1f13]/5"
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
+                {link.hasDropdown && (
+                  <svg className="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                )}
               </Link>
             ))}
             
-            {/* Auth Section Mobile */}
-            <div className="mt-4 pt-4 border-t border-gray-200">
+            <div className="mt-6 pt-6 border-t border-[#0a1f13]/10">
               {isAuthenticated ? (
                 <>
-                  <div className="px-3 py-2 text-[#2D6A2D] font-medium flex items-center">
+                  <div className="px-3 py-2 text-[#0a1f13] font-medium flex items-center">
                     <User className="w-4 h-4 mr-2" />
                     Hi, {user?.name?.split(' ')[0]}
                   </div>
                   {user?.role === 'admin' && (
                     <Link
                       to="/admin"
-                      className="block px-3 py-2 rounded-md text-base font-medium text-white bg-red-600 hover:bg-red-700 mx-3 mb-1"
+                      className="block px-3 py-2 rounded-lg text-base font-medium text-[#0a1f13] hover:bg-[#0a1f13]/5"
                       onClick={() => setIsOpen(false)}
                     >
                       Admin Dashboard
@@ -134,35 +131,35 @@ export default function Navbar() {
                   )}
                   <Link
                     to="/orders"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-[#2D6A2D] hover:text-white"
+                    className="block px-3 py-2 rounded-lg text-base font-medium text-[#0a1f13] hover:bg-[#0a1f13]/5"
                     onClick={() => setIsOpen(false)}
                   >
                     My Orders
                   </Link>
                   <button
                     onClick={() => { logout(); setIsOpen(false); }}
-                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50"
+                    className="block w-full text-left px-3 py-2 rounded-lg text-base font-medium text-[#e03b3b] hover:bg-[#e03b3b]/10"
                   >
                     Logout
                   </button>
                 </>
               ) : (
-                <>
+                <div className="flex flex-col gap-2">
                   <Link
                     to="/login"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-[#2D6A2D] hover:text-white"
+                    className="block px-3 py-2 rounded-lg text-center text-base font-medium text-[#0a1f13] border border-[#0a1f13]/20 hover:bg-[#0a1f13]/5"
                     onClick={() => setIsOpen(false)}
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-[#8B1A1A] hover:bg-red-50"
+                    className="block px-3 py-2 rounded-lg text-center text-base font-medium text-white bg-[#0a1f13] hover:bg-[#0a1f13]/80"
                     onClick={() => setIsOpen(false)}
                   >
                     Register
                   </Link>
-                </>
+                </div>
               )}
             </div>
           </div>
