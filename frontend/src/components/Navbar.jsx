@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -7,8 +7,14 @@ import { useAuthStore } from '../store/authStore';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const totalItems = useCartStore((state) => state.totalItems);
+  const { totalItems, fetchCart } = useCartStore();
   const { user, isAuthenticated, logout } = useAuthStore();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchCart();
+    }
+  }, [isAuthenticated, fetchCart]);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -39,13 +45,21 @@ export default function Navbar() {
             <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-gray-300">
               {isAuthenticated ? (
                 <>
+                  {user?.role === 'admin' && (
+                    <Link to="/admin" className="text-white bg-red-600 px-3 py-1 rounded-full text-xs font-bold hover:bg-red-700 transition-colors mr-2">
+                      Admin
+                    </Link>
+                  )}
+                  <Link to="/orders" className="text-gray-800 hover:text-[#8B1A1A] font-medium transition-colors mr-4">
+                    My Orders
+                  </Link>
                   <span className="text-[#2D6A2D] font-medium flex items-center">
                     <User className="w-4 h-4 mr-1" />
                     {user?.name?.split(' ')[0]}
                   </span>
                   <button 
                     onClick={logout}
-                    className="text-gray-600 hover:text-red-600 text-sm font-medium transition-colors"
+                    className="text-gray-600 hover:text-red-600 text-sm font-medium transition-colors ml-4"
                   >
                     Logout
                   </button>
@@ -109,6 +123,22 @@ export default function Navbar() {
                     <User className="w-4 h-4 mr-2" />
                     Hi, {user?.name?.split(' ')[0]}
                   </div>
+                  {user?.role === 'admin' && (
+                    <Link
+                      to="/admin"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-white bg-red-600 hover:bg-red-700 mx-3 mb-1"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Admin Dashboard
+                    </Link>
+                  )}
+                  <Link
+                    to="/orders"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-[#2D6A2D] hover:text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    My Orders
+                  </Link>
                   <button
                     onClick={() => { logout(); setIsOpen(false); }}
                     className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50"

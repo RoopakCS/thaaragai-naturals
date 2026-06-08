@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets } from 'lucide-react';
+import { Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets, Loader2 } from 'lucide-react';
 import { useCartStore } from '../store/cartStore';
+import { useAuthStore } from '../store/authStore';
 
 const categoryIcons = {
   'flours': Wheat,
@@ -17,9 +19,22 @@ const categoryIcons = {
 export default function ProductCard({ product }) {
   const [added, setAdded] = useState(false);
   const addItem = useCartStore(state => state.addItem);
+  const loading = useCartStore(state => state.loading);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const navigate = useNavigate();
+  const [isAdding, setIsAdding] = useState(false);
 
-  const handleAddToCart = () => {
-    addItem(product);
+  const handleAddToCart = async () => {
+    if (!isAuthenticated) {
+      alert("Please login to add items to cart");
+      navigate('/login');
+      return;
+    }
+
+    setIsAdding(true);
+    await addItem(product);
+    setIsAdding(false);
+    
     setAdded(true);
     setTimeout(() => setAdded(false), 1500);
   };
@@ -61,11 +76,18 @@ export default function ProductCard({ product }) {
           {product.price > 0 ? (
             <button
               onClick={handleAddToCart}
-              className={`w-full py-2 rounded-xl font-medium transition-colors ${
+              disabled={isAdding}
+              className={`w-full py-2 rounded-xl font-medium transition-colors flex items-center justify-center ${
                 added ? 'bg-green-600 text-white' : 'bg-[#8B1A1A] text-white hover:bg-red-900'
-              }`}
+              } ${isAdding ? 'opacity-75 cursor-not-allowed' : ''}`}
             >
-              {added ? '✓ Added!' : 'Add to Cart'}
+              {isAdding ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : added ? (
+                '✓ Added!'
+              ) : (
+                'Add to Cart'
+              )}
             </button>
           ) : (
             <a
