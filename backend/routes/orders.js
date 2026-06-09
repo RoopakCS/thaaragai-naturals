@@ -6,7 +6,7 @@ const { verifyToken } = require('../middleware/auth');
 
 router.post('/', verifyToken, async (req, res) => {
   try {
-    const { items, totalAmount } = req.body;
+    const { items, totalAmount, shippingAddress } = req.body;
     
     // Generate random 6 digit order number
     const orderNumber = `TN-${Math.floor(100000 + Math.random() * 900000)}`;
@@ -16,6 +16,7 @@ router.post('/', verifyToken, async (req, res) => {
       user: req.user.id,
       items,
       totalAmount,
+      shippingAddress,
       orderNumber
     });
     
