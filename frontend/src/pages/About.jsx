@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import heroImage from '../assets/product-hero.webp';
 import spllingGhee from '../assets/splling-ghee.webp'
 import shopBanner from '../assets/shop-banner.webp'
+import heroImageMobile from '../assets/Website Hero Image - Mobile.webp';
 import { Leaf, Heart, ShieldCheck, Clock } from 'lucide-react';
 
 export default function About() {
@@ -113,18 +114,13 @@ export default function About() {
             <p className="text-gray-600 font-medium">Every product is crafted carefully at home, retaining the authentic taste and nutrition of traditional recipes.</p>
           </div>
           
-          <div className="bg-[#eaf2eb] p-8 rounded-[2rem] relative overflow-hidden shadow-sm flex flex-col justify-between">
+          <div className="bg-[#eaf2eb] p-8 rounded-[2rem] relative overflow-hidden shadow-sm flex flex-col justify-start">
             <div>
               <h3 className="text-xl font-bold text-[#1a3a28] mb-3 flex items-center gap-3 relative z-10">
                  <Leaf className="w-6 h-6 text-[#2D5A40] shrink-0" /> Wide Variety
               </h3>
               <p className="text-gray-600 font-medium relative z-10">From Laddus to Face packs, we offer a vast range of natural solutions tailored to your needs.</p>
             </div>
-            <img 
-              src={heroImage} 
-              alt="Variety" 
-              className="absolute -bottom-8 -right-8 w-40 h-40 object-contain drop-shadow-xl z-0 pointer-events-none opacity-50 sm:opacity-100"
-            />
           </div>
         </div>
       </section>
@@ -135,13 +131,11 @@ export default function About() {
           
           {/* Bleeding Image Container */}
           <div className="md:w-1/2 w-full relative mt-16 md:mt-0 pr-8">
-            <div className="bg-[#2D5A40] w-[85%] aspect-square rounded-[3rem] relative shadow-xl">
-              <motion.img 
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.5 }}
-                src={heroImage} 
+            <div className="bg-[#2D5A40] w-[85%] aspect-square rounded-[3rem] relative shadow-xl overflow-hidden">
+              <img 
+                src={heroImageMobile} 
                 alt="Contact us" 
-                className="absolute bottom-0 -right-16 w-[120%] h-[120%] object-contain drop-shadow-2xl origin-bottom"
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[200%] h-[200%] object-contain object-bottom drop-shadow-2xl max-w-none origin-bottom"
               />
             </div>
           </div>

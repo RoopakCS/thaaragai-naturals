@@ -4,6 +4,12 @@ import { Link } from 'react-router-dom';
 import { Wheat, Coffee, Stethoscope, Cookie, Droplets, Heart, Package } from 'lucide-react';
 import heroImageDesktop from '../assets/Website Hero Image - Desktop.webp';
 import heroImageMobile from '../assets/Website Hero Image - Mobile.webp';
+import dosaMaavuImg from '../assets/category images/siruthaniya-dosa-maavu.webp';
+import gheeImg from '../assets/category images/ghee.webp';
+import chappathiMaavuImg from '../assets/category images/siruthaniya-chappathi-maavu.webp';
+import idlyPodiImg from '../assets/category images/Idly Podi.webp';
+import laddusImg from '../assets/category images/millet-laddus-big.webp';
+import nalunguMaavuImg from '../assets/category images/nalungu-maavu.webp';
 import './Home.css';
 
 export default function Home() {
@@ -43,12 +49,12 @@ export default function Home() {
   const ctaBgYDown = useTransform(sec5Progress, [0, 1], [-150, 150]);
 
   const categories = [
-    { name: 'Millet Flours', slug: 'flours', color: 'bg-[#1a3a28]' }, // Deep Green
-    { name: 'Herbal Drinks', slug: 'beverages', color: 'bg-[#2D5A40]' }, // Forest Green
-    { name: 'Health Mixes', slug: 'health-mixes', color: 'bg-[#8B1A1A]' }, // Deep Maroon
-    { name: 'Podis', slug: 'podis', color: 'bg-[#A67B5B]' }, // Warm Earth/Wood
-    { name: 'Laddus', slug: 'laddus', color: 'bg-[#D1AC98]' }, // Terracotta/Clay
-    { name: 'Personal Care', slug: 'personal-care', color: 'bg-[#4A5D23]' }, // Olive/Matcha
+    { name: 'Millet Flours', slug: 'flours', color: 'bg-[#1a3a28]', image: dosaMaavuImg },
+    { name: 'Herbal Drinks', slug: 'beverages', color: 'bg-[#1a3a28]', image: gheeImg },
+    { name: 'Health Mixes', slug: 'health-mixes', color: 'bg-[#1a3a28]', image: chappathiMaavuImg },
+    { name: 'Podis', slug: 'podis', color: 'bg-[#1a3a28]', image: idlyPodiImg },
+    { name: 'Laddus', slug: 'laddus', color: 'bg-[#1a3a28]', image: laddusImg },
+    { name: 'Personal Care', slug: 'personal-care', color: 'bg-[#1a3a28]', image: nalunguMaavuImg },
   ];
 
   const scrollContainer = useRef(null);
@@ -145,7 +151,7 @@ export default function Home() {
         
         {/* Layer 3: Product Image */}
         <motion.div 
-          className="absolute bottom-0 flex-1 w-full max-w-7xl flex justify-center z-10 pointer-events-none md:h-[65vh] md:max-h-[650px] origin-bottom px-4"
+          className="absolute -bottom-6 flex-1 w-full max-w-7xl flex justify-center z-10 pointer-events-none md:h-[65vh] md:max-h-[650px] origin-bottom px-4"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
@@ -158,7 +164,7 @@ export default function Home() {
           <img 
             src={heroImageMobile} 
             alt="Thaaragai Naturals Product - Mobile" 
-            className="block md:hidden w-full h-auto object-contain object-bottom drop-shadow-[0_-20px_50px_rgba(0,0,0,0.5)]"
+            className="block md:hidden w-[125%] max-w-none h-auto object-contain object-bottom drop-shadow-[0_-20px_50px_rgba(0,0,0,0.5)]"
           />
         </motion.div>
         </section>
@@ -166,9 +172,13 @@ export default function Home() {
 
       {/* SECTION 2 — MARQUEE STRIP */}
       <section className="bg-[#eaf2eb] text-[#1a3a28] py-4 overflow-hidden whitespace-nowrap border-y border-[#2D5A40]/10">
-        <div className="marquee-container flex space-x-8 text-lg font-bold items-center">
+        <motion.div 
+          className="flex space-x-8 text-lg font-bold items-center w-max"
+          animate={{ x: [0, "-33.3333%"] }}
+          transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
+        >
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="flex items-center space-x-8 marquee-content">
+            <div key={i} className="flex items-center space-x-8 flex-shrink-0">
               <span className="flex items-center gap-2"><Wheat size={20} className="text-[#2D5A40]" /> Millet Laddus</span> <span className="text-sm opacity-30">•</span>
               <span className="flex items-center gap-2"><Coffee size={20} className="text-[#2D5A40]" /> Herbal Teas</span> <span className="text-sm opacity-30">•</span>
               <span className="flex items-center gap-2">Traditional Podis</span> <span className="text-sm opacity-30">•</span>
@@ -177,7 +187,7 @@ export default function Home() {
               <span className="flex items-center gap-2">Natural Snacks</span> <span className="text-sm opacity-30">•</span>
             </div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* SECTION 3 — CATEGORIES SCROLL */}
@@ -217,13 +227,13 @@ export default function Home() {
                   whileHover={{ y: -10, scale: 1.02, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)" }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 z-0"></div>
-                  <h3 className="text-white font-bold text-lg sm:text-xl md:text-2xl text-left z-10 w-full drop-shadow-md leading-tight mt-auto md:mt-0 md:mb-auto">
+                  <h3 className="text-white font-bold text-lg sm:text-xl md:text-2xl text-left z-10 w-full drop-shadow-md leading-tight mb-auto">
                     {cat.name}
                   </h3>
                   <motion.img 
-                    src={heroImageDesktop} 
+                    src={cat.image} 
                     alt={cat.name} 
-                    className="absolute bottom-4 right-[-15%] w-[120%] h-[55%] md:h-[60%] object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] z-0 pointer-events-none transition-transform duration-700" 
+                    className="absolute -bottom-12 right-[-25%] w-[160%] h-[85%] md:h-[90%] object-contain object-bottom drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] z-0 pointer-events-none transition-transform duration-700" 
                     whileHover={{ scale: 1.1, rotate: -5 }}
                   />
                 </motion.div>
