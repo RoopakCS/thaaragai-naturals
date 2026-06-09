@@ -2,6 +2,11 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const sendEmail = require('../utils/sendEmail');
+const { OAuth2Client } = require('google-auth-library');
+const crypto = require('crypto');
+const axios = require('axios');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Helper to generate 6-digit OTP
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
@@ -127,7 +132,12 @@ const login = async (req, res) => {
     const userWithoutPassword = { ...user._doc };
     delete userWithoutPassword.password;
 
-    res.json({ token, user: userWithoutPassword });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    }).json({ user: userWithoutPassword });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -166,7 +176,12 @@ const verifyOTP = async (req, res) => {
     const userWithoutPassword = { ...user._doc };
     delete userWithoutPassword.password;
 
-    res.json({ message: 'Email verified successfully', token, user: userWithoutPassword });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    }).json({ message: 'Email verified successfully', user: userWithoutPassword });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -249,4 +264,87 @@ const updateProfile = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getProfile, updateProfile, verifyOTP, resendOTP };
+const logout = async (req, res) => {
+  res.cookie('token', '', {
+    httpOnly: true,
+    expires: new Date(0)
+  }).json({ message: 'Logged out successfully' });
+};
+
+const googleAuth = async (req, res) => {
+  try {
+    const { credential } = req.body;
+    if (!credential) {
+      return res.status(400).json({ message: 'Google token is required' });
+    }
+
+    let email, name, picture, googleId;
+
+    if (credential.startsWith('ey')) {
+      // It's a JWT ID Token
+      const ticket = await client.verifyIdToken({
+        idToken: credential,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+      const payload = ticket.getPayload();
+      email = payload.email;
+      name = payload.name;
+      picture = payload.picture;
+      googleId = payload.sub;
+    } else {
+      // It's an Access Token
+      const response = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { Authorization: `Bearer ${credential}` }
+      });
+      email = response.data.email;
+      name = response.data.name;
+      picture = response.data.picture;
+      googleId = response.data.sub;
+    }
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create new user with random password since they use Google
+      const randomPassword = crypto.randomBytes(16).toString('hex');
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(randomPassword, salt);
+
+      user = new User({
+        name,
+        email,
+        password: hashedPassword,
+        isVerified: true // Google accounts are implicitly verified
+      });
+      await user.save();
+    } else if (!user.isVerified) {
+      // If they had an unverified account, verify it now
+      user.isVerified = true;
+      user.verificationOTP = undefined;
+      user.otpExpiresAt = undefined;
+      await user.save();
+    }
+
+    // Create JWT
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    const userWithoutPassword = { ...user._doc };
+    delete userWithoutPassword.password;
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    }).json({ user: userWithoutPassword });
+  } catch (error) {
+    console.error('Google Auth Error:', error);
+    res.status(401).json({ message: 'Invalid Google token' });
+  }
+};
+
+module.exports = { register, login, logout, getProfile, updateProfile, verifyOTP, resendOTP, googleAuth };

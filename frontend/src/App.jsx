@@ -13,6 +13,7 @@ import Orders from './pages/Orders';
 import Admin from './pages/Admin';
 import Profile from './pages/Profile';
 import VerifyOTP from './pages/VerifyOTP';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function ConditionalFooter() {
   const location = useLocation();
@@ -39,15 +40,15 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify" element={<VerifyOTP />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute requireAdmin><Admin /></ProtectedRoute>} />
         </Routes>
       </main>
       <ConditionalFooter />

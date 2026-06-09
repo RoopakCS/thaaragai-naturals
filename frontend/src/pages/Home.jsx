@@ -151,7 +151,7 @@ export default function Home() {
         
         {/* Layer 3: Product Image */}
         <motion.div 
-          className="absolute -bottom-4 flex-1 w-full max-w-7xl flex justify-center z-10 pointer-events-none md:h-[65vh] md:max-h-[650px] origin-bottom px-4"
+          className="absolute -bottom-2 flex-1 w-full max-w-7xl flex justify-center z-10 pointer-events-none md:h-[65vh] md:max-h-[650px] origin-bottom px-4"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}

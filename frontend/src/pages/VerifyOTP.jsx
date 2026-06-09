@@ -33,7 +33,7 @@ export default function VerifyOTP() {
     try {
       const otpString = otp.join('');
       const response = await axiosInstance.post('/api/auth/verify-otp', { email, otp: otpString });
-      login(response.data.user, response.data.token);
+      login(response.data.user);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Verification failed. Please try again.');
