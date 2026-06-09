@@ -17,6 +17,7 @@ const authRoutes = require('./routes/auth');
 const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/orders');
 const adminRoutes = require('./routes/admin');
+const uploadRoutes = require('./routes/upload');
 
 // Routes
 app.use('/api/products', productRoutes);
@@ -24,6 +25,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/upload', uploadRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });

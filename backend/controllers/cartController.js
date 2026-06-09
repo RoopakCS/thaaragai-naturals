@@ -15,6 +15,12 @@ exports.getCart = async (req, res) => {
 exports.addToCart = async (req, res) => {
   try {
     const { productId, name, price, quantity = 1, weight } = req.body;
+
+    // Input validation
+    if (!productId || !name || price === undefined) {
+      return res.status(400).json({ message: 'Product ID, name, and price are required' });
+    }
+
     let cart = await Cart.findOne({ user: req.user.id });
 
     if (!cart) {
@@ -42,6 +48,12 @@ exports.addToCart = async (req, res) => {
 exports.updateCart = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
+
+    // Input validation
+    if (!productId || quantity === undefined) {
+      return res.status(400).json({ message: 'Product ID and quantity are required' });
+    }
+
     const cart = await Cart.findOne({ user: req.user.id });
 
     if (!cart) {
@@ -70,6 +82,12 @@ exports.updateCart = async (req, res) => {
 exports.removeFromCart = async (req, res) => {
   try {
     const { productId } = req.params;
+
+    // Input validation
+    if (!productId) {
+      return res.status(400).json({ message: 'Product ID is required' });
+    }
+
     const cart = await Cart.findOne({ user: req.user.id });
 
     if (!cart) {

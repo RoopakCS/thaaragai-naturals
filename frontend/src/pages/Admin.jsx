@@ -195,93 +195,69 @@ export default function Admin() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FDFAF5] font-sans flex flex-col md:flex-row pb-24 md:pb-0 relative">
-      {/* Mobile Header */}
-      <div className="md:hidden sticky top-0 z-40 px-2 sm:px-3 pt-2 pb-4 bg-[#FDFAF5] ">
-        <div className="bg-[#1a3a28] text-white p-5 flex justify-between items-center rounded-[2rem] shadow-lg">
-          <h1 className="font-serif font-bold text-xl tracking-wide">Thaaragai Admin</h1>
-          <Link to="/" className="p-2 bg-white rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-white transition-colors shadow-sm">
-            <ArrowLeft className="w-4 h-4" /> Exit
-          </Link>
-        </div>
+    <div className="min-h-[calc(100vh-88px)] flex flex-col bg-[#FDFAF5] pb-10 md:pb-24 font-sans">
+      
+      {/* 1. HERO SECTION */}
+      <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
+        <section className="bg-[#1a3a28] rounded-[2rem] sm:rounded-[2.5rem] text-white pt-16 sm:pt-24 pb-32 sm:pb-40 px-4 sm:px-6 lg:px-8 xl:px-16 text-center relative overflow-hidden">
+          <div className="max-w-4xl mx-auto relative z-10">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4 sm:mb-6">Admin Control Panel.</h1>
+            <p className="text-[#a8d3b8] text-sm sm:text-base md:text-xl max-w-2xl mx-auto leading-relaxed">
+              Manage your store operations, fulfill orders, and monitor business performance.
+            </p>
+          </div>
+          {/* Decorative shapes */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#2D6A2D] rounded-full blur-[100px] opacity-30 pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#8B1A1A] rounded-full blur-[120px] opacity-20 pointer-events-none"></div>
+        </section>
       </div>
 
-      {/* Sidebar Navigation (Desktop Only) */}
-      <div className="hidden md:block w-72 flex-shrink-0 z-50 p-4 sticky top-0 h-screen">
-        <div className="bg-[#1a3a28] text-white rounded-[2rem] h-full shadow-xl flex flex-col overflow-hidden relative">
-          <div className="p-8 pb-6 flex justify-between items-center md:block relative z-10 border-b border-white/10">
-            <h1 className="font-serif font-bold text-3xl tracking-wide text-center w-full text-white">
-              Admin<span className="text-[#a8d3b8]">.</span>
-            </h1>
-            <button onClick={() => setSidebarOpen(false)} className="md:hidden text-white/70 hover:text-white absolute right-6 top-8">
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-          
-          <div className="flex-grow py-6 px-4 relative z-10 overflow-y-auto scrollbar-none">
-            <ul className="space-y-2">
+      {/* 2. LAYOUT: NAV AND CONTENT */}
+      <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-16 -mt-20 sm:-mt-24 flex-grow flex flex-col">
+        
+        <div className="sticky top-[100px] z-40 bg-white backdrop-blur-md border border-gray-100 shadow-xl rounded-[2rem] transition-all mb-12">
+          <div className="px-6 py-5 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            
+            <div className="flex overflow-x-auto scrollbar-none space-x-2 pb-2 lg:pb-0 flex-1">
               {tabs.map(tab => (
-                <li key={tab.id}>
-                  <button
-                    onClick={() => { setActiveTab(tab.id); setSidebarOpen(false); }}
-                    className={`w-full flex items-center gap-4 px-5 py-4 rounded-xl transition-all font-bold text-sm tracking-wide ${
-                      activeTab === tab.id 
-                        ? 'bg-white text-[#1a3a28] shadow-md scale-[1.02]' 
-                        : 'text-white/70 hover:bg-white hover:text-white'
-                    }`}
-                  >
-                    <tab.icon className={`w-5 h-5 ${activeTab === tab.id ? 'text-[#2D6A2D]' : ''}`} />
-                    {tab.label}
-                  </button>
-                </li>
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-shrink-0 px-5 py-2.5 rounded-full text-sm font-bold transition-all flex items-center gap-2 ${
+                    activeTab === tab.id
+                      ? 'bg-[#2D5A40] text-white shadow-md'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  <tab.icon className="w-4 h-4" />
+                  {tab.label}
+                </button>
               ))}
-            </ul>
-          </div>
-
-          <div className="p-6 border-t border-white/10 relative z-10 bg-white ">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-[#2D6A2D] flex items-center justify-center font-bold text-lg border-2 border-white/20">
-                {user?.name?.charAt(0).toUpperCase()}
-              </div>
-              <div>
-                <div className="text-xs text-[#a8d3b8] font-bold uppercase tracking-wider">Logged in as</div>
-                <div className="font-bold text-sm truncate w-32">{user?.name}</div>
-              </div>
             </div>
-            <Link to="/" className="w-full flex items-center justify-center gap-2 bg-white hover:bg-white text-white py-3 rounded-xl font-bold transition-colors text-sm">
-              <ArrowLeft className="w-4 h-4" /> Exit Admin
-            </Link>
-          </div>
-          
-          {/* Decorative background shapes */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#2D6A2D] rounded-full blur-[60px] opacity-30 pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#8B1A1A] rounded-full blur-[80px] opacity-20 pointer-events-none"></div>
-        </div>
-      </div>
 
-      {/* Main Content Area */}
-      <div className="flex-grow p-4 md:p-8 md:pl-4 overflow-x-hidden relative h-screen overflow-y-auto">
-        <div className="max-w-6xl mx-auto pb-20">
+            <div className="flex w-full lg:w-auto justify-between lg:justify-start items-center gap-4 shrink-0 border-t lg:border-t-0 lg:border-l border-gray-100 pt-4 lg:pt-0 lg:pl-6">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#1a3a28] flex items-center justify-center font-bold text-white text-xs">
+                  {user?.name?.charAt(0).toUpperCase()}
+                </div>
+                <div className="text-sm font-bold text-[#1a3a28]">{user?.name}</div>
+              </div>
+              <Link to="/" className="text-red-600 hover:bg-red-50 px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2 transition-colors">
+                <ArrowLeft className="w-4 h-4" /> Exit
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* CONTENT AREA */}
+        <div className="flex-grow w-full">
           {loading ? (
-            <div className="flex flex-col items-center justify-center h-[60vh]">
+            <div className="flex flex-col items-center justify-center h-[40vh]">
               <Loader2 className="w-10 h-10 text-[#2D6A2D] animate-spin mb-4" />
               <p className="text-[#1a3a28] font-bold">Syncing data...</p>
             </div>
           ) : (
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-              
-              {/* HEADER SECTION */}
-              <div className="mb-8 md:mb-10 mt-4 md:mt-0">
-                <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1a3a28] mb-2">
-                  {tabs.find(t => t.id === activeTab)?.label}
-                </h2>
-                <p className="text-gray-500 font-medium">
-                  {activeTab === 'dashboard' && 'Overview of your store performance.'}
-                  {activeTab === 'orders' && 'Manage and fulfill customer orders.'}
-                  {activeTab === 'products' && 'Control your catalog and inventory.'}
-                  {activeTab === 'users' && 'View registered customers.'}
-                </p>
-              </div>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="w-full">
 
               {/* DASHBOARD TAB */}
               {activeTab === 'dashboard' && (
@@ -314,10 +290,13 @@ export default function Admin() {
                   >
                     <div className="relative z-10">
                       <div className="text-[#a8d3b8] text-sm font-bold uppercase tracking-wider mb-2">Total Revenue Generated</div>
-                      <div className="text-4xl md:text-6xl font-serif font-bold tracking-tight">₹{stats.totalRevenue?.toLocaleString()}</div>
+                      <div className="text-4xl md:text-6xl font-serif font-bold tracking-tight">
+                        <span className="opacity-80 font-sans mr-1">₹</span>
+                        {stats.totalRevenue?.toLocaleString()}
+                      </div>
                     </div>
                     <div className="relative z-10 mt-6 sm:mt-0 bg-white p-5 rounded-2xl backdrop-blur-sm border border-white/20">
-                      <IndianRupee className="w-10 h-10 md:w-16 md:h-16 text-[#a8d3b8] opacity-80" />
+                      <IndianRupee className="w-10 h-10 md:w-16 md:h-16 text-[#1a3a28]" />
                     </div>
                     <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#2D6A2D] rounded-full blur-[80px] opacity-40"></div>
                   </motion.div>
@@ -442,18 +421,18 @@ export default function Admin() {
                         <input 
                           type="text" placeholder="Search catalog..." 
                           value={productSearch} onChange={(e) => setProductSearch(e.target.value)}
-                          className="pl-9 pr-4 py-2 rounded-xl border border-gray-200 text-sm font-medium focus:outline-none focus:border-[#2D5A40] focus:ring-1 focus:ring-[#2D5A40] w-full"
+                          className="pl-9 pr-4 py-2 rounded-xl border border-gray-200 text-sm font-medium focus:outline-none focus:border-[#2D5A40] focus:ring-1 focus:ring-[#2D5A40] w-full text-[#1a3a28] bg-white"
                         />
                       </div>
                       <select 
                         value={productCategory} onChange={e => setProductCategory(e.target.value)}
-                        className="px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium focus:outline-none focus:border-[#2D5A40] focus:ring-1 focus:ring-[#2D5A40] bg-white "
+                        className="px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium focus:outline-none focus:border-[#2D5A40] focus:ring-1 focus:ring-[#2D5A40] bg-white text-[#1a3a28]"
                       >
                         {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
                       </select>
                       <select 
                         value={productSort} onChange={e => setProductSort(e.target.value)}
-                        className="px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium focus:outline-none focus:border-[#2D5A40] focus:ring-1 focus:ring-[#2D5A40] bg-white "
+                        className="px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium focus:outline-none focus:border-[#2D5A40] focus:ring-1 focus:ring-[#2D5A40] bg-white text-[#1a3a28]"
                       >
                         <option value="default">Sort By</option>
                         <option value="price-asc">Price: Low to High</option>
@@ -801,23 +780,6 @@ export default function Admin() {
         )}
       </AnimatePresence>
 
-      {/* Mobile Bottom Navigation */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 flex justify-between items-center z-40 rounded-t-[2rem] shadow-[0_-4px_20px_rgba(0,0,0,0.05)] pb-safe">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex flex-col items-center gap-1.5 p-2 transition-colors flex-1 ${
-              activeTab === tab.id ? 'text-[#2D6A2D]' : 'text-gray-400 hover:text-gray-600 '
-            }`}
-          >
-            <div className={`p-1.5 rounded-xl transition-colors ${activeTab === tab.id ? 'bg-[#eaf2eb] ' : 'bg-transparent'}`}>
-              <tab.icon className={`w-5 h-5 ${activeTab === tab.id ? 'text-[#2D6A2D]' : ''}`} />
-            </div>
-            <span className="text-[10px] font-bold tracking-wider">{tab.label}</span>
-          </button>
-        ))}
-      </div>
 
     </div>
   );

@@ -6,6 +6,11 @@ const register = async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
 
+    // Input validate
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'Name, email, and password are required' });
+    }
+
     // Check if email already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -46,6 +51,11 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Input validation
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
 
     // Find user
     const user = await User.findOne({ email });
@@ -91,6 +101,11 @@ const getProfile = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { name, phone, address } = req.body;
+
+    // Input validation
+    if (!name && phone === undefined && address === undefined) {
+      return res.status(400).json({ message: 'No fields to update' });
+    }
     
     const user = await User.findById(req.user.id);
     if (!user) {

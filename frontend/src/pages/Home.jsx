@@ -119,7 +119,7 @@ export default function Home() {
             
             <motion.h1 
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} 
-              className="text-white font-serif text-2xl sm:text-4xl md:text-5xl mb-4 md:mb-6 leading-tight w-full drop-shadow-lg max-w-full px-2 break-words"
+              className="text-white font-tamil text-2xl sm:text-4xl md:text-5xl mb-4 md:mb-6 leading-tight w-full drop-shadow-lg max-w-full px-2 break-words"
             >
               <span className="block sm:whitespace-nowrap">"இயற்கையில் வேருன்றியது...</span>
               <span className="block sm:whitespace-nowrap">அன்புடன் உருவாக்கப்பட்டது..."</span>
@@ -151,7 +151,7 @@ export default function Home() {
         
         {/* Layer 3: Product Image */}
         <motion.div 
-          className="absolute -bottom-6 flex-1 w-full max-w-7xl flex justify-center z-10 pointer-events-none md:h-[65vh] md:max-h-[650px] origin-bottom px-4"
+          className="absolute -bottom-4 flex-1 w-full max-w-7xl flex justify-center z-10 pointer-events-none md:h-[65vh] md:max-h-[650px] origin-bottom px-4"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}

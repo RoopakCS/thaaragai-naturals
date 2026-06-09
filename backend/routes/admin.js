@@ -5,6 +5,7 @@ const User = require('../models/User');
 const Product = require('../models/Product');
 const { verifyToken } = require('../middleware/auth');
 const { adminAuth } = require('../middleware/adminAuth');
+const { cloudinary } = require('../config/cloudinary');
 
 // Apply middleware to all routes in this file
 router.use(verifyToken, adminAuth);
@@ -97,10 +98,13 @@ router.put('/products/:id/stock', async (req, res) => {
 // POST create new product
 router.post('/products', async (req, res) => {
   try {
-    const { name, category, price, weight, description, inStock, image } = req.body;
+    const { name, category, price, weight, description, inStock, image, imagePublicId } = req.body;
     
     // Validate required fields
     if (!name || !category || price === undefined) {
+      if (imagePublicId) {
+        await cloudinary.uploader.destroy(imagePublicId).catch(err => console.error('Cloudinary cleanup failed:', err));
+      }
       return res.status(400).json({ message: 'Name, category, and price are required' });
     }
 
@@ -111,12 +115,16 @@ router.post('/products', async (req, res) => {
       weight,
       description,
       inStock: inStock !== undefined ? inStock : true,
-      image
+      image,
+      imagePublicId
     });
 
     const savedProduct = await newProduct.save();
     res.status(201).json(savedProduct);
   } catch (error) {
+    if (req.body.imagePublicId) {
+      await cloudinary.uploader.destroy(req.body.imagePublicId).catch(err => console.error('Cloudinary cleanup failed:', err));
+    }
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
@@ -124,19 +132,27 @@ router.post('/products', async (req, res) => {
 // PUT update product details
 router.put('/products/:id', async (req, res) => {
   try {
-    const { name, category, price, weight, description, image, inStock } = req.body;
+    const { name, category, price, weight, description, image, imagePublicId, inStock } = req.body;
     
-    const product = await Product.findByIdAndUpdate(
-      req.params.id,
-      { name, category, price, weight, description, image, inStock },
-      { new: true }
-    );
-    
+    const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
+
+    // Non-blocking old image deletion if replaced
+    if (product.imagePublicId && imagePublicId && imagePublicId !== product.imagePublicId) {
+      await cloudinary.uploader.destroy(product.imagePublicId).catch(err => {
+        console.error('Non-blocking Cloudinary delete failed:', err);
+      });
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      { name, category, price, weight, description, image, imagePublicId, inStock },
+      { new: true }
+    );
     
-    res.status(200).json(product);
+    res.status(200).json(updatedProduct);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
@@ -149,6 +165,13 @@ router.delete('/products/:id', async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
+    
+    if (product.imagePublicId) {
+      await cloudinary.uploader.destroy(product.imagePublicId).catch(err => {
+        console.error('Cloudinary delete failed during product deletion:', err);
+      });
+    }
+
     res.status(200).json({ message: 'Product deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

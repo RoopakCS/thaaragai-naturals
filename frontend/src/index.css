@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Tiro Tamil", serif;
+  --font-serif: "Outfit", system-ui, sans-serif;
   --font-sans: "Outfit", system-ui, sans-serif;
+  --font-tamil: "Kavivanar", cursive;
 }
 
 /* Hide scrollbar for filter bar */

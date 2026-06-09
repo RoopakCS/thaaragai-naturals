@@ -12,6 +12,7 @@ const productSchema = new mongoose.Schema({
   description: { type: String },
   inStock: { type: Boolean, default: true },
   image: { type: String, default: "" },
+  imagePublicId: { type: String, default: "" },
   reviews: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     userName: { type: String, required: true },
