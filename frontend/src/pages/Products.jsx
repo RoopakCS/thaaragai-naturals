@@ -50,7 +50,8 @@ export default function Products() {
   }, []);
 
   const filteredAndSortedProducts = useMemo(() => {
-    let result = [...products];
+    // Only show visible (inStock) products
+    let result = products.filter(p => p.inStock);
     
     // Category Filter
     if (currentCategory !== 'All') {

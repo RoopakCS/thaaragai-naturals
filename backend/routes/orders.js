@@ -8,11 +8,15 @@ router.post('/', verifyToken, async (req, res) => {
   try {
     const { items, totalAmount } = req.body;
     
+    // Generate random 6 digit order number
+    const orderNumber = `TN-${Math.floor(100000 + Math.random() * 900000)}`;
+
     // Create new order
     const order = new Order({
       user: req.user.id,
       items,
-      totalAmount
+      totalAmount,
+      orderNumber
     });
     
     await order.save();

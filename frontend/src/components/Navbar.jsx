@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User } from 'lucide-react';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
@@ -10,6 +10,7 @@ export default function Navbar() {
   const { totalItems, fetchCart } = useCartStore();
   const { user, isAuthenticated, logout } = useAuthStore();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -56,8 +57,14 @@ export default function Navbar() {
 
           {/* Right Actions */}
           <div className="flex items-center space-x-4 sm:space-x-5 text-[#0a1f13]">
+            {user?.role === 'admin' && (
+              <Link to="/admin" className="hidden lg:flex bg-[#8B1A1A] text-white px-4 py-1.5 rounded-full text-xs font-bold hover:bg-[#6b1414] transition-colors items-center shadow-sm">
+                Admin Panel
+              </Link>
+            )}
+
             {isAuthenticated ? (
-              <Link to="/orders" className="hover:opacity-60 transition-opacity flex items-center">
+              <Link to="/profile" className="hover:opacity-60 transition-opacity flex items-center">
                 <User className="w-[20px] h-[20px]" strokeWidth={1.5} />
               </Link>
             ) : (
@@ -113,6 +120,13 @@ export default function Navbar() {
                     <User className="w-4 h-4 mr-2" />
                     Hi, {user?.name?.split(' ')[0]}
                   </div>
+                  <Link
+                    to="/profile"
+                    className="block px-3 py-2 rounded-lg text-base font-medium text-[#0a1f13] hover:bg-[#0a1f13]/5"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    My Profile
+                  </Link>
                   {user?.role === 'admin' && (
                     <Link
                       to="/admin"
@@ -130,7 +144,7 @@ export default function Navbar() {
                     My Orders
                   </Link>
                   <button
-                    onClick={() => { logout(); setIsOpen(false); }}
+                    onClick={() => { logout(); setIsOpen(false); navigate('/'); }}
                     className="block w-full text-left px-3 py-2 rounded-lg text-base font-medium text-[#e03b3b] hover:bg-[#e03b3b]/10"
                   >
                     Logout

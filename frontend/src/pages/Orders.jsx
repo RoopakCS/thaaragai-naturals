@@ -95,7 +95,7 @@ export default function Orders() {
                   {/* TOP ROW */}
                   <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
                     <div className="text-sm font-mono text-gray-500">
-                      Order #{order._id.slice(-6).toUpperCase()}
+                      Order #{order.orderNumber || order._id.slice(-6).toUpperCase()}
                     </div>
                     <div className={`px-3 py-1 rounded-full text-xs font-bold flex items-center ${currentStatus.bg} ${currentStatus.text}`}>
                       {currentStatus.icon} {currentStatus.label}

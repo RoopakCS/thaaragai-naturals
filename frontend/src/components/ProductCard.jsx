@@ -46,11 +46,20 @@ export default function ProductCard({ product }) {
   return (
     <div 
       onClick={() => navigate(`/product/${product._id}`)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          navigate(`/product/${product._id}`);
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label={`View details for ${product.name}`}
       className="flex flex-col bg-white border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300 rounded-[2rem] overflow-hidden group cursor-pointer"
     >
        {/* Image/Icon Area */}
-       <div className="relative h-32 sm:h-40 bg-[#FDFAF5] flex items-center justify-center p-3 sm:p-4 border-b border-gray-50 overflow-hidden">
-         <img src={heroImage} alt={product.name} className="w-3/4 h-3/4 object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-xl" />
+       <div className="relative h-48 sm:h-56 bg-[#FDFAF5] flex items-center justify-center p-4 sm:p-6 border-b border-gray-50 overflow-hidden">
+         <img src={heroImage} alt={product.name} className="w-[85%] h-[85%] sm:w-[80%] sm:h-[80%] object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-xl" />
          
          {/* Badges absolute top */}
          <div className="absolute top-4 left-4 flex flex-col gap-2">

@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Orders from './pages/Orders';
 import Admin from './pages/Admin';
+import Profile from './pages/Profile';
 
 function ConditionalFooter() {
   const location = useLocation();
@@ -28,8 +29,11 @@ function ConditionalFooter() {
 function App() {
   return (
     <Router>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-[#1a3a28] text-white px-4 py-2 rounded-lg z-[100] font-bold">
+        Skip to main content
+      </a>
       <Navbar />
-      <main className="pt-[88px] flex-grow flex flex-col overflow-x-hidden w-full">
+      <main id="main-content" className="pt-[88px] flex-grow flex flex-col overflow-x-hidden w-full">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
@@ -40,6 +44,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>

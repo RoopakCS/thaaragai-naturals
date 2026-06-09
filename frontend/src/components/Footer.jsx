@@ -13,22 +13,33 @@ export default function Footer() {
           <p className="text-[#a8d3b8]/70 text-sm font-medium leading-relaxed max-w-sm mb-6">
             Bringing the pure essence of traditional Tamil wisdom to your modern kitchen. Crafted with love in Ramanathapuram.
           </p>
-          <div className="flex items-center gap-4">
-            <a href="#" className="bg-[#1a3a28] p-2.5 rounded-full hover:bg-[#2D5A40] transition-colors border border-[#2D5A40]/30 text-[#a8d3b8] hover:text-white flex items-center justify-center">
+          <div className="flex items-center gap-4 mb-8">
+            <a href="#" aria-label="Facebook" className="bg-[#1a3a28] p-2.5 rounded-full hover:bg-[#2D5A40] transition-colors border border-[#2D5A40]/30 text-[#a8d3b8] hover:text-white flex items-center justify-center">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
               </svg>
             </a>
-            <a href="#" className="bg-[#1a3a28] p-2.5 rounded-full hover:bg-[#2D5A40] transition-colors border border-[#2D5A40]/30 text-[#a8d3b8] hover:text-white flex items-center justify-center">
+            <a href="#" aria-label="Twitter" className="bg-[#1a3a28] p-2.5 rounded-full hover:bg-[#2D5A40] transition-colors border border-[#2D5A40]/30 text-[#a8d3b8] hover:text-white flex items-center justify-center">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
               </svg>
             </a>
-            <a href="#" className="bg-[#1a3a28] p-2.5 rounded-full hover:bg-[#2D5A40] transition-colors border border-[#2D5A40]/30 text-[#a8d3b8] hover:text-white flex items-center justify-center">
+            <a href="#" aria-label="Instagram" className="bg-[#1a3a28] p-2.5 rounded-full hover:bg-[#2D5A40] transition-colors border border-[#2D5A40]/30 text-[#a8d3b8] hover:text-white flex items-center justify-center">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
               </svg>
             </a>
+          </div>
+
+          <div className="flex gap-3">
+            <div className="bg-[#1a3a28] border border-[#2D5A40]/30 rounded-lg px-4 py-2 flex items-center gap-2">
+              <span className="text-xl">🌿</span>
+              <span className="text-xs font-bold text-[#a8d3b8] tracking-wider uppercase">100% Natural</span>
+            </div>
+            <div className="bg-[#1a3a28] border border-[#2D5A40]/30 rounded-lg px-4 py-2 flex items-center gap-2">
+              <span className="text-xl">🛡️</span>
+              <span className="text-xs font-bold text-[#a8d3b8] tracking-wider uppercase">Secure</span>
+            </div>
           </div>
         </div>
 
