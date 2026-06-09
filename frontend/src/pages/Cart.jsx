@@ -72,7 +72,7 @@ export default function Cart() {
       await axiosInstance.post('/api/orders', orderPayload);
 
       // 2. Build WhatsApp message
-      let message = `Hello Thaaragai Naturals! 🌿\n\nI'd like to place an order:\n\n`;
+      let message = `Hello Thaaragai Naturals!\n\nI'd like to place an order:\n\n`;
       items.forEach(item => {
         message += `• ${item.name} ${item.weight && item.weight !== 'null' ? `(${item.weight})` : ''} x${item.quantity}\n`;
       });
@@ -95,27 +95,57 @@ export default function Cart() {
 
   if (items.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <h1 className="text-3xl font-bold text-[#8B1A1A] mb-8">Your Cart 🛒</h1>
-        <div className="text-[100px] mb-4">🛒</div>
-        <p className="text-xl text-gray-600 mb-8">Your cart is empty</p>
-        <Link 
-          to="/products"
-          className="bg-[#2D6A2D] text-white px-8 py-3 rounded-xl font-medium hover:bg-green-800 transition-colors"
-        >
-          Browse Products
-        </Link>
+      <div className="bg-[#FDFAF5] min-h-[calc(100vh-88px)] font-sans flex flex-col pb-24">
+        {/* 1. HERO SECTION */}
+        <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
+          <section className="bg-[#1a3a28] rounded-[2rem] sm:rounded-[2.5rem] text-white pt-16 sm:pt-24 pb-32 sm:pb-40 px-4 sm:px-6 lg:px-8 xl:px-16 text-center relative overflow-hidden">
+            <div className="max-w-4xl mx-auto relative z-10">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4 sm:mb-6">Your Cart.</h1>
+              <p className="text-[#a8d3b8] text-sm sm:text-base md:text-xl max-w-2xl mx-auto leading-relaxed">
+                Review your selected items before proceeding.
+              </p>
+            </div>
+          </section>
+        </div>
+
+        <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-16 -mt-20 sm:-mt-24 text-center">
+          <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl p-12 sm:p-20 border border-gray-100 flex flex-col items-center justify-center">
+            <div className="bg-gray-50 rounded-full p-8 mb-6 inline-block">
+              <Package className="w-20 h-20 text-gray-300" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h2>
+            <p className="text-gray-500 mb-8">Start shopping to see your items here.</p>
+            <Link 
+              to="/products"
+              className="bg-[#2D6A2D] text-white px-8 py-4 rounded-xl font-bold hover:bg-green-800 transition-colors inline-block min-h-[44px] shadow-lg"
+            >
+              Browse Products
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Column - Cart Items */}
-        <div className="lg:col-span-2">
-          <h1 className="text-3xl font-bold text-[#8B1A1A] mb-8">Your Cart 🛒</h1>
-          <div className="space-y-4">
+    <div className="bg-[#FDFAF5] min-h-[calc(100vh-88px)] font-sans flex flex-col pb-24">
+      {/* 1. HERO SECTION */}
+      <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
+        <section className="bg-[#1a3a28] rounded-[2rem] sm:rounded-[2.5rem] text-white pt-16 sm:pt-24 pb-32 sm:pb-40 px-4 sm:px-6 lg:px-8 xl:px-16 text-center relative overflow-hidden">
+          <div className="max-w-4xl mx-auto relative z-10">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4 sm:mb-6">Your Cart.</h1>
+            <p className="text-[#a8d3b8] text-sm sm:text-base md:text-xl max-w-2xl mx-auto leading-relaxed">
+              Review your selected items before proceeding to checkout.
+            </p>
+          </div>
+        </section>
+      </div>
+
+      <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-16 -mt-20 sm:-mt-24">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+          {/* Left Column - Cart Items */}
+          <div className="lg:col-span-2">
+            <div className="space-y-4">
             {items.map((item) => {
               const category = item.product?.category || 'default';
               const Icon = categoryIcons[category] || Package;
@@ -142,14 +172,19 @@ export default function Cart() {
                     </div>
                     
                     <div className="flex-grow">
-                      <h3 className="font-semibold text-gray-800">{item.name}</h3>
-                      <div className="flex items-center gap-2 mt-1">
+                      <h3 className="font-semibold text-gray-800 text-sm sm:text-base">{item.name}</h3>
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
                         {item.weight && item.weight !== 'null' && (
-                          <span className="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">
+                          <span className="bg-gray-100 text-gray-600 text-[10px] sm:text-xs px-2 py-0.5 rounded-full">
                             {item.weight}
                           </span>
                         )}
-                        <span className="text-[#8B1A1A] font-medium">₹{item.price} each</span>
+                        <span className="text-[#8B1A1A] font-medium text-sm sm:text-base">₹{item.price} each</span>
+                        {item.quantity > 1 && (
+                          <span className="text-gray-600 font-medium text-sm sm:text-base border-l border-gray-300 pl-2">
+                            Total: ₹{item.price * item.quantity}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -189,7 +224,7 @@ export default function Cart() {
         <div className="lg:col-span-1">
           <div className="bg-[#f2f8f2] border border-[#2D5A40]/20 rounded-2xl p-6 lg:sticky lg:top-24 shadow-sm">
             <h2 className="text-xl font-serif font-bold text-[#1a3a28] mb-6 flex items-center">
-              <Sparkles className="w-5 h-5 mr-2 text-[#EACD38]" /> Order Summary
+              Order Summary
             </h2>
             
             {/* WhatsApp Message Preview Bubble */}
@@ -197,7 +232,7 @@ export default function Cart() {
               <div className="absolute right-[-6px] top-0 w-4 h-4 bg-[#e2f0e2] border-r border-t border-[#2D5A40]/10 transform rotate-45"></div>
               <p className="text-[10px] text-gray-500 mb-3 uppercase tracking-widest font-bold">Message Preview:</p>
               <div className="text-sm text-[#1a3a28] font-medium leading-relaxed whitespace-pre-wrap">
-                Hello Thaaragai Naturals! 🌿<br/><br/>
+                Hello Thaaragai Naturals!<br/><br/>
                 I'd like to place an order:<br/>
                 {items.map(item => (
                   <span key={item.product?._id || item.product}>
@@ -244,6 +279,7 @@ export default function Cart() {
             </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

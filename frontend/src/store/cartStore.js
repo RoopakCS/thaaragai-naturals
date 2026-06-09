@@ -3,16 +3,21 @@ import axiosInstance from '../utils/axiosInstance';
 
 export const useCartStore = create((set, get) => ({
   items: [],
+  totalItems: 0,
+  totalPrice: 0,
   loading: false,
 
   fetchCart: async () => {
     set({ loading: true });
     try {
       const response = await axiosInstance.get('/api/cart');
-      set({ items: response.data.items || [], loading: false });
+      const items = response.data.items || [];
+      const totalItems = items.reduce((total, item) => total + item.quantity, 0);
+      const totalPrice = items.reduce((total, item) => total + (item.price * item.quantity), 0);
+      set({ items, totalItems, totalPrice, loading: false });
     } catch (error) {
       console.error('Error fetching cart:', error);
-      set({ items: [], loading: false });
+      set({ items: [], totalItems: 0, totalPrice: 0, loading: false });
     }
   },
 
@@ -64,13 +69,5 @@ export const useCartStore = create((set, get) => ({
       console.error('Error clearing cart:', error);
       set({ loading: false });
     }
-  },
-
-  get totalItems() {
-    return get().items.reduce((total, item) => total + item.quantity, 0);
-  },
-  
-  get totalPrice() {
-    return get().items.reduce((total, item) => total + (item.price * item.quantity), 0);
   }
 }));

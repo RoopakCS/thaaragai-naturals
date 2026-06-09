@@ -33,7 +33,7 @@ export default function Login() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100"
+        className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-md mx-auto border border-gray-100"
       >
         <div className="text-center mb-8">
           <h1 className="text-3xl font-serif font-bold text-[#8B1A1A]">Thaaragai Naturals</h1>

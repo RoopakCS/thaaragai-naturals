@@ -41,22 +41,24 @@ Message: ${formData.message}`;
     <div className="bg-[#FDFAF5] min-h-[calc(100vh-88px)] font-sans pb-24">
       
       {/* 1. HERO SECTION */}
-      <section className="bg-[#1a3a28] rounded-b-[3rem] lg:rounded-b-[4rem] text-white pt-24 pb-40 px-6 md:px-12 text-center relative overflow-hidden">
-        <motion.div 
+      <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
+        <section className="bg-[#1a3a28] rounded-[2rem] sm:rounded-[2.5rem] text-white pt-16 sm:pt-24 pb-32 sm:pb-40 px-4 sm:px-6 lg:px-8 xl:px-16 text-center relative overflow-hidden">
+          <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto relative z-10"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold mb-6">Let's talk naturally.</h1>
-          <p className="text-[#a8d3b8] text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-7xl font-serif font-bold mb-4 sm:mb-6">Let's talk naturally.</h1>
+          <p className="text-[#a8d3b8] text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Whether you have a question about our traditional recipes, want to place a bulk order, or just want to say hello — we're here for you.
           </p>
-        </motion.div>
-      </section>
+          </motion.div>
+        </section>
+      </div>
 
       {/* 2. SPLIT LAYOUT: INFO & FORM */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 -mt-24 relative z-20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16 -mt-20 sm:-mt-24 relative z-20">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
           
           {/* Left: Contact Info Cards */}
@@ -68,7 +70,7 @@ Message: ${formData.message}`;
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}
-              className="bg-white p-8 rounded-[2rem] shadow-lg border border-gray-100 flex items-start gap-6 group hover:shadow-xl transition-all cursor-pointer"
+              className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-lg border border-gray-100 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 group hover:shadow-xl transition-all cursor-pointer shrink-0"
             >
               <div className="bg-[#eaf2eb] w-14 h-14 rounded-full flex items-center justify-center shrink-0 group-hover:bg-[#1a3a28] transition-colors">
                 <MessageCircle className="w-6 h-6 text-[#2D5A40] group-hover:text-white transition-colors" />
@@ -77,7 +79,7 @@ Message: ${formData.message}`;
                 <h3 className="text-xl font-bold text-[#1a3a28] mb-2">Chat with us</h3>
                 <p className="text-gray-500 font-medium mb-3">Fastest way to get answers.</p>
                 <div className="text-[#2D5A40] font-bold flex items-center gap-2 group-hover:text-[#1a3a28] transition-colors">
-                  +91 99529 81365 <ArrowRight className="w-4 h-4" />
+                  +91 99529 81365 <ArrowRight className="w-4 h-4 shrink-0" />
                 </div>
               </div>
             </motion.a>
@@ -86,16 +88,38 @@ Message: ${formData.message}`;
             <motion.a 
               href="mailto:thaaragainaturals@gmail.com"
               whileHover={{ scale: 1.02 }}
-              className="bg-white p-8 rounded-[2rem] shadow-lg border border-gray-100 flex items-start gap-6 group hover:shadow-xl transition-all cursor-pointer"
+              className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-lg border border-gray-100 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 group hover:shadow-xl transition-all cursor-pointer overflow-hidden shrink-0"
             >
               <div className="bg-[#eaf2eb] w-14 h-14 rounded-full flex items-center justify-center shrink-0 group-hover:bg-[#1a3a28] transition-colors">
                 <Mail className="w-6 h-6 text-[#2D5A40] group-hover:text-white transition-colors" />
               </div>
-              <div>
+              <div className="w-full">
                 <h3 className="text-xl font-bold text-[#1a3a28] mb-2">Email us</h3>
                 <p className="text-gray-500 font-medium mb-3">For business and bulk queries.</p>
-                <div className="text-[#2D5A40] font-bold flex items-center gap-2 group-hover:text-[#1a3a28] transition-colors">
-                  thaaragainaturals@gmail.com <ArrowRight className="w-4 h-4" />
+                <div className="text-[#2D5A40] font-bold flex items-center gap-2 group-hover:text-[#1a3a28] transition-colors break-all">
+                  thaaragainaturals@gmail.com <ArrowRight className="w-4 h-4 shrink-0 hidden sm:block" />
+                </div>
+              </div>
+            </motion.a>
+
+            {/* Instagram Card */}
+            <motion.a 
+              href="https://instagram.com/thaaragainaturals"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-lg border border-gray-100 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 group hover:shadow-xl transition-all cursor-pointer shrink-0"
+            >
+              <div className="bg-[#eaf2eb] w-14 h-14 rounded-full flex items-center justify-center shrink-0 group-hover:bg-[#1a3a28] transition-colors">
+                <svg className="w-6 h-6 text-[#2D5A40] group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                </svg>
+              </div>
+              <div className="w-full">
+                <h3 className="text-xl font-bold text-[#1a3a28] mb-2">Follow our journey</h3>
+                <p className="text-gray-500 font-medium mb-3">Join our growing community.</p>
+                <div className="text-[#2D5A40] font-bold flex items-center gap-2 group-hover:text-[#1a3a28] transition-colors break-all">
+                  @thaaragainaturals <ArrowRight className="w-4 h-4 shrink-0 hidden sm:block" />
                 </div>
               </div>
             </motion.a>
@@ -103,16 +127,16 @@ Message: ${formData.message}`;
             {/* Location & Socials */}
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="bg-white p-8 rounded-[2rem] shadow-lg border border-gray-100 flex flex-col gap-6 h-full group hover:shadow-xl transition-all"
+              className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-lg border border-gray-100 flex flex-col gap-6 h-full group hover:shadow-xl transition-all overflow-hidden"
             >
-              <div className="flex items-start gap-6">
+              <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
                 <div className="bg-[#eaf2eb] w-14 h-14 rounded-full flex items-center justify-center shrink-0 group-hover:bg-[#1a3a28] transition-colors">
                   <MapPin className="w-6 h-6 text-[#2D5A40] group-hover:text-white transition-colors" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-[#1a3a28] mb-2">Visit Our Store</h3>
                   <p className="text-gray-600 font-medium leading-relaxed">
-                    Ramanathapuram,<br/>Tamil Nadu, India
+                    Ramanathapuram,<br className="hidden sm:block" />Tamil Nadu, India
                   </p>
                 </div>
               </div>
@@ -136,8 +160,8 @@ Message: ${formData.message}`;
 
           {/* Right: Form */}
           <div className="lg:w-7/12">
-            <div className="bg-white p-10 md:p-14 rounded-[2rem] shadow-xl border border-gray-100 h-full">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#1a3a28] mb-10">Send an Enquiry</h2>
+            <div className="bg-white p-6 sm:p-10 md:p-14 rounded-[2rem] shadow-xl border border-gray-100 h-full overflow-hidden">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-[#1a3a28] mb-8 sm:mb-10">Send an Enquiry</h2>
               
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

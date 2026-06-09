@@ -106,10 +106,21 @@ export default function Admin() {
         </button>
       </div>
 
+      {/* Sidebar Overlay */}
+      {sidebarOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/50 z-20"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <div className={`${sidebarOpen ? 'block' : 'hidden'} md:block bg-[#1a1a1a] text-white w-full md:w-64 flex-shrink-0 flex flex-col min-h-screen md:min-h-auto absolute md:relative z-20`}>
-        <div className="p-6 hidden md:block">
-          <h1 className="font-serif font-bold text-2xl tracking-wider text-center">ADMIN Panel</h1>
+      <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 transition duration-200 ease-in-out md:block bg-[#1a1a1a] text-white w-64 flex-shrink-0 flex flex-col min-h-screen z-30`}>
+        <div className="p-6 flex justify-between items-center md:block">
+          <h1 className="font-serif font-bold text-2xl tracking-wider text-center w-full">ADMIN</h1>
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden text-gray-400 hover:text-white absolute right-4">
+            <X className="w-6 h-6" />
+          </button>
         </div>
         
         <div className="flex-grow py-4">
@@ -147,7 +158,7 @@ export default function Admin() {
             {activeTab === 'dashboard' && (
               <div>
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Dashboard Overview</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                   {[
                     { label: 'Total Orders', value: stats.totalOrders, icon: '📦' },
                     { label: 'Total Users', value: stats.totalUsers, icon: '👥' },

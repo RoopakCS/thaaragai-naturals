@@ -92,16 +92,16 @@ export default function ProductDetails() {
   return (
     <div className="min-h-screen bg-[#FDFAF5] pb-24">
       {/* Breadcrumb / Back */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16 py-6 sm:py-8">
         <button 
           onClick={() => navigate(-1)}
-          className="flex items-center text-gray-500 hover:text-[#1a3a28] transition-colors font-medium text-sm group"
+          className="flex items-center text-gray-500 hover:text-[#1a3a28] transition-colors font-medium text-sm sm:text-base group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" /> Back to Products
         </button>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20">
         
         {/* LEFT COLUMN: IMAGE SECTION (Sticky) */}
         <div className="lg:sticky lg:top-[120px] h-max">

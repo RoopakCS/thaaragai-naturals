@@ -4,22 +4,36 @@ import { Phone, Mail } from 'lucide-react';
 export default function Footer() {
   return (
     <footer className="bg-[#0a1f13] text-[#e0e8e3] pt-20 pb-10 border-t border-[#1a3a28]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-8">
         
-        {/* Brand - Span 4 */}
-        <div className="md:col-span-5 lg:col-span-4">
+        {/* Brand - Span 2 on large screens */}
+        <div className="sm:col-span-2 lg:col-span-2">
           <h2 className="text-3xl font-serif font-bold text-white mb-4">Thaaragai <span className="text-[#a8d3b8] italic">Naturals</span></h2>
           <p className="text-[#a8d3b8] italic mb-6 text-lg">"Rooted in Nature... Made with Love..."</p>
-          <p className="text-[#a8d3b8]/70 text-sm font-medium leading-relaxed max-w-sm">
+          <p className="text-[#a8d3b8]/70 text-sm font-medium leading-relaxed max-w-sm mb-6">
             Bringing the pure essence of traditional Tamil wisdom to your modern kitchen. Crafted with love in Ramanathapuram.
           </p>
+          <div className="flex items-center gap-4">
+            <a href="#" className="bg-[#1a3a28] p-2.5 rounded-full hover:bg-[#2D5A40] transition-colors border border-[#2D5A40]/30 text-[#a8d3b8] hover:text-white flex items-center justify-center">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+              </svg>
+            </a>
+            <a href="#" className="bg-[#1a3a28] p-2.5 rounded-full hover:bg-[#2D5A40] transition-colors border border-[#2D5A40]/30 text-[#a8d3b8] hover:text-white flex items-center justify-center">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+              </svg>
+            </a>
+            <a href="#" className="bg-[#1a3a28] p-2.5 rounded-full hover:bg-[#2D5A40] transition-colors border border-[#2D5A40]/30 text-[#a8d3b8] hover:text-white flex items-center justify-center">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+              </svg>
+            </a>
+          </div>
         </div>
 
-        {/* Space filler / Spacing */}
-        <div className="hidden lg:block lg:col-span-2"></div>
-
-        {/* Quick Links - Span 3 */}
-        <div className="md:col-span-3 lg:col-span-3">
+        {/* Quick Links - Span 1 */}
+        <div className="sm:col-span-1 lg:col-span-1">
           <h3 className="text-lg font-bold text-white mb-6 uppercase tracking-wider text-sm">Explore</h3>
           <ul className="space-y-4">
             <li>
@@ -43,8 +57,8 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Contact - Span 4 */}
-        <div className="md:col-span-4 lg:col-span-3">
+        {/* Contact - Span 1 */}
+        <div className="sm:col-span-1 lg:col-span-1">
           <h3 className="text-lg font-bold text-white mb-6 uppercase tracking-wider text-sm">Reach Us</h3>
           <ul className="space-y-4">
             <li>
@@ -75,9 +89,9 @@ export default function Footer() {
       </div>
       
       {/* Bottom bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 pt-8 border-t border-[#1a3a28] flex flex-col md:flex-row items-center justify-between text-sm text-[#a8d3b8]/50">
-        <p>© {new Date().getFullYear()} Thaaragai Naturals. All rights reserved.</p>
-        <p className="mt-3 md:mt-0 tracking-wide font-medium">Natural • Homemade • Traditional</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16 mt-20 pt-8 border-t border-[#1a3a28] flex flex-col md:flex-row items-center justify-between text-sm text-[#a8d3b8]/50 gap-4">
+        <p className="text-center md:text-left">© {new Date().getFullYear()} Thaaragai Naturals. All rights reserved.</p>
+        <p className="tracking-wide font-medium text-center md:text-right">Natural • Homemade • Traditional</p>
       </div>
     </footer>
   );

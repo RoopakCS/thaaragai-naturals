@@ -32,7 +32,7 @@ export default function Orders() {
   }, [isAuthenticated, navigate]);
 
   const handleReorder = (order) => {
-    let message = `Hello Thaaragai Naturals! 🌿\n\nI'd like to place an order:\n\n`;
+    let message = `Hello Thaaragai Naturals!\n\nI'd like to place an order:\n\n`;
     order.items.forEach(item => {
       message += `• ${item.name} ${item.weight && item.weight !== 'null' ? `(${item.weight})` : ''} x${item.quantity} = ₹${item.price * item.quantity}\n`;
     });
@@ -46,31 +46,37 @@ export default function Orders() {
   }
 
   return (
-    <div className="bg-[#FDFAF5] min-h-screen">
-      {/* SECTION 1 - HEADER */}
-      <section className="bg-white py-8 px-6 shadow-sm border-b border-gray-100 text-center md:text-left">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-[#8B1A1A] text-3xl font-bold mb-2">My Orders</h1>
-          <p className="text-gray-600">Track your Thaaragai Naturals orders</p>
-        </div>
-      </section>
+    <div className="bg-[#FDFAF5] min-h-[calc(100vh-88px)] font-sans flex flex-col pb-24">
+      {/* 1. HERO SECTION */}
+      <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
+        <section className="bg-[#1a3a28] rounded-[2rem] sm:rounded-[2.5rem] text-white pt-16 sm:pt-24 pb-32 sm:pb-40 px-4 sm:px-6 lg:px-8 xl:px-16 text-center relative overflow-hidden">
+          <div className="max-w-4xl mx-auto relative z-10">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4 sm:mb-6">My Orders.</h1>
+            <p className="text-[#a8d3b8] text-sm sm:text-base md:text-xl max-w-2xl mx-auto leading-relaxed">
+              Track and manage your Thaaragai Naturals orders.
+            </p>
+          </div>
+        </section>
+      </div>
 
-      {/* SECTION 2 - ORDERS LIST */}
-      <section className="max-w-4xl mx-auto py-12 px-4">
+      {/* 2. ORDERS LIST */}
+      <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-16 -mt-20 sm:-mt-24 flex-grow flex flex-col">
         {orders.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-100">
-            <div className="text-6xl mb-4">📦</div>
+          <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl p-12 sm:p-20 border border-gray-100 flex flex-col items-center justify-center text-center">
+            <div className="bg-gray-50 rounded-full p-8 mb-6 inline-block">
+              <Package className="w-20 h-20 text-gray-300" />
+            </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">No orders yet</h2>
-            <p className="text-gray-600 mb-8">Start shopping to see your orders here</p>
+            <p className="text-gray-500 mb-8">Start shopping to see your orders here.</p>
             <Link 
               to="/products"
-              className="bg-[#2D6A2D] text-white px-8 py-3 rounded-xl font-medium hover:bg-green-800 transition-colors inline-block"
+              className="bg-[#2D6A2D] text-white px-8 py-4 rounded-xl font-bold hover:bg-green-800 transition-colors inline-block min-h-[44px] shadow-lg"
             >
               Browse Products
             </Link>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-6 max-w-4xl mx-auto w-full">
             {orders.map((order) => {
               const statusConfig = {
                 pending: { bg: 'bg-yellow-100', text: 'text-yellow-800', icon: <Clock className="w-4 h-4 mr-1 inline" />, label: 'Pending' },
@@ -97,10 +103,10 @@ export default function Orders() {
                   </div>
 
                   {/* MIDDLE ROW */}
-                  <div className="mb-6">
-                    <ul className="space-y-2">
+                  <div className="mb-6 overflow-x-auto scrollbar-none w-full">
+                    <ul className="space-y-2 min-w-max">
                       {order.items.slice(0, 3).map((item, idx) => (
-                        <li key={idx} className="flex text-sm text-gray-700">
+                        <li key={idx} className="flex text-sm text-gray-700 whitespace-nowrap">
                           <span className="mr-2">•</span>
                           <span>
                             {item.name} {item.weight && item.weight !== 'null' ? `(${item.weight})` : ''} x{item.quantity} 
@@ -141,7 +147,7 @@ export default function Orders() {
             })}
           </div>
         )}
-      </section>
+      </div>
     </div>
   );
 }

@@ -25,12 +25,12 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 py-5 px-6 md:px-10 lg:px-12 transition-all duration-300">
-      <div className="max-w-[1500px] mx-auto">
-        <div className="flex justify-between items-center h-12">
+    <nav className="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-md py-3 sm:py-4 px-4 sm:px-6 lg:px-8 xl:px-16 transition-all duration-300">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center h-8 sm:h-10">
           {/* Brand - Logo */}
-          <Link to="/" className="hover:opacity-80 transition-opacity flex items-center justify-center">
-            <img src={logoCropped} alt="Thaaragai Naturals Logo" className="h-10 w-auto object-contain" />
+          <Link to="/" className="hover:opacity-80 transition-opacity flex items-center justify-center shrink-0">
+            <img src={logoCropped} alt="Thaaragai Naturals Logo" className="h-8 sm:h-10 w-auto object-contain" />
           </Link>
 
           {/* Desktop Nav */}
@@ -54,39 +54,29 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Right Actions - Delicate thin icons */}
-          <div className="hidden lg:flex items-center space-x-5 text-[#0a1f13]">
+          {/* Right Actions */}
+          <div className="flex items-center space-x-4 sm:space-x-5 text-[#0a1f13]">
             {isAuthenticated ? (
               <Link to="/orders" className="hover:opacity-60 transition-opacity flex items-center">
-                <User className="w-[18px] h-[18px]" strokeWidth={1.5} />
+                <User className="w-[20px] h-[20px]" strokeWidth={1.5} />
               </Link>
             ) : (
               <Link to="/login" className="hover:opacity-60 transition-opacity">
-                <User className="w-[18px] h-[18px]" strokeWidth={1.5} />
+                <User className="w-[20px] h-[20px]" strokeWidth={1.5} />
               </Link>
             )}
 
-            <Link to="/cart" className="relative hover:opacity-60 transition-opacity">
-              <ShoppingCart className="w-[18px] h-[18px]" strokeWidth={1.5} />
+            <Link to="/cart" className="relative hover:opacity-60 transition-opacity flex items-center">
+              <ShoppingCart className="w-[20px] h-[20px]" strokeWidth={1.5} />
               {isAuthenticated && totalItems > 0 && (
-                <span className="absolute -top-1.5 -right-2 bg-[#e03b3b] text-white text-[9px] font-bold rounded-full w-[15px] h-[15px] flex items-center justify-center shadow-sm">
+                <span className="absolute -top-2 -right-2 bg-[#e03b3b] text-white text-[10px] font-bold rounded-full w-[16px] h-[16px] flex items-center justify-center shadow-sm">
                   {totalItems}
                 </span>
               )}
             </Link>
-          </div>
 
-          {/* Mobile Menu Toggle */}
-          <div className="lg:hidden flex items-center space-x-4">
-            <Link to="/cart" className="relative text-[#0a1f13]">
-              <ShoppingCart className="w-[22px] h-[22px]" strokeWidth={1.5} />
-              {isAuthenticated && totalItems > 0 && (
-                <span className="absolute -top-1.5 -right-2 bg-[#e03b3b] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-            </Link>
-            <button onClick={() => setIsOpen(!isOpen)} className="text-[#0a1f13]">
+            {/* Mobile Menu Toggle */}
+            <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden text-[#0a1f13] ml-2 flex items-center">
               {isOpen ? <X className="w-6 h-6" strokeWidth={1.5} /> : <Menu className="w-6 h-6" strokeWidth={1.5} />}
             </button>
           </div>

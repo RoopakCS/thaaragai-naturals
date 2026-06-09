@@ -29,7 +29,7 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <main className="pt-[88px] flex-grow flex flex-col">
+      <main className="pt-[88px] flex-grow flex flex-col overflow-x-hidden w-full">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
