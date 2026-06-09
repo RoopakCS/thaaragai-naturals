@@ -31,16 +31,6 @@ export default function Footer() {
             </a>
           </div>
 
-          <div className="flex gap-3">
-            <div className="bg-[#1a3a28] border border-[#2D5A40]/30 rounded-lg px-4 py-2 flex items-center gap-2">
-              <span className="text-xl">🌿</span>
-              <span className="text-xs font-bold text-[#a8d3b8] tracking-wider uppercase">100% Natural</span>
-            </div>
-            <div className="bg-[#1a3a28] border border-[#2D5A40]/30 rounded-lg px-4 py-2 flex items-center gap-2">
-              <span className="text-xl">🛡️</span>
-              <span className="text-xs font-bold text-[#a8d3b8] tracking-wider uppercase">Secure</span>
-            </div>
-          </div>
         </div>
 
         {/* Quick Links - Span 1 */}
@@ -49,19 +39,16 @@ export default function Footer() {
           <ul className="space-y-4">
             <li>
               <Link to="/" className="text-[#a8d3b8]/80 hover:text-white transition-colors flex items-center group">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#EACD38] mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                 Home
               </Link>
             </li>
             <li>
               <Link to="/products" className="text-[#a8d3b8]/80 hover:text-white transition-colors flex items-center group">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#EACD38] mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                 Our Products
               </Link>
             </li>
             <li>
               <Link to="/about" className="text-[#a8d3b8]/80 hover:text-white transition-colors flex items-center group">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#EACD38] mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                 Our Story
               </Link>
             </li>
@@ -90,7 +77,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="text-[10px] text-[#a8d3b8]/60 uppercase tracking-widest mb-0.5">Email</p>
-                  <p className="text-[#a8d3b8] group-hover:text-white transition-colors font-medium">thaaragainaturals<br/>@gmail.com</p>
+                  <p className="text-[#a8d3b8] group-hover:text-white transition-colors font-medium">thaaragainaturals@gmail.com</p>
                 </div>
               </a>
             </li>

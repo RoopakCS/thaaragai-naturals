@@ -28,14 +28,14 @@ export default function Navbar() {
   return (
     <nav className="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-md py-3 sm:py-4 px-4 sm:px-6 lg:px-8 xl:px-16 transition-all duration-300">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center h-8 sm:h-10">
+        <div className="flex justify-between items-center h-8 sm:h-10 relative">
           {/* Brand - Logo */}
-          <Link to="/" className="hover:opacity-80 transition-opacity flex items-center justify-center shrink-0">
+          <Link to="/" className="hover:opacity-80 transition-opacity flex items-center justify-center shrink-0 z-10">
             <img src={logoCropped} alt="Thaaragai Naturals Logo" className="h-8 sm:h-10 w-auto object-contain" />
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex space-x-6 xl:space-x-8 items-center">
+          <div className="hidden lg:flex space-x-6 xl:space-x-8 items-center absolute left-1/2 -translate-x-1/2">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
               return (
@@ -56,7 +56,7 @@ export default function Navbar() {
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center space-x-4 sm:space-x-5 text-[#0a1f13]">
+          <div className="flex items-center space-x-4 sm:space-x-5 text-[#0a1f13] z-10">
             {user?.role === 'admin' && (
               <Link to="/admin" className="hidden lg:flex bg-[#8B1A1A] text-white px-4 py-1.5 rounded-full text-xs font-bold hover:bg-[#6b1414] transition-colors items-center shadow-sm">
                 Admin Panel

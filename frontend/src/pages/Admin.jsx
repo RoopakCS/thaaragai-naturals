@@ -195,28 +195,19 @@ export default function Admin() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FDFAF5] font-sans flex flex-col md:flex-row pb-12 md:pb-0">
+    <div className="min-h-screen bg-[#FDFAF5] font-sans flex flex-col md:flex-row pb-24 md:pb-0 relative">
       {/* Mobile Header */}
-      <div className="md:hidden bg-[#1a3a28] text-white p-5 flex justify-between items-center rounded-b-[2rem] shadow-md z-40 relative">
-        <h1 className="font-serif font-bold text-2xl tracking-wide">Thaaragai Admin</h1>
-        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 bg-white/10 rounded-lg">
-          {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+      <div className="md:hidden sticky top-0 z-40 px-2 sm:px-3 pt-2 pb-4 bg-[#FDFAF5]">
+        <div className="bg-[#1a3a28] text-white p-5 flex justify-between items-center rounded-[2rem] shadow-lg">
+          <h1 className="font-serif font-bold text-xl tracking-wide">Thaaragai Admin</h1>
+          <Link to="/" className="p-2 bg-white/10 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-white/20 transition-colors shadow-sm">
+            <ArrowLeft className="w-4 h-4" /> Exit
+          </Link>
+        </div>
       </div>
 
-      {/* Sidebar Overlay */}
-      <AnimatePresence>
-        {sidebarOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="md:hidden fixed inset-0 bg-[#1a3a28]/60 backdrop-blur-sm z-40"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Sidebar Navigation */}
-      <div className={`fixed inset-y-0 left-0 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:translate-x-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] md:block w-72 flex-shrink-0 z-50 p-4`}>
+      {/* Sidebar Navigation (Desktop Only) */}
+      <div className="hidden md:block w-72 flex-shrink-0 z-50 p-4 sticky top-0 h-screen">
         <div className="bg-[#1a3a28] text-white rounded-[2rem] h-full shadow-xl flex flex-col overflow-hidden relative">
           <div className="p-8 pb-6 flex justify-between items-center md:block relative z-10 border-b border-white/10">
             <h1 className="font-serif font-bold text-3xl tracking-wide text-center w-full text-white">
@@ -336,7 +327,8 @@ export default function Admin() {
               {/* ORDERS TAB */}
               {activeTab === 'orders' && (
                 <div className="bg-white shadow-sm rounded-[2rem] overflow-hidden border border-gray-100">
-                  <div className="overflow-x-auto">
+                  {/* Desktop Table */}
+                  <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse min-w-[800px]">
                       <thead>
                         <tr className="bg-[#FDFAF5] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
@@ -391,6 +383,50 @@ export default function Admin() {
                       </tbody>
                     </table>
                   </div>
+
+                  {/* Mobile Cards */}
+                  <div className="md:hidden flex flex-col bg-gray-50/30 p-4 gap-4">
+                    {orders.length > 0 ? orders.map(o => (
+                      <div key={o._id} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-4 relative overflow-hidden">
+                        <div className={`absolute top-0 left-0 w-1.5 h-full ${
+                            o.status === 'delivered' ? 'bg-[#2D6A2D]' :
+                            o.status === 'confirmed' ? 'bg-[#2b5a7a]' :
+                            'bg-[#e0893b]'
+                        }`}></div>
+                        <div className="flex justify-between items-start pl-2">
+                          <div>
+                            <div className="font-mono text-sm font-bold text-[#1a3a28]">#{o.orderNumber || o._id.slice(-6).toUpperCase()}</div>
+                            <div className="text-xs text-gray-500 font-medium">{o.items.length} item(s)</div>
+                          </div>
+                          <span className="font-bold text-[#2D6A2D] bg-[#2D6A2D]/10 px-2.5 py-1 rounded-lg text-sm">₹{o.totalAmount}</span>
+                        </div>
+                        <div className="pl-2">
+                          <div className="font-bold text-sm text-[#1a3a28]">{o.user?.name || 'Unknown User'}</div>
+                          <div className="text-xs text-gray-500 font-medium">{o.user?.email || 'No email'}</div>
+                        </div>
+                        <div className="flex justify-between items-center mt-1 pt-4 border-t border-gray-50 pl-2">
+                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider inline-flex items-center gap-1.5 ${
+                            o.status === 'delivered' ? 'bg-[#e8f3ec] text-[#2D6A2D]' :
+                            o.status === 'confirmed' ? 'bg-[#eaf1f5] text-[#2b5a7a]' :
+                            'bg-[#fcf3ea] text-[#e0893b]'
+                          }`}>
+                            {o.status}
+                          </span>
+                          <select 
+                            value={o.status}
+                            onChange={(e) => handleStatusChange(o._id, e.target.value)}
+                            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 outline-none focus:ring-1 focus:ring-[#2D6A2D] font-medium text-[#1a3a28] bg-white cursor-pointer"
+                          >
+                            <option value="pending">Mark Pending</option>
+                            <option value="confirmed">Mark Confirmed</option>
+                            <option value="delivered">Mark Delivered</option>
+                          </select>
+                        </div>
+                      </div>
+                    )) : (
+                      <div className="p-8 text-center text-gray-500 font-medium bg-white rounded-2xl border border-gray-100">No orders found.</div>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -435,7 +471,8 @@ export default function Admin() {
                   </div>
 
                   {/* Products Table */}
-                  <div className="overflow-x-auto">
+                  {/* Desktop Table */}
+                  <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse min-w-[800px]">
                       <thead>
                         <tr className="bg-[#FDFAF5] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
@@ -506,13 +543,71 @@ export default function Admin() {
                       </tbody>
                     </table>
                   </div>
+
+                  {/* Mobile Cards */}
+                  <div className="md:hidden flex flex-col bg-gray-50/30 p-4 gap-4">
+                    {filteredProducts.map(p => (
+                      <div key={p._id} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-4 relative">
+                        <div className="flex gap-4 items-start">
+                          {p.image ? (
+                            <img src={p.image} alt={p.name} className="w-14 h-14 rounded-xl object-cover bg-gray-100 shrink-0 shadow-sm" />
+                          ) : (
+                            <div className="w-14 h-14 rounded-xl bg-gray-100 flex items-center justify-center shrink-0 shadow-sm">
+                              <ShoppingBag className="w-6 h-6 text-gray-400" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-[#1a3a28] text-base truncate">{p.name}</div>
+                            <div className="text-xs text-gray-500 font-medium mt-1">
+                              <span className="capitalize">{p.category.replace('-', ' ')}</span>
+                              {p.weight && p.weight !== 'null' && <span> • {p.weight}</span>}
+                            </div>
+                            <div className="mt-1.5">
+                              {p.price > 0 ? <span className="font-bold text-[#8B1A1A]">₹{p.price}</span> : <span className="text-gray-400 text-xs font-bold uppercase">On Request</span>}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center mt-2 pt-4 border-t border-gray-50">
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => handleStockToggle(p._id, p.inStock)}
+                              className={`w-12 h-6 rounded-full relative transition-colors shadow-inner ${p.inStock ? 'bg-[#2D6A2D]' : 'bg-gray-300'}`}
+                            >
+                              <div className={`w-4 h-4 bg-white rounded-full shadow-md absolute top-1 transition-all ${p.inStock ? 'right-1' : 'left-1'}`}></div>
+                            </button>
+                            <span className="text-xs font-bold text-gray-500 uppercase">{p.inStock ? 'Visible' : 'Hidden'}</span>
+                          </div>
+                          
+                          <div className="flex gap-2">
+                            <button 
+                              onClick={() => openEditModal(p)}
+                              className="p-2 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteProduct(p._id)}
+                              className="p-2 text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {filteredProducts.length === 0 && (
+                      <div className="p-8 text-center text-gray-500 font-medium bg-white rounded-2xl border border-gray-100">No products match your filters.</div>
+                    )}
+                  </div>
                 </div>
               )}
 
               {/* USERS TAB */}
               {activeTab === 'users' && (
                 <div className="bg-white shadow-sm rounded-[2rem] overflow-hidden border border-gray-100">
-                  <div className="overflow-x-auto">
+                  {/* Desktop Table */}
+                  <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse min-w-[700px]">
                       <thead>
                         <tr className="bg-[#FDFAF5] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
@@ -551,6 +646,34 @@ export default function Admin() {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+
+                  {/* Mobile Cards */}
+                  <div className="md:hidden flex flex-col bg-gray-50/30 p-4 gap-4">
+                    {users.map(u => (
+                      <div key={u._id} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-white text-lg shrink-0 shadow-sm ${u.role === 'admin' ? 'bg-[#1a3a28]' : 'bg-[#D1AC98]'}`}>
+                          {u.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-bold text-[#1a3a28] text-base truncate">{u.name}</div>
+                          <div className="text-sm text-gray-500 font-medium truncate mb-1">{u.email}</div>
+                          <div className="flex items-center justify-between mt-1">
+                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${
+                              u.role === 'admin' ? 'bg-[#1a3a28] text-white' : 'bg-[#eaf1f5] text-[#2b5a7a]'
+                            }`}>
+                              {u.role === 'admin' ? 'Admin' : 'Customer'}
+                            </span>
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                              Joined {new Date(u.createdAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {users.length === 0 && (
+                      <div className="p-8 text-center text-gray-500 font-medium bg-white rounded-2xl border border-gray-100">No customers found.</div>
+                    )}
                   </div>
                 </div>
               )}
@@ -677,6 +800,24 @@ export default function Admin() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 flex justify-between items-center z-40 rounded-t-[2rem] shadow-[0_-4px_20px_rgba(0,0,0,0.05)] pb-safe">
+        {tabs.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex flex-col items-center gap-1.5 p-2 transition-colors flex-1 ${
+              activeTab === tab.id ? 'text-[#2D6A2D]' : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            <div className={`p-1.5 rounded-xl transition-colors ${activeTab === tab.id ? 'bg-[#eaf2eb]' : 'bg-transparent'}`}>
+              <tab.icon className={`w-5 h-5 ${activeTab === tab.id ? 'text-[#2D6A2D]' : ''}`} />
+            </div>
+            <span className="text-[10px] font-bold tracking-wider">{tab.label}</span>
+          </button>
+        ))}
+      </div>
 
     </div>
   );
