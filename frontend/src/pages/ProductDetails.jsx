@@ -4,8 +4,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, Star, Leaf, ShieldCheck, Heart, 
   ShoppingCart, MessageCircle, Info, Loader2,
-  User, Send, X
+  User, Send, X, Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets
 } from 'lucide-react';
+
+const categoryIcons = {
+  'flours': Wheat,
+  'beverages': Coffee,
+  'health-mixes': Stethoscope,
+  'podis': Sparkles,
+  'laddus': Cookie,
+  'snacks': Package,
+  'pickles': Box,
+  'personal-care': Droplets
+};
 import axiosInstance from '../utils/axiosInstance';
 import heroImage from '../assets/product-hero.webp';
 import { useCartStore } from '../store/cartStore';
@@ -112,8 +123,6 @@ export default function ProductDetails() {
     }
   };
 
-  const isOutOfStock = product.inStock === false;
-
   const nutritionStats = [
     { label: "Protein", value: 85, color: "bg-[#2D5A40]" },
     { label: "Dietary Fiber", value: 92, color: "bg-[#427A5B]" },
@@ -141,14 +150,21 @@ export default function ProductDetails() {
             {/* Background Glow */}
             <div className="absolute inset-0 bg-gradient-to-tr from-[#1a3a28]/5 to-transparent"></div>
             
-            <motion.img 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              src={product.image || heroImage} 
-              alt={product.name} 
-              className="w-full max-w-md object-contain drop-shadow-2xl relative z-10 rounded-2xl"
-            />
+            {product.image ? (
+              <motion.img 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+                src={product.image} 
+                alt={product.name} 
+                className="w-full max-w-md object-contain drop-shadow-2xl relative z-10 rounded-2xl"
+              />
+            ) : (
+              (() => {
+                const Icon = categoryIcons[product.category] || Package;
+                return <Icon className="w-48 h-48 sm:w-64 sm:h-64 text-[#2D5A40] opacity-30 relative z-10" />;
+              })()
+            )}
           </div>
         </div>
 
@@ -179,7 +195,7 @@ export default function ProductDetails() {
             )}
           </p>
 
-          <h2 className="text-3xl font-bold text-[#8B1A1A] mb-8">
+          <h2 className="text-3xl font-bold text-[#1a3a28] mb-8">
             {product.price > 0 ? `₹${product.price}` : 'Price on request'}
           </h2>
 
@@ -189,19 +205,7 @@ export default function ProductDetails() {
 
           {/* ADD TO CART / BUY SECTION */}
           <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 mb-12">
-            {isOutOfStock ? (
-              <div className="text-center">
-                <p className="text-[#8B1A1A] font-bold mb-4">Currently Out of Stock</p>
-                <a
-                  href={`https://wa.me/919952981365?text=${encodeURIComponent(`Hi, I'm interested in the ${product.name}. When will it be available again?`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gray-100 text-gray-700 px-8 py-4 rounded-full font-bold shadow-sm hover:bg-gray-200 transition-colors w-full flex items-center justify-center gap-2 text-lg"
-                >
-                  <MessageCircle size={20} /> Inquire Availability
-                </a>
-              </div>
-            ) : product.price > 0 ? (
+            {product.price > 0 ? (
               <div className="flex flex-col sm:flex-row gap-4 items-center">
                 {/* Quantity */}
                 <div className="flex items-center justify-center bg-gray-50 rounded-full border border-gray-200 p-1 w-full sm:w-auto shrink-0">

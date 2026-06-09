@@ -23,10 +23,7 @@ export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const [isAdding, setIsAdding] = useState(false);
 
-  // MOCK STOCK FOR DEMO (Replace with product.stock later)
-  const stock = product.stock !== undefined ? product.stock : Math.floor(Math.random() * 15);
-  const isLowStock = stock > 0 && stock <= 5;
-  const isOutOfStock = stock === 0;
+
 
   const handleAddToCart = async (e) => {
     e.stopPropagation();
@@ -59,15 +56,17 @@ export default function ProductCard({ product }) {
     >
        {/* Image/Icon Area */}
        <div className="relative h-48 sm:h-56 bg-[#FDFAF5] flex items-center justify-center p-4 sm:p-6 border-b border-gray-50 overflow-hidden">
-         <img src={heroImage} alt={product.name} className="w-[85%] h-[85%] sm:w-[80%] sm:h-[80%] object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-xl" />
+         {product.image ? (
+           <img src={product.image} alt={product.name} className="w-[85%] h-[85%] sm:w-[80%] sm:h-[80%] object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-xl" />
+         ) : (
+           (() => {
+             const Icon = categoryIcons[product.category] || Package;
+             return <Icon className="w-16 h-16 sm:w-20 sm:h-20 text-[#2D5A40] opacity-40 transition-transform duration-700 group-hover:scale-110" />;
+           })()
+         )}
          
          {/* Badges absolute top */}
          <div className="absolute top-4 left-4 flex flex-col gap-2">
-            {isOutOfStock ? (
-              <span className="bg-[#8B1A1A]/10 text-[#8B1A1A] text-xs font-bold px-3 py-1 rounded-full border border-[#8B1A1A]/20">Out of Stock</span>
-            ) : isLowStock ? (
-              <span className="bg-[#EACD38]/20 text-[#8a7617] text-xs font-bold px-3 py-1 rounded-full border border-[#EACD38]/30 animate-pulse">Low Stock</span>
-            ) : null}
          </div>
        </div>
 
@@ -83,20 +82,11 @@ export default function ProductCard({ product }) {
           </div>
           
           <div className="mt-auto pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
-             <span className="text-[#8B1A1A] font-bold text-base sm:text-lg">
+             <span className="text-[#1a3a28] font-bold text-base sm:text-lg">
                {product.price > 0 ? `₹${product.price}` : 'On request'}
              </span>
              
-             {isOutOfStock ? (
-                <a
-                  href={`https://wa.me/919952981365?text=${encodeURIComponent(`Hi, I saw the ${product.name} is out of stock. When will the next fresh batch be available?`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-xs sm:text-sm font-bold hover:bg-gray-200 transition-colors w-full sm:w-auto text-center min-h-[44px] flex items-center justify-center"
-                >
-                  Inquire
-                </a>
-             ) : product.price > 0 ? (
+             {product.price > 0 ? (
                 <button
                   onClick={handleAddToCart}
                   disabled={isAdding}

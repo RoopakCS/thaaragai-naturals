@@ -542,7 +542,7 @@ export default function Admin() {
                               {p.weight && p.weight !== 'null' && <span> • {p.weight}</span>}
                             </div>
                             <div className="mt-1.5">
-                              {p.price > 0 ? <span className="font-bold text-[#8B1A1A]">₹{p.price}</span> : <span className="text-gray-400 text-xs font-bold uppercase">On Request</span>}
+                              {p.price > 0 ? <span className="font-bold text-[#1a3a28]">₹{p.price}</span> : <span className="text-gray-400 text-xs font-bold uppercase">On Request</span>}
                             </div>
                           </div>
                         </div>
