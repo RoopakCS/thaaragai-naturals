@@ -197,10 +197,10 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-[#FDFAF5] font-sans flex flex-col md:flex-row pb-24 md:pb-0 relative">
       {/* Mobile Header */}
-      <div className="md:hidden sticky top-0 z-40 px-2 sm:px-3 pt-2 pb-4 bg-[#FDFAF5]">
+      <div className="md:hidden sticky top-0 z-40 px-2 sm:px-3 pt-2 pb-4 bg-[#FDFAF5] ">
         <div className="bg-[#1a3a28] text-white p-5 flex justify-between items-center rounded-[2rem] shadow-lg">
           <h1 className="font-serif font-bold text-xl tracking-wide">Thaaragai Admin</h1>
-          <Link to="/" className="p-2 bg-white/10 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-white/20 transition-colors shadow-sm">
+          <Link to="/" className="p-2 bg-white rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-white transition-colors shadow-sm">
             <ArrowLeft className="w-4 h-4" /> Exit
           </Link>
         </div>
@@ -227,7 +227,7 @@ export default function Admin() {
                     className={`w-full flex items-center gap-4 px-5 py-4 rounded-xl transition-all font-bold text-sm tracking-wide ${
                       activeTab === tab.id 
                         ? 'bg-white text-[#1a3a28] shadow-md scale-[1.02]' 
-                        : 'text-white/70 hover:bg-white/10 hover:text-white'
+                        : 'text-white/70 hover:bg-white hover:text-white'
                     }`}
                   >
                     <tab.icon className={`w-5 h-5 ${activeTab === tab.id ? 'text-[#2D6A2D]' : ''}`} />
@@ -238,7 +238,7 @@ export default function Admin() {
             </ul>
           </div>
 
-          <div className="p-6 border-t border-white/10 relative z-10 bg-white/5">
+          <div className="p-6 border-t border-white/10 relative z-10 bg-white ">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-full bg-[#2D6A2D] flex items-center justify-center font-bold text-lg border-2 border-white/20">
                 {user?.name?.charAt(0).toUpperCase()}
@@ -248,7 +248,7 @@ export default function Admin() {
                 <div className="font-bold text-sm truncate w-32">{user?.name}</div>
               </div>
             </div>
-            <Link to="/" className="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-bold transition-colors text-sm">
+            <Link to="/" className="w-full flex items-center justify-center gap-2 bg-white hover:bg-white text-white py-3 rounded-xl font-bold transition-colors text-sm">
               <ArrowLeft className="w-4 h-4" /> Exit Admin
             </Link>
           </div>
@@ -316,7 +316,7 @@ export default function Admin() {
                       <div className="text-[#a8d3b8] text-sm font-bold uppercase tracking-wider mb-2">Total Revenue Generated</div>
                       <div className="text-4xl md:text-6xl font-serif font-bold tracking-tight">₹{stats.totalRevenue?.toLocaleString()}</div>
                     </div>
-                    <div className="relative z-10 mt-6 sm:mt-0 bg-white/10 p-5 rounded-2xl backdrop-blur-sm border border-white/20">
+                    <div className="relative z-10 mt-6 sm:mt-0 bg-white p-5 rounded-2xl backdrop-blur-sm border border-white/20">
                       <IndianRupee className="w-10 h-10 md:w-16 md:h-16 text-[#a8d3b8] opacity-80" />
                     </div>
                     <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#2D6A2D] rounded-full blur-[80px] opacity-40"></div>
@@ -341,13 +341,13 @@ export default function Admin() {
                       </thead>
                       <tbody className="divide-y divide-gray-50">
                         {orders.length > 0 ? orders.map(o => (
-                          <tr key={o._id} className="hover:bg-gray-50/50 transition-colors">
+                          <tr key={o._id} className="hover:bg-gray-50 transition-colors">
                             <td className="p-5 pl-8">
-                              <div className="font-mono text-sm font-bold text-[#1a3a28]">#{o.orderNumber || o._id.slice(-6).toUpperCase()}</div>
+                              <div className="font-mono text-sm font-bold text-[#1a3a28] ">#{o.orderNumber || o._id.slice(-6).toUpperCase()}</div>
                               <div className="text-xs text-gray-500 font-medium mt-1">{o.items.length} item(s)</div>
                             </td>
                             <td className="p-5">
-                              <div className="font-bold text-[#1a3a28]">{o.user?.name || 'Unknown User'}</div>
+                              <div className="font-bold text-[#1a3a28] ">{o.user?.name || 'Unknown User'}</div>
                               <div className="text-xs text-gray-500 font-medium mt-0.5">{o.user?.email || 'No email'}</div>
                             </td>
                             <td className="p-5">
@@ -385,7 +385,7 @@ export default function Admin() {
                   </div>
 
                   {/* Mobile Cards */}
-                  <div className="md:hidden flex flex-col bg-gray-50/30 p-4 gap-4">
+                  <div className="md:hidden flex flex-col bg-gray-50 p-4 gap-4">
                     {orders.length > 0 ? orders.map(o => (
                       <div key={o._id} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-4 relative overflow-hidden">
                         <div className={`absolute top-0 left-0 w-1.5 h-full ${
@@ -395,13 +395,13 @@ export default function Admin() {
                         }`}></div>
                         <div className="flex justify-between items-start pl-2">
                           <div>
-                            <div className="font-mono text-sm font-bold text-[#1a3a28]">#{o.orderNumber || o._id.slice(-6).toUpperCase()}</div>
+                            <div className="font-mono text-sm font-bold text-[#1a3a28] ">#{o.orderNumber || o._id.slice(-6).toUpperCase()}</div>
                             <div className="text-xs text-gray-500 font-medium">{o.items.length} item(s)</div>
                           </div>
                           <span className="font-bold text-[#2D6A2D] bg-[#2D6A2D]/10 px-2.5 py-1 rounded-lg text-sm">₹{o.totalAmount}</span>
                         </div>
                         <div className="pl-2">
-                          <div className="font-bold text-sm text-[#1a3a28]">{o.user?.name || 'Unknown User'}</div>
+                          <div className="font-bold text-sm text-[#1a3a28] ">{o.user?.name || 'Unknown User'}</div>
                           <div className="text-xs text-gray-500 font-medium">{o.user?.email || 'No email'}</div>
                         </div>
                         <div className="flex justify-between items-center mt-1 pt-4 border-t border-gray-50 pl-2">
@@ -447,13 +447,13 @@ export default function Admin() {
                       </div>
                       <select 
                         value={productCategory} onChange={e => setProductCategory(e.target.value)}
-                        className="px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium focus:outline-none focus:border-[#2D5A40] focus:ring-1 focus:ring-[#2D5A40] bg-white"
+                        className="px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium focus:outline-none focus:border-[#2D5A40] focus:ring-1 focus:ring-[#2D5A40] bg-white "
                       >
                         {CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
                       </select>
                       <select 
                         value={productSort} onChange={e => setProductSort(e.target.value)}
-                        className="px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium focus:outline-none focus:border-[#2D5A40] focus:ring-1 focus:ring-[#2D5A40] bg-white"
+                        className="px-3 py-2 rounded-xl border border-gray-200 text-sm font-medium focus:outline-none focus:border-[#2D5A40] focus:ring-1 focus:ring-[#2D5A40] bg-white "
                       >
                         <option value="default">Sort By</option>
                         <option value="price-asc">Price: Low to High</option>
@@ -485,18 +485,18 @@ export default function Admin() {
                       </thead>
                       <tbody className="divide-y divide-gray-50">
                         {filteredProducts.map(p => (
-                          <tr key={p._id} className="hover:bg-gray-50/50 transition-colors">
+                          <tr key={p._id} className="hover:bg-gray-50 transition-colors">
                             <td className="p-5 pl-8">
                               <div className="flex items-center gap-3">
                                 {p.image ? (
-                                  <img src={p.image} alt={p.name} className="w-10 h-10 rounded-lg object-cover bg-gray-100" />
+                                  <img src={p.image} alt={p.name} className="w-10 h-10 rounded-lg object-cover bg-gray-100 " />
                                 ) : (
                                   <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
                                     <ShoppingBag className="w-5 h-5 text-gray-400" />
                                   </div>
                                 )}
                                 <div>
-                                  <div className="font-bold text-[#1a3a28]">{p.name}</div>
+                                  <div className="font-bold text-[#1a3a28] ">{p.name}</div>
                                   <div className="text-xs text-gray-500 font-medium mt-0.5">{p.weight && p.weight !== 'null' ? p.weight : '-'}</div>
                                 </div>
                               </div>
@@ -505,7 +505,7 @@ export default function Admin() {
                               <span className="bg-gray-100 px-3 py-1 rounded-lg">{p.category.replace('-', ' ')}</span>
                             </td>
                             <td className="p-5">
-                              {p.price > 0 ? <span className="font-bold text-[#1a3a28]">₹{p.price}</span> : <span className="text-gray-400 text-xs font-bold uppercase">On Request</span>}
+                              {p.price > 0 ? <span className="font-bold text-[#1a3a28] ">₹{p.price}</span> : <span className="text-gray-400 text-xs font-bold uppercase">On Request</span>}
                             </td>
                             <td className="p-5 text-center">
                               <button
@@ -545,7 +545,7 @@ export default function Admin() {
                   </div>
 
                   {/* Mobile Cards */}
-                  <div className="md:hidden flex flex-col bg-gray-50/30 p-4 gap-4">
+                  <div className="md:hidden flex flex-col bg-gray-50 p-4 gap-4">
                     {filteredProducts.map(p => (
                       <div key={p._id} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-4 relative">
                         <div className="flex gap-4 items-start">
@@ -619,17 +619,17 @@ export default function Admin() {
                       </thead>
                       <tbody className="divide-y divide-gray-50">
                         {users.map(u => (
-                          <tr key={u._id} className="hover:bg-gray-50/50 transition-colors">
+                          <tr key={u._id} className="hover:bg-gray-50 transition-colors">
                             <td className="p-5 pl-8">
                               <div className="flex items-center gap-3">
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-white ${u.role === 'admin' ? 'bg-[#1a3a28]' : 'bg-[#D1AC98]'}`}>
                                   {u.name.charAt(0).toUpperCase()}
                                 </div>
-                                <div className="font-bold text-[#1a3a28]">{u.name}</div>
+                                <div className="font-bold text-[#1a3a28] ">{u.name}</div>
                               </div>
                             </td>
                             <td className="p-5">
-                              <div className="text-sm font-medium text-[#1a3a28]">{u.email}</div>
+                              <div className="text-sm font-medium text-[#1a3a28] ">{u.email}</div>
                               {u.phone && <div className="text-xs text-gray-500 font-medium mt-0.5">{u.phone}</div>}
                             </td>
                             <td className="p-5">
@@ -649,7 +649,7 @@ export default function Admin() {
                   </div>
 
                   {/* Mobile Cards */}
-                  <div className="md:hidden flex flex-col bg-gray-50/30 p-4 gap-4">
+                  <div className="md:hidden flex flex-col bg-gray-50 p-4 gap-4">
                     {users.map(u => (
                       <div key={u._id} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-white text-lg shrink-0 shadow-sm ${u.role === 'admin' ? 'bg-[#1a3a28]' : 'bg-[#D1AC98]'}`}>
@@ -699,7 +699,7 @@ export default function Admin() {
               className="bg-white rounded-[2rem] shadow-2xl p-6 sm:p-8 max-w-2xl w-full relative z-10 max-h-[90vh] overflow-y-auto"
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-serif font-bold text-[#1a3a28]">
+                <h3 className="text-2xl font-serif font-bold text-[#1a3a28] ">
                   {editingId ? 'Edit Product' : 'Add New Product'}
                 </h3>
                 <button onClick={() => setIsModalOpen(false)} className="text-gray-400 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-colors">
@@ -724,7 +724,7 @@ export default function Admin() {
                     <select 
                       id="category"
                       required value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#2D6A2D] outline-none text-[#1a3a28] font-medium bg-white"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#2D6A2D] outline-none text-[#1a3a28] font-medium bg-white "
                     >
                       {CATEGORIES.filter(c => c.id !== 'All').map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
                     </select>
@@ -777,7 +777,7 @@ export default function Admin() {
                   >
                     <div className={`w-5 h-5 bg-white rounded-full shadow-md absolute top-1 transition-all ${formData.inStock ? 'right-1' : 'left-1'}`}></div>
                   </button>
-                  <span className="text-sm font-bold text-gray-700">Item is currently visible on the store</span>
+                  <span className="text-sm font-bold text-gray-700 ">Item is currently visible on the store</span>
                 </div>
 
                 <div className="pt-4 mt-6 border-t border-gray-100 flex justify-end gap-3">
@@ -808,10 +808,10 @@ export default function Admin() {
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex flex-col items-center gap-1.5 p-2 transition-colors flex-1 ${
-              activeTab === tab.id ? 'text-[#2D6A2D]' : 'text-gray-400 hover:text-gray-600'
+              activeTab === tab.id ? 'text-[#2D6A2D]' : 'text-gray-400 hover:text-gray-600 '
             }`}
           >
-            <div className={`p-1.5 rounded-xl transition-colors ${activeTab === tab.id ? 'bg-[#eaf2eb]' : 'bg-transparent'}`}>
+            <div className={`p-1.5 rounded-xl transition-colors ${activeTab === tab.id ? 'bg-[#eaf2eb] ' : 'bg-transparent'}`}>
               <tab.icon className={`w-5 h-5 ${activeTab === tab.id ? 'text-[#2D6A2D]' : ''}`} />
             </div>
             <span className="text-[10px] font-bold tracking-wider">{tab.label}</span>

@@ -3,7 +3,7 @@ import { Phone, Mail } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0a1f13] text-[#e0e8e3] pt-20 pb-10 border-t border-[#1a3a28]">
+    <footer className="bg-[#0a1f13] text-[#e0e8e3] pt-20 pb-10 border-t border-[#1a3a28] ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-8">
         
         {/* Brand - Span 2 on large screens */}

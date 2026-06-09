@@ -403,7 +403,7 @@ export default function Profile() {
                 </button>
               </div>
 
-              <div className="bg-white/60 border border-[#2D5A40]/10 text-sm mb-2 p-4 rounded-xl flex gap-3 items-start shadow-sm mt-6">
+              <div className="bg-white border border-[#2D5A40]/10 text-sm mb-2 p-4 rounded-xl flex gap-3 items-start shadow-sm mt-6">
                 <User className="w-5 h-5 text-[#2D6A2D] flex-shrink-0 mt-0.5" />
                 <p className="text-[#4a392f] leading-snug">
                   <span className="font-semibold block mb-1">Account Security</span>

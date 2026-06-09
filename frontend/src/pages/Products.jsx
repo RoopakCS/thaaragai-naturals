@@ -115,7 +115,7 @@ export default function Products() {
       <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-16 -mt-20 sm:-mt-24 flex-grow flex flex-col">
         
         {/* FILTER & SORT BAR */}
-        <div className="sticky top-[100px] z-40 bg-white/95 backdrop-blur-md border border-gray-100 shadow-xl rounded-[2rem] transition-all mb-12">
+        <div className="sticky top-[100px] z-40 bg-white backdrop-blur-md border border-gray-100 shadow-xl rounded-[2rem] transition-all mb-12">
           <div className="px-6 py-5 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           
           {/* Categories Scroll */}
@@ -127,7 +127,7 @@ export default function Products() {
                 className={`flex-shrink-0 px-5 py-2.5 rounded-full text-sm font-bold transition-all ${
                   currentCategory === cat.id
                     ? 'bg-[#2D5A40] text-white shadow-md'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200 '
                 }`}
               >
                 {cat.label}
@@ -168,7 +168,7 @@ export default function Products() {
                           setSortOption(opt.id);
                           setIsSortOpen(false);
                         }}
-                        className={`w-full text-left px-5 py-3 text-sm font-bold transition-colors ${sortOption === opt.id ? 'bg-[#1a3a28] text-white' : 'text-gray-700 hover:bg-gray-100'}`}
+                        className={`w-full text-left px-5 py-3 text-sm font-bold transition-colors ${sortOption === opt.id ? 'bg-[#1a3a28] text-white' : 'text-gray-700 hover:bg-gray-100 '}`}
                       >
                         {opt.label}
                       </button>

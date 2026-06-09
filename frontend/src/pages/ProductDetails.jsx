@@ -206,7 +206,7 @@ export default function ProductDetails() {
                 {/* Quantity */}
                 <div className="flex items-center justify-center bg-gray-50 rounded-full border border-gray-200 p-1 w-full sm:w-auto shrink-0">
                   <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-10 h-10 rounded-full hover:bg-white flex items-center justify-center font-bold text-lg text-[#1a3a28] transition-colors">-</button>
-                  <span className="w-12 text-center font-bold text-[#1a3a28]">{quantity}</span>
+                  <span className="w-12 text-center font-bold text-[#1a3a28] ">{quantity}</span>
                   <button onClick={() => setQuantity(quantity + 1)} className="w-10 h-10 rounded-full hover:bg-white flex items-center justify-center font-bold text-lg text-[#1a3a28] transition-colors">+</button>
                 </div>
                 
@@ -261,7 +261,7 @@ export default function ProductDetails() {
                 {nutritionStats.map((stat, idx) => (
                   <div key={idx}>
                     <div className="flex justify-between text-sm font-medium mb-2">
-                      <span className="text-gray-700">{stat.label}</span>
+                      <span className="text-gray-700 ">{stat.label}</span>
                       <span className={stat.value > 0 ? "text-[#1a3a28] font-bold" : "text-gray-400"}>
                         {stat.value > 0 ? `${stat.value}%` : '0%'}
                       </span>
@@ -293,7 +293,7 @@ export default function ProductDetails() {
           {/* REVIEWS SECTION */}
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-serif font-bold text-[#1a3a28]">Customer Reviews</h3>
+              <h3 className="text-2xl font-serif font-bold text-[#1a3a28] ">Customer Reviews</h3>
             </div>
             
             {(!product.reviews || product.reviews.length === 0) ? (
@@ -317,7 +317,7 @@ export default function ProductDetails() {
                           {review.userName ? review.userName.charAt(0).toUpperCase() : 'A'}
                         </div>
                         <div>
-                          <h4 className="font-bold text-[#1a3a28]">{review.userName || 'Anonymous'}</h4>
+                          <h4 className="font-bold text-[#1a3a28] ">{review.userName || 'Anonymous'}</h4>
                           <span className="text-xs text-gray-500 font-medium">
                             {new Date(review.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                           </span>
@@ -371,7 +371,7 @@ export default function ProductDetails() {
               className="bg-white rounded-[2rem] shadow-2xl p-6 sm:p-8 max-w-lg w-full relative z-10"
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-serif font-bold text-[#1a3a28]">Write a Review</h3>
+                <h3 className="text-2xl font-serif font-bold text-[#1a3a28] ">Write a Review</h3>
                 <button onClick={() => setIsReviewModalOpen(false)} className="text-gray-400 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-colors">
                   <X className="w-5 h-5" />
                 </button>

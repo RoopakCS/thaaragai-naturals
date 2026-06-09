@@ -92,21 +92,21 @@ export default function About() {
           4 reasons why you can trust us
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-[#eaf2eb]/50 p-8 rounded-[2rem]">
+          <div className="bg-[#eaf2eb] p-8 rounded-[2rem]">
             <h3 className="text-xl font-bold text-[#1a3a28] mb-3 flex items-center gap-3">
                <ShieldCheck className="w-6 h-6 text-[#2D5A40] shrink-0" /> Purity First
             </h3>
             <p className="text-gray-600 font-medium">We use only the finest natural herbs and grains, maintaining their original goodness for years to come.</p>
           </div>
 
-          <div className="bg-[#eaf2eb]/50 p-8 rounded-[2rem]">
+          <div className="bg-[#eaf2eb] p-8 rounded-[2rem]">
             <h3 className="text-xl font-bold text-[#1a3a28] mb-3 flex items-center gap-3">
                <Clock className="w-6 h-6 text-[#2D5A40] shrink-0" /> Fresh on Order
             </h3>
             <p className="text-gray-600 font-medium">We value your health, guaranteeing freshly made batches directly upon your request instead of stocking up.</p>
           </div>
 
-          <div className="bg-[#eaf2eb]/50 p-8 rounded-[2rem]">
+          <div className="bg-[#eaf2eb] p-8 rounded-[2rem]">
             <h3 className="text-xl font-bold text-[#1a3a28] mb-3 flex items-center gap-3">
                <Heart className="w-6 h-6 text-[#2D5A40] shrink-0" /> Handcrafted
             </h3>

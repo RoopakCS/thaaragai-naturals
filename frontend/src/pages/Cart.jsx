@@ -197,7 +197,7 @@ export default function Cart() {
                   className="bg-white rounded-[1.5rem] shadow-sm p-4 sm:p-5 border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-4 relative hover:shadow-md transition-shadow"
                 >
                   {isUpdating && (
-                    <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex items-center justify-center z-10 rounded-[1.5rem]">
+                    <div className="absolute inset-0 bg-white backdrop-blur-[1px] flex items-center justify-center z-10 rounded-[1.5rem]">
                       <Loader2 className="w-6 h-6 text-[#2D6A2D] animate-spin" />
                     </div>
                   )}
@@ -228,7 +228,7 @@ export default function Cart() {
                     <div className="flex items-center bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden h-10">
                       <button 
                         onClick={() => handleUpdateQuantity(productId, item.quantity, -1)}
-                        className="w-10 h-full flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-r border-gray-200"
+                        className="w-10 h-full flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-r border-gray-200 "
                         aria-label="Decrease quantity"
                       >
                         <Minus className="w-3.5 h-3.5" />
@@ -236,7 +236,7 @@ export default function Cart() {
                       <span className="w-10 text-center font-bold text-[#1a3a28] text-sm">{item.quantity}</span>
                       <button 
                         onClick={() => handleUpdateQuantity(productId, item.quantity, 1)}
-                        className="w-10 h-full flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-l border-gray-200"
+                        className="w-10 h-full flex items-center justify-center hover:bg-gray-50 text-gray-600 transition-colors border-l border-gray-200 "
                         aria-label="Increase quantity"
                       >
                         <Plus className="w-3.5 h-3.5" />
@@ -266,7 +266,7 @@ export default function Cart() {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between items-center text-gray-600 font-medium">
                   <span>Subtotal ({totalItems} items)</span>
-                  <span className="font-bold text-[#1a3a28]">₹{totalPrice}</span>
+                  <span className="font-bold text-[#1a3a28] ">₹{totalPrice}</span>
                 </div>
                 <div className="flex justify-between items-center text-gray-600 font-medium pb-4 border-b border-gray-100">
                   <span>Shipping</span>
@@ -290,7 +290,7 @@ export default function Cart() {
 
               <button
                 onClick={handleClearCart}
-                className="w-full text-gray-500 text-sm font-bold tracking-wide py-3 hover:bg-gray-50 rounded-xl transition-colors border border-transparent hover:border-gray-200"
+                className="w-full text-gray-500 text-sm font-bold tracking-wide py-3 hover:bg-gray-50 rounded-xl transition-colors border border-transparent hover:border-gray-200 "
               >
                 Clear Cart
               </button>
@@ -322,7 +322,7 @@ export default function Cart() {
                     <MapPin className="w-6 h-6 text-[#2D6A2D]" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-serif font-bold text-[#1a3a28]">Delivery Details</h2>
+                    <h2 className="text-xl font-serif font-bold text-[#1a3a28] ">Delivery Details</h2>
                     <p className="text-xs text-gray-500 font-medium">Please confirm where we should send your order.</p>
                   </div>
                 </div>
@@ -330,7 +330,7 @@ export default function Cart() {
                   onClick={() => setIsCheckoutModalOpen(false)}
                   className="bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition-colors"
                 >
-                  <X className="w-5 h-5 text-gray-600" />
+                  <X className="w-5 h-5 text-gray-600 " />
                 </button>
               </div>
 
