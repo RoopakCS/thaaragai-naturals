@@ -12,6 +12,7 @@ import Register from './pages/Register';
 import Orders from './pages/Orders';
 import Admin from './pages/Admin';
 import Profile from './pages/Profile';
+import VerifyOTP from './pages/VerifyOTP';
 
 function ConditionalFooter() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verify" element={<VerifyOTP />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<Admin />} />

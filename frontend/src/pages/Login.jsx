@@ -23,7 +23,11 @@ export default function Login() {
       login(response.data.user, response.data.token);
       navigate('/products');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
+      if (err.response?.data?.requiresVerification) {
+        navigate(`/verify?email=${encodeURIComponent(email)}`);
+      } else {
+        setError(err.response?.data?.message || 'Login failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -43,7 +47,7 @@ export default function Login() {
           </div>
 
           <div className="max-w-4xl mx-auto relative z-10">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4 sm:mb-6">Welcome Back.</h1>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4 sm:mb-6">Welcome Back</h1>
             <p className="text-[#a8d3b8] text-sm sm:text-base md:text-xl max-w-2xl mx-auto leading-relaxed font-medium">
               Log in to manage your orders and profile.
             </p>

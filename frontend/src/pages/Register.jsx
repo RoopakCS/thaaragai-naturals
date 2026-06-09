@@ -11,7 +11,8 @@ export default function Register() {
     email: '',
     phone: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    wantsNewsletter: false
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,8 @@ export default function Register() {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
   };
 
   const handleSubmit = async (e) => {
@@ -37,10 +39,15 @@ export default function Register() {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        password: formData.password
+        password: formData.password,
+        wantsNewsletter: formData.wantsNewsletter
       });
-      login(response.data.user, response.data.token);
-      navigate('/');
+      if (response.data.requiresVerification) {
+        navigate(`/verify?email=${encodeURIComponent(response.data.email)}`);
+      } else {
+        login(response.data.user, response.data.token);
+        navigate('/');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {
@@ -62,7 +69,7 @@ export default function Register() {
           </div>
 
           <div className="max-w-4xl mx-auto relative z-10">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4 sm:mb-6">Join Us.</h1>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4 sm:mb-6">Join Us</h1>
             <p className="text-[#a8d3b8] text-sm sm:text-base md:text-xl max-w-2xl mx-auto leading-relaxed font-medium">
               Create an account to start your wellness journey.
             </p>
@@ -145,6 +152,22 @@ export default function Register() {
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#2D6A2D] focus:border-transparent outline-none transition-all text-[#1a3a28] font-medium"
                 placeholder="Confirm your password"
               />
+            </div>
+
+            <div className="flex items-start mt-4">
+              <div className="flex items-center h-5">
+                <input 
+                  id="wantsNewsletter" 
+                  name="wantsNewsletter" 
+                  type="checkbox" 
+                  checked={formData.wantsNewsletter}
+                  onChange={handleChange}
+                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-[#2D6A2D] accent-[#2D6A2D]" 
+                />
+              </div>
+              <label htmlFor="wantsNewsletter" className="ml-2 text-sm font-medium text-gray-600">
+                I would like to receive emails about new products and offers.
+              </label>
             </div>
 
             {error && (

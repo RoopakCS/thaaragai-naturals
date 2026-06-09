@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
   phone: { type: String },
   address: { type: String },
   role: { type: String, default: 'user' },
+  isVerified: { type: Boolean, default: false },
+  wantsNewsletter: { type: Boolean, default: false },
+  verificationOTP: { type: String },
+  otpExpiresAt: { type: Date },
   createdAt: { type: Date, default: Date.now }
 });
 
