@@ -42,7 +42,7 @@ export default function Footer() {
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                   </svg>
                 </a>
-                <a href="#" aria-label="Instagram" className="p-3.5 bg-white/5 border border-white/10 rounded-full hover:bg-[#a8d3b8] hover:border-[#a8d3b8] hover:text-[#041209] transition-all duration-300 text-white/80 group flex items-center justify-center">
+                <a href="https://instagram.com/thaaragainaturals" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-3.5 bg-white/5 border border-white/10 rounded-full hover:bg-[#a8d3b8] hover:border-[#a8d3b8] hover:text-[#041209] transition-all duration-300 text-white/80 group flex items-center justify-center">
                   <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
                   </svg>
@@ -52,7 +52,7 @@ export default function Footer() {
           </div>
 
           {/* Right side: Links & Contact (Span 5) */}
-          <div className="lg:col-span-5 grid grid-cols-2 gap-8 lg:gap-12 pt-4">
+          <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12 pt-4">
             
             {/* Explore */}
             <div>
@@ -85,8 +85,8 @@ export default function Footer() {
                     <span className="text-[11px] uppercase tracking-widest text-[#a8d3b8]/60 mb-2 flex items-center gap-2">
                       <Mail className="w-3.5 h-3.5"/> Email
                     </span>
-                    <span className="text-sm md:text-base font-medium text-white/80 group-hover:text-[#a8d3b8] transition-colors">
-                      thaaragainaturals<br className="hidden lg:block xl:hidden"/>@gmail.com
+                    <span className="text-sm md:text-base font-medium text-white/80 group-hover:text-[#a8d3b8] transition-colors break-all">
+                      thaaragainaturals@gmail.com
                     </span>
                   </a>
                 </li>
@@ -124,7 +124,7 @@ export default function Footer() {
             <img 
               src="/Tharagai.png" 
               alt="Thaaragai Naturals" 
-              className="h-24 sm:h-32 md:h-40 w-auto brightness-0 invert opacity-95 transition-transform duration-700 hover:scale-105" 
+              className="h-24 sm:h-32 md:h-40 w-auto brightness-0 invert opacity-95" 
             />
           </div>
 
