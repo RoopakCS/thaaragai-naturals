@@ -17,4 +17,9 @@ export default defineConfig({
       ext: '.br',
     })
   ],
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin-allow-popups'
+    }
+  }
 })

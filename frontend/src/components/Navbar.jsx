@@ -59,7 +59,7 @@ export default function Navbar() {
 
           {/* Right Actions */}
           <div className="flex-1 flex justify-end items-center space-x-4 sm:space-x-5 text-[#0a1f13]">
-            {user?.role === 'admin' && (
+            {(user?.role === 'admin' || user?.role === 'super_admin') && (
               <Link to="/admin" className="hidden lg:flex bg-[#8B1A1A] text-white px-4 py-1.5 rounded-full text-xs font-bold hover:bg-[#6b1414] transition-colors items-center shadow-sm">
                 Admin Panel
               </Link>
@@ -129,7 +129,7 @@ export default function Navbar() {
                   >
                     My Profile
                   </Link>
-                  {user?.role === 'admin' && (
+                  {(user?.role === 'admin' || user?.role === 'super_admin') && (
                     <Link
                       to="/admin"
                       className="block px-3 py-2 rounded-lg text-base font-medium text-[#0a1f13] hover:bg-[#0a1f13]/5"

@@ -8,7 +8,7 @@ export default function ProtectedRoute({ children, requireAdmin }) {
     return <Navigate to="/login" replace />;
   }
 
-  if (requireAdmin && user?.role !== 'admin') {
+  if (requireAdmin && user?.role !== 'admin' && user?.role !== 'super_admin') {
     return <Navigate to="/products" replace />;
   }
 

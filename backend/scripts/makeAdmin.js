@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGO_URI)
 async function makeAdmin() {
   try {
     const user = await User.findOneAndUpdate(
-      { email: "roopak@gmail.com" }, // Replace with actual email
+      { email: "thaaragainaturals@gmail.com" }, // Replace with actual email
       { role: "super_admin" },
       { new: true }
     );
