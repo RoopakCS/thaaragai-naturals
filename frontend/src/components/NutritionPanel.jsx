@@ -119,7 +119,7 @@ export default function NutritionPanel({ nutritionPer100g, labTested, fssaiCompl
       )}
 
       {/* SECTION 2 - Visual Bars */}
-      <div className="mb-8 p-6 bg-[#FDFAF5] rounded-[1.5rem] border border-[#F2E8D5]">
+      <div className="mb-8 p-6 bg-white rounded-[1.5rem] border border-[#F2E8D5]">
         <ProgressBar label="Energy" value={nutritionPer100g.energy} unit=" Kcal" dv={2000} isGoodWhenHigh={false} />
         <ProgressBar label="Protein" value={nutritionPer100g.protein} unit="g" dv={50} isGoodWhenHigh={true} />
         <ProgressBar label="Calcium" value={nutritionPer100g.calcium} unit="mg" dv={1300} isGoodWhenHigh={true} />

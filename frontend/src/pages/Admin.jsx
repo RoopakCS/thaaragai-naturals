@@ -198,7 +198,7 @@ export default function Admin() {
 
   if (!isAuthenticated || (user?.role !== 'admin' && user?.role !== 'super_admin')) {
     return (
-      <div className="min-h-[calc(100dvh-88px)] bg-[#FDFAF5] flex items-center justify-center p-4 font-sans pb-24">
+      <div className="min-h-[calc(100dvh-88px)] bg-[#eaf2eb] flex items-center justify-center p-4 font-sans pb-24">
         <div className="bg-white p-10 rounded-[2rem] shadow-xl border border-gray-100 max-w-md w-full text-center">
           <div className="text-6xl mb-6">🚫</div>
           <h1 className="text-3xl font-serif font-bold text-[#1a3a28] mb-3">Access Denied</h1>
@@ -219,7 +219,7 @@ export default function Admin() {
   ];
 
   return (
-    <div className="min-h-[calc(100dvh-88px)] flex flex-col bg-[#FDFAF5] pb-10 md:pb-24 font-sans">
+    <div className="min-h-[calc(100dvh-88px)] flex flex-col bg-[#eaf2eb] pb-10 md:pb-24 font-sans">
       
       {/* 1. HERO SECTION */}
       <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
@@ -334,7 +334,7 @@ export default function Admin() {
                   <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse min-w-[800px]">
                       <thead>
-                        <tr className="bg-[#FDFAF5] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
+                        <tr className="bg-[#eaf2eb] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
                           <th className="p-5 pl-8 font-bold">Order Details</th>
                           <th className="p-5 font-bold">Customer</th>
                           <th className="p-5 font-bold">Amount</th>
@@ -438,7 +438,7 @@ export default function Admin() {
                 <div className="bg-white shadow-sm rounded-[2rem] overflow-hidden border border-gray-100 flex flex-col">
                   
                   {/* Toolbar */}
-                  <div className="p-6 border-b border-gray-100 bg-[#FDFAF5] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                  <div className="p-6 border-b border-gray-100 bg-[#eaf2eb] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     <div className="flex flex-col sm:flex-row gap-3 flex-1">
                       <div className="relative flex-1 sm:max-w-xs">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -478,7 +478,7 @@ export default function Admin() {
                   <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse min-w-[800px]">
                       <thead>
-                        <tr className="bg-[#FDFAF5] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
+                        <tr className="bg-[#eaf2eb] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
                           <th className="p-5 pl-8 font-bold">Product</th>
                           <th className="p-5 font-bold">Category</th>
                           <th className="p-5 font-bold">Price</th>
@@ -615,7 +615,7 @@ export default function Admin() {
                   <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse min-w-[700px]">
                       <thead>
-                        <tr className="bg-[#FDFAF5] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
+                        <tr className="bg-[#eaf2eb] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
                           <th className="p-5 pl-8 font-bold">Customer Details</th>
                           <th className="p-5 font-bold">Contact</th>
                           <th className="p-5 font-bold">Role</th>
@@ -823,7 +823,7 @@ export default function Admin() {
                     </label>
                   </div>
 
-                  <div className="bg-[#FDFAF5] p-5 rounded-2xl border border-gray-200">
+                  <div className="bg-[#eaf2eb] p-5 rounded-2xl border border-gray-200">
                     <label className="flex items-center gap-3 cursor-pointer mb-4">
                       <button type="button" onClick={() => setFormData({...formData, hasNutritionData: !formData.hasNutritionData})} className={`w-12 h-6 rounded-full relative transition-colors ${formData.hasNutritionData ? 'bg-[#2D6A2D]' : 'bg-gray-300'}`}>
                         <div className={`w-4 h-4 bg-white rounded-full shadow-md absolute top-1 transition-all ${formData.hasNutritionData ? 'right-1' : 'left-1'}`}></div>

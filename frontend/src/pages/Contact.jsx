@@ -38,7 +38,7 @@ Message: ${formData.message}`;
   };
 
   return (
-    <div className="bg-[#FDFAF5] min-h-[calc(100dvh-88px)] font-sans pb-24">
+    <div className="bg-[#eaf2eb] min-h-[calc(100dvh-88px)] font-sans pb-24">
       
       {/* 1. HERO SECTION */}
       <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">

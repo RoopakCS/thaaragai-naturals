@@ -131,7 +131,7 @@ export default function Cart() {
 
   if (items.length === 0) {
     return (
-      <div className="bg-[#FDFAF5] min-h-[calc(100dvh-88px)] font-sans flex flex-col pb-24">
+      <div className="bg-[#eaf2eb] min-h-[calc(100dvh-88px)] font-sans flex flex-col pb-24">
         {/* HERO SECTION */}
         <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
           <section className="bg-[#1a3a28] rounded-[2rem] sm:rounded-[2.5rem] text-white pt-16 sm:pt-24 pb-32 sm:pb-40 px-4 sm:px-6 lg:px-8 xl:px-16 text-center relative overflow-hidden">
@@ -164,7 +164,7 @@ export default function Cart() {
   }
 
   return (
-    <div className="bg-[#FDFAF5] min-h-[calc(100dvh-88px)] font-sans flex flex-col pb-24">
+    <div className="bg-[#eaf2eb] min-h-[calc(100dvh-88px)] font-sans flex flex-col pb-24">
       {/* HERO SECTION */}
       <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
         <section className="bg-[#1a3a28] rounded-[2rem] sm:rounded-[2.5rem] text-white pt-16 sm:pt-24 pb-32 sm:pb-40 px-4 sm:px-6 lg:px-8 xl:px-16 text-center relative overflow-hidden">
@@ -316,7 +316,7 @@ export default function Cart() {
               className="bg-white rounded-[2rem] shadow-2xl w-full max-w-xl relative z-10 max-h-[90vh] flex flex-col overflow-hidden"
             >
               {/* Modal Header */}
-              <div className="bg-[#FDFAF5] p-6 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
+              <div className="bg-[#eaf2eb] p-6 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
                 <div className="flex items-center gap-3">
                   <div className="bg-[#2D6A2D]/10 p-2.5 rounded-xl">
                     <MapPin className="w-6 h-6 text-[#2D6A2D]" />

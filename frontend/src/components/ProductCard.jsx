@@ -59,7 +59,7 @@ export default function ProductCard({ product }) {
         className="flex flex-col bg-white border border-gray-100 shadow-sm hover:shadow-xl transition-shadow duration-300 rounded-[2rem] overflow-hidden group cursor-pointer"
       >
          {/* Image/Icon Area */}
-         <div className="relative h-48 sm:h-56 bg-[#FDFAF5] flex items-center justify-center p-4 sm:p-6 border-b border-gray-50 overflow-hidden">
+         <div className="relative h-48 sm:h-56 bg-white flex items-center justify-center p-4 sm:p-6 border-b border-gray-50 overflow-hidden">
            {product.image ? (
              <img src={product.image} alt={product.name} className="w-[85%] h-[85%] sm:w-[80%] sm:h-[80%] object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-xl" />
            ) : (

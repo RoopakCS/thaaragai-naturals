@@ -3,7 +3,7 @@ import { Home } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="min-h-dvh bg-[#FDFAF5] flex flex-col items-center justify-center p-4">
+    <div className="min-h-dvh bg-[#eaf2eb] flex flex-col items-center justify-center p-4">
       <h1 className="text-6xl md:text-8xl font-serif font-bold text-[#1a3a28] mb-4">404</h1>
       <h2 className="text-2xl md:text-3xl font-medium text-[#2D5A40] mb-6 text-center">Page Not Found</h2>
       <p className="text-[#4a392f] text-center max-w-md mb-8">

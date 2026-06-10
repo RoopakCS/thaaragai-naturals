@@ -97,7 +97,7 @@ export default function Products() {
   };
 
   return (
-    <div className="min-h-[calc(100dvh-88px)] flex flex-col bg-[#FDFAF5] pb-24">
+    <div className="min-h-[calc(100dvh-88px)] flex flex-col bg-[#eaf2eb] pb-24">
       
       {/* 1. HERO SECTION */}
       <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">

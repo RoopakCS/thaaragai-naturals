@@ -8,7 +8,7 @@ import { Leaf, Heart, ShieldCheck, Clock } from 'lucide-react';
 
 export default function About() {
   return (
-    <div className="bg-[#FDFAF5] min-h-dvh font-sans pb-24 overflow-hidden">
+    <div className="bg-[#eaf2eb] min-h-dvh font-sans pb-24 overflow-hidden">
       
       {/* 1. HERO SECTION (Deep green, image bleeding in from right) */}
       <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">

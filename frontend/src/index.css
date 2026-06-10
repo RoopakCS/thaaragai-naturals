@@ -14,3 +14,8 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+body {
+  background-color: #eaf2eb;
+  color: #1a3a28;
+}

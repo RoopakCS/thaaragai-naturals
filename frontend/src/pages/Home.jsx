@@ -83,7 +83,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-[#FDFAF5] min-h-dvh pb-8">
+    <div className="bg-[#eaf2eb] min-h-dvh pb-8">
       {/* SECTION 1 — HERO (ROCKSTAR MULTI-LAYER PARALLAX) */}
       <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
         <section ref={heroRef} className="relative h-[calc(100dvh-100px)] lg:h-[calc(100dvh-110px)] flex flex-col items-center bg-[#1a3a28] overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-xl">
@@ -191,7 +191,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 3 — CATEGORIES SCROLL */}
-      <section ref={sec3Ref} className="relative min-h-dvh flex flex-col justify-center py-20 bg-gradient-to-b from-[#FDFAF5] to-[#eaf2eb] overflow-hidden w-full group">
+      <section ref={sec3Ref} className="relative min-h-dvh flex flex-col justify-center py-20 bg-gradient-to-b from-[#eaf2eb] to-[#eaf2eb] overflow-hidden w-full group">
         <motion.div style={{ y: sec3BgYDown }} className="absolute -right-20 bottom-10 pointer-events-none z-0">
           <Heart className="w-96 h-96 text-[#8B1A1A] opacity-[0.03] transition-transform duration-1000 group-hover:-rotate-12" />
         </motion.div>
@@ -244,7 +244,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 4 — WHY CHOOSE US (BENTO GRID) */}
-      <section ref={sec4Ref} className="bg-[#FDFAF5] py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-16 relative overflow-hidden group">
+      <section ref={sec4Ref} className="bg-[#eaf2eb] py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-16 relative overflow-hidden group">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(45,90,64,0.03)_0%,transparent_100%)] pointer-events-none"></div>
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col items-center mb-12 sm:mb-16">
@@ -297,7 +297,7 @@ export default function Home() {
                 <Package className="w-32 h-32 sm:w-48 sm:h-48 text-[#8B1A1A] opacity-5" />
               </motion.div>
               <div className="z-10">
-                <div className="bg-[#FDFAF5] w-12 h-12 rounded-full flex items-center justify-center mb-6 border border-[#8B1A1A]/10">
+                <div className="bg-[#eaf2eb] w-12 h-12 rounded-full flex items-center justify-center mb-6 border border-[#8B1A1A]/10">
                   <Package className="w-6 h-6 text-[#8B1A1A]" />
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-[#8B1A1A] mb-3">Fresh on Order</h3>
@@ -309,7 +309,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 5 — CTA BANNER */}
-      <section ref={sec5Ref} className="bg-[#FDFAF5] py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-16 relative overflow-hidden">
+      <section ref={sec5Ref} className="bg-[#eaf2eb] py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-16 relative overflow-hidden">
         <motion.div style={{ scale: ctaScale }} className="max-w-7xl mx-auto bg-[#1a3a28] rounded-[2rem] sm:rounded-[3rem] p-8 sm:p-12 lg:p-24 text-center relative overflow-hidden shadow-2xl group origin-bottom">
            <motion.div style={{ y: ctaBgYUp }} className="absolute -right-16 -bottom-16 pointer-events-none z-0">
              <Heart className="w-48 h-48 sm:w-[500px] sm:h-[500px] text-white opacity-[0.03] -rotate-12 transition-transform duration-1000 group-hover:-rotate-45 group-hover:scale-110" />

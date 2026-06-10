@@ -160,14 +160,14 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="bg-[#FDFAF5] min-h-[calc(100dvh-88px)] flex items-center justify-center">
+      <div className="bg-[#eaf2eb] min-h-[calc(100dvh-88px)] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-[#2D6A2D] animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="bg-[#FDFAF5] min-h-[calc(100dvh-88px)] font-sans flex flex-col pb-24">
+    <div className="bg-[#eaf2eb] min-h-[calc(100dvh-88px)] font-sans flex flex-col pb-24">
       {/* 1. HERO SECTION */}
       <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
         <section className="bg-[#1a3a28] rounded-[2rem] sm:rounded-[2.5rem] text-white pt-16 sm:pt-24 pb-32 sm:pb-40 px-4 sm:px-6 lg:px-8 xl:px-16 text-center relative overflow-hidden">
