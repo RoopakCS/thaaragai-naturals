@@ -148,10 +148,10 @@ export default function Products() {
               />
             </div>
             
-            <div className="relative">
+            <div className="relative shrink-0 w-full sm:w-[220px]">
               <button
                 onClick={() => setIsSortOpen(!isSortOpen)}
-                className="appearance-none bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700 px-5 py-2.5 pr-10 rounded-full text-sm font-bold border border-transparent focus:border-[#2D5A40] focus:outline-none focus:ring-1 focus:ring-[#2D5A40] flex items-center justify-between w-full sm:w-48"
+                className="appearance-none bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700 px-5 py-2.5 pr-10 rounded-full text-sm font-bold border border-transparent focus:border-[#2D5A40] focus:outline-none focus:ring-1 focus:ring-[#2D5A40] flex items-center justify-between w-full"
               >
                 <span className="truncate">{SORT_OPTIONS.find(o => o.id === sortOption)?.label}</span>
               </button>
@@ -160,7 +160,7 @@ export default function Products() {
               {isSortOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setIsSortOpen(false)}></div>
-                  <div className="absolute right-0 mt-2 w-full sm:w-56 bg-white border border-gray-100 rounded-2xl shadow-xl z-50 overflow-hidden py-2 transform origin-top-right animate-in fade-in zoom-in duration-200">
+                  <div className="absolute right-0 mt-2 w-full bg-white border border-gray-100 rounded-2xl shadow-xl z-50 overflow-hidden py-2 transform origin-top-right animate-in fade-in zoom-in duration-200">
                     {SORT_OPTIONS.map(opt => (
                       <button
                         key={opt.id}

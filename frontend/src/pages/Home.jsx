@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Wheat, Coffee, Stethoscope, Cookie, Droplets, Heart, Package, Leaf, Sparkles } from 'lucide-react';
+import { Wheat, Coffee, Stethoscope, Cookie, Droplets, Heart, Package, Leaf, Sparkles, ArrowLeft, ArrowRight, Star } from 'lucide-react';
 import heroImageDesktop from '../assets/Website Hero Image - Desktop.webp';
 import heroImageMobile from '../assets/Website Hero Image - Mobile.webp';
 import dosaMaavuImg from '../assets/category images/siruthaniya-dosa-maavu.webp';
@@ -58,29 +58,13 @@ export default function Home() {
   ];
 
   const scrollContainer = useRef(null);
-  useEffect(() => {
-    const el = scrollContainer.current;
-    if (!el) return;
-    const onWheel = (e) => {
-      if (e.deltaY === 0) return;
-      
-      const isScrollingDown = e.deltaY > 0;
-      const isScrollingUp = e.deltaY < 0;
-      
-      const isAtLeftEdge = el.scrollLeft <= 0;
-      const isAtRightEdge = Math.ceil(el.scrollLeft + el.clientWidth) >= el.scrollWidth;
-      
-      // If at the boundary in the direction of scroll, let the page scroll naturally
-      if ((isScrollingDown && isAtRightEdge) || (isScrollingUp && isAtLeftEdge)) {
-        return;
-      }
-      
-      e.preventDefault();
-      el.scrollLeft += e.deltaY;
-    };
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
-  }, []);
+  
+  const scroll = (direction) => {
+    if (scrollContainer.current) {
+      const scrollAmount = direction === 'left' ? -350 : 350;
+      scrollContainer.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="bg-[#eaf2eb] min-h-dvh pb-8">
@@ -207,7 +191,24 @@ export default function Home() {
                 From nourishing millet flours to rejuvenating herbal drinks, every product is carefully handcrafted. We bring the pure essence of traditional Tamil wisdom directly to your modern kitchen.
               </p>
             </div>
-            <div className="mt-8 md:mt-0 flex-shrink-0">
+            <div className="mt-8 md:mt-0 flex-shrink-0 flex items-center gap-4">
+              {/* Desktop Scroll Navigation Buttons */}
+              <div className="hidden md:flex gap-3 mr-2">
+                <button 
+                  onClick={() => scroll('left')}
+                  className="p-3 rounded-full border-2 border-[#1a3a28]/10 text-[#1a3a28] hover:bg-[#1a3a28] hover:border-[#1a3a28] hover:text-white transition-all duration-300"
+                  aria-label="Scroll left"
+                >
+                  <ArrowLeft className="w-5 h-5" />
+                </button>
+                <button 
+                  onClick={() => scroll('right')}
+                  className="p-3 rounded-full border-2 border-[#1a3a28]/10 text-[#1a3a28] hover:bg-[#1a3a28] hover:border-[#1a3a28] hover:text-white transition-all duration-300"
+                  aria-label="Scroll right"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
               <Link to="/products">
                 <motion.button 
                   whileHover={{ scale: 1.05 }}
@@ -219,9 +220,16 @@ export default function Home() {
             </div>
           </motion.div>
           
-          <div ref={scrollContainer} className="flex overflow-x-auto gap-4 md:gap-6 pb-12 pt-4 px-2 -mx-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div 
+            ref={scrollContainer} 
+            className="flex overflow-x-auto gap-4 md:gap-6 pb-12 pt-4 px-2 -mx-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth"
+          >
             {categories.map((cat) => (
-              <Link to={`/products?category=${cat.slug}`} key={cat.slug} className="shrink-0 snap-center">
+              <Link 
+                to={`/products?category=${cat.slug}`} 
+                key={cat.slug} 
+                className="shrink-0 snap-center"
+              >
                 <motion.div 
                   className={`${cat.color} w-44 h-64 sm:w-56 sm:h-80 md:w-72 md:h-[26rem] rounded-[2rem] p-6 md:p-8 relative overflow-hidden flex flex-col cursor-pointer border border-black/5 group-hover:shadow-2xl transition-all duration-300`}
                   whileHover={{ y: -10, scale: 1.02, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)" }}
@@ -325,37 +333,87 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 5 — CTA BANNER */}
+      {/* SECTION 5 — CTA BANNER & REVIEWS */}
       <section ref={sec5Ref} className="bg-[#eaf2eb] py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-16 relative overflow-hidden">
-        <motion.div style={{ scale: ctaScale }} className="max-w-7xl mx-auto bg-[#1a3a28] rounded-[2rem] sm:rounded-[3rem] p-8 sm:p-12 lg:p-24 text-center relative overflow-hidden shadow-2xl group origin-bottom">
-           <motion.div style={{ y: ctaBgYUp }} className="absolute -right-16 -bottom-16 pointer-events-none z-0">
-             <Heart className="w-48 h-48 sm:w-[500px] sm:h-[500px] text-white opacity-[0.03] -rotate-12 transition-transform duration-1000 group-hover:-rotate-45 group-hover:scale-110" />
+        <motion.div style={{ scale: ctaScale }} className="max-w-7xl mx-auto bg-[#1a3a28] rounded-[2rem] sm:rounded-[3rem] p-8 sm:p-12 lg:p-20 relative overflow-hidden shadow-2xl origin-bottom">
+           
+           {/* Background Texture/Art */}
+           <motion.div style={{ y: ctaBgYUp }} className="absolute -right-20 -top-20 pointer-events-none z-0 opacity-5">
+             <Heart className="w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] text-white -rotate-12" />
            </motion.div>
-           
-           <h2 className="text-white text-2xl sm:text-3xl lg:text-5xl xl:text-6xl font-serif font-bold mb-6 relative z-10 leading-tight">
-             Ready to experience <br className="hidden md:block"/> traditional wellness?
-           </h2>
-           <p className="text-[#a8d3b8] text-sm sm:text-base md:text-lg mb-10 max-w-2xl mx-auto relative z-10 font-medium leading-relaxed">
-             Take the first step towards a healthier lifestyle. Order directly via WhatsApp or browse our complete catalog of natural products.
-           </p>
-           
-           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 relative z-10">
-             <a href="https://wa.me/919952981365" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-               <motion.button 
-                 whileHover={{ scale: 1.05 }}
-                 className="bg-[#25D366] text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-[#1fa952] transition-colors w-full flex items-center justify-center text-sm sm:text-base min-h-[44px]"
-               >
-                 Order on WhatsApp
-               </motion.button>
-             </a>
-             <Link to="/products" className="w-full sm:w-auto">
-               <motion.button 
-                 whileHover={{ scale: 1.05 }}
-                 className="bg-transparent border-2 border-white/80 text-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-[#1a3a28] transition-colors w-full text-sm sm:text-base min-h-[44px]"
-               >
-                 View Catalog
-               </motion.button>
-             </Link>
+
+           <div className="flex flex-col lg:flex-row justify-between items-center gap-16 lg:gap-20 relative z-10">
+             
+             {/* Left: Huge Typography CTA */}
+             <div className="flex-1 max-w-2xl w-full">
+               <span className="text-[#a8d3b8] tracking-[0.2em] uppercase text-xs sm:text-sm font-bold mb-6 block">
+                 Embrace the Tradition
+               </span>
+               <h2 className="text-white text-4xl sm:text-5xl lg:text-7xl font-serif font-bold mb-6 leading-[1.1]">
+                 Pure.<br/>
+                 Authentic.<br/>
+                 <span className="text-[#a8d3b8] italic font-light tracking-wide">Thaaragai.</span>
+               </h2>
+               <p className="text-white/70 text-base sm:text-lg mb-10 font-medium leading-relaxed max-w-xl">
+                 Take the first step towards a healthier lifestyle. Every product is a piece of our heritage, crafted to nourish your family.
+               </p>
+               
+               <div className="flex flex-col sm:flex-row items-center gap-4">
+                 <a href="https://wa.me/919952981365" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                   <button className="bg-white text-[#1a3a28] px-8 py-4 rounded-full font-bold shadow-xl hover:bg-[#eaf2eb] hover:scale-105 transition-all duration-300 w-full flex items-center justify-center gap-3">
+                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                     </svg>
+                     Order on WhatsApp
+                   </button>
+                 </a>
+                 <Link to="/products" className="w-full sm:w-auto">
+                   <button className="bg-transparent border border-white/20 text-white px-8 py-4 rounded-full font-bold hover:bg-white/10 transition-colors w-full">
+                     View Catalog
+                   </button>
+                 </Link>
+               </div>
+             </div>
+
+             {/* Right: The Google Review Card */}
+             <div className="w-full lg:w-[420px] shrink-0">
+               <div className="bg-[#eaf2eb] rounded-[2rem] p-8 sm:p-10 shadow-2xl relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 border border-white/40">
+                  <div className="absolute -right-6 -top-6 w-32 h-32 bg-[#4285F4]/10 rounded-full blur-2xl transition-all duration-500 group-hover:scale-150"></div>
+                  <div className="absolute -left-6 -bottom-6 w-32 h-32 bg-[#34A853]/10 rounded-full blur-2xl transition-all duration-500 group-hover:scale-150"></div>
+                  
+                  <div className="flex flex-wrap justify-between items-center gap-4 mb-8 relative z-10">
+                    <div className="flex bg-white py-1.5 px-3 sm:py-2 sm:px-4 rounded-full shadow-sm items-center gap-2 shrink-0">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                      </svg>
+                      <span className="font-bold text-[#1a3a28] text-xs tracking-wide">Reviews</span>
+                    </div>
+                    <div className="flex text-[#FBBC05] gap-[2px] shrink-0">
+                       <Star fill="currentColor" strokeWidth={0} className="w-4 h-4 sm:w-5 sm:h-5"/>
+                       <Star fill="currentColor" strokeWidth={0} className="w-4 h-4 sm:w-5 sm:h-5"/>
+                       <Star fill="currentColor" strokeWidth={0} className="w-4 h-4 sm:w-5 sm:h-5"/>
+                       <Star fill="currentColor" strokeWidth={0} className="w-4 h-4 sm:w-5 sm:h-5"/>
+                       <Star fill="currentColor" strokeWidth={0} className="w-4 h-4 sm:w-5 sm:h-5"/>
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#1a3a28] mb-4 leading-snug">
+                    "Authentic taste, exceptional quality. Truly traditional."
+                  </h3>
+                  <p className="text-[#4a392f] text-sm font-medium mb-8 leading-relaxed opacity-80">
+                    Your feedback is the heart of Thaaragai. It helps us grow and keep our traditions alive for everyone.
+                  </p>
+
+                  <a href="https://g.page/r/CScIpdbE-YMuEBE/review" target="_blank" rel="noopener noreferrer" className="inline-flex w-full items-center justify-center gap-3 bg-white border border-[#1a3a28]/10 text-[#1a3a28] py-3.5 rounded-xl font-bold hover:bg-[#1a3a28] hover:text-white hover:border-[#1a3a28] transition-all shadow-sm group/btn">
+                    Rate us on Google
+                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </a>
+               </div>
+             </div>
+
            </div>
         </motion.div>
       </section>
