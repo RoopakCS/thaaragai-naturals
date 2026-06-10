@@ -83,10 +83,10 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-[#FDFAF5] min-h-screen pb-8">
+    <div className="bg-[#FDFAF5] min-h-dvh pb-8">
       {/* SECTION 1 — HERO (ROCKSTAR MULTI-LAYER PARALLAX) */}
       <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
-        <section ref={heroRef} className="relative h-[calc(100vh-100px)] lg:h-[calc(100vh-110px)] flex flex-col items-center bg-[#1a3a28] overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-xl">
+        <section ref={heroRef} className="relative h-[calc(100dvh-100px)] lg:h-[calc(100dvh-110px)] flex flex-col items-center bg-[#1a3a28] overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-xl">
         
         {/* Layer 1: Background Gradient */}
         <motion.div 
@@ -191,7 +191,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 3 — CATEGORIES SCROLL */}
-      <section ref={sec3Ref} className="relative min-h-screen flex flex-col justify-center py-20 bg-gradient-to-b from-[#FDFAF5] to-[#eaf2eb] overflow-hidden w-full group">
+      <section ref={sec3Ref} className="relative min-h-dvh flex flex-col justify-center py-20 bg-gradient-to-b from-[#FDFAF5] to-[#eaf2eb] overflow-hidden w-full group">
         <motion.div style={{ y: sec3BgYDown }} className="absolute -right-20 bottom-10 pointer-events-none z-0">
           <Heart className="w-96 h-96 text-[#8B1A1A] opacity-[0.03] transition-transform duration-1000 group-hover:-rotate-12" />
         </motion.div>

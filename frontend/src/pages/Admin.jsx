@@ -174,7 +174,7 @@ export default function Admin() {
 
   if (!isAuthenticated || user?.role !== 'admin') {
     return (
-      <div className="min-h-[calc(100vh-88px)] bg-[#FDFAF5] flex items-center justify-center p-4 font-sans pb-24">
+      <div className="min-h-[calc(100dvh-88px)] bg-[#FDFAF5] flex items-center justify-center p-4 font-sans pb-24">
         <div className="bg-white p-10 rounded-[2rem] shadow-xl border border-gray-100 max-w-md w-full text-center">
           <div className="text-6xl mb-6">🚫</div>
           <h1 className="text-3xl font-serif font-bold text-[#1a3a28] mb-3">Access Denied</h1>
@@ -195,7 +195,7 @@ export default function Admin() {
   ];
 
   return (
-    <div className="min-h-[calc(100vh-88px)] flex flex-col bg-[#FDFAF5] pb-10 md:pb-24 font-sans">
+    <div className="min-h-[calc(100dvh-88px)] flex flex-col bg-[#FDFAF5] pb-10 md:pb-24 font-sans">
       
       {/* 1. HERO SECTION */}
       <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">

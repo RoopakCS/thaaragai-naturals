@@ -135,7 +135,7 @@ const login = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000
     }).json({ user: userWithoutPassword });
   } catch (error) {
@@ -179,7 +179,7 @@ const verifyOTP = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000
     }).json({ message: 'Email verified successfully', user: userWithoutPassword });
   } catch (error) {
@@ -267,6 +267,8 @@ const updateProfile = async (req, res) => {
 const logout = async (req, res) => {
   res.cookie('token', '', {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
     expires: new Date(0)
   }).json({ message: 'Logged out successfully' });
 };
@@ -338,7 +340,7 @@ const googleAuth = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000
     }).json({ user: userWithoutPassword });
   } catch (error) {

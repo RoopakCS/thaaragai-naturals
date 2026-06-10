@@ -56,7 +56,7 @@ export default function ProductDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FDFAF5] flex flex-col justify-center items-center text-[#2D5A40]">
+      <div className="min-h-dvh bg-[#FDFAF5] flex flex-col justify-center items-center text-[#2D5A40]">
         <Loader2 className="w-12 h-12 animate-spin mb-4" />
         <p className="font-bold">Loading product details...</p>
       </div>
@@ -65,7 +65,7 @@ export default function ProductDetails() {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-[#FDFAF5] flex flex-col justify-center items-center">
+      <div className="min-h-dvh bg-[#FDFAF5] flex flex-col justify-center items-center">
         <h2 className="text-3xl font-serif text-[#1a3a28] font-bold">Product not found.</h2>
         <button onClick={() => navigate('/products')} className="mt-6 bg-[#2D5A40] text-white px-6 py-2 rounded-full font-bold">
           Back to Catalog
@@ -131,7 +131,7 @@ export default function ProductDetails() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FDFAF5] pb-24 font-sans relative">
+    <div className="min-h-dvh bg-[#FDFAF5] pb-24 font-sans relative">
       {/* Breadcrumb / Back */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16 py-6 sm:py-8">
         <button 

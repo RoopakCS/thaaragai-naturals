@@ -58,7 +58,7 @@ export default function VerifyOTP() {
   };
 
   return (
-    <div className="bg-[#FDFAF5] min-h-[calc(100vh-88px)] font-sans flex flex-col pb-24">
+    <div className="bg-[#FDFAF5] min-h-[calc(100dvh-88px)] font-sans flex flex-col pb-24">
       <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
         <section className="bg-[#1a3a28] rounded-[2rem] sm:rounded-[2.5rem] text-white pt-16 sm:pt-24 pb-32 sm:pb-40 px-4 sm:px-6 lg:px-8 xl:px-16 text-center relative overflow-hidden">
           <div className="max-w-4xl mx-auto relative z-10 flex flex-col items-center">
