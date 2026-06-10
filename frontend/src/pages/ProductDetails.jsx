@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, Star, Leaf, ShieldCheck, Heart, 
   ShoppingCart, MessageCircle, Info, Loader2,
-  User, Send, X, Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets
+  User, Send, X, Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets, TestTube, Award, CheckCircle2
 } from 'lucide-react';
 
 const categoryIcons = {
@@ -123,12 +123,7 @@ export default function ProductDetails() {
     }
   };
 
-  const nutritionStats = [
-    { label: "Protein", value: 85, color: "bg-[#2D5A40]" },
-    { label: "Dietary Fiber", value: 92, color: "bg-[#427A5B]" },
-    { label: "Iron & Minerals", value: 78, color: "bg-[#6A9A7E]" },
-    { label: "Added Sugar", value: 0, color: "bg-gray-300" }
-  ];
+
 
   return (
     <div className="min-h-dvh bg-[#FDFAF5] pb-24 font-sans relative">
@@ -251,47 +246,65 @@ export default function ProductDetails() {
           {/* TRANSPARENCY & NUTRITION SECTION */}
           <div className="mb-12">
             <h3 className="text-2xl font-serif font-bold text-[#1a3a28] mb-6 flex items-center gap-2">
-              <Info className="text-[#2D5A40]" /> Complete Transparency
+              <Info className="text-[#2D5A40]" /> Quality & Nutrition
             </h3>
-            <p className="text-gray-600 mb-8 leading-relaxed font-medium">
-              We believe you deserve to know exactly what goes into your body. This product is strictly free from refined sugars, artificial preservatives, and synthetic colors.
+            <p className="text-gray-600 mb-6 leading-relaxed font-medium">
+              We believe you deserve to know exactly what goes into your body. This product is naturally sourced and minimally processed.
             </p>
 
-            {/* Health Chart */}
-            <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100">
-              <h4 className="font-bold text-[#1a3a28] mb-6">Health Impact Profile</h4>
-              
-              <div className="space-y-5">
-                {nutritionStats.map((stat, idx) => (
-                  <div key={idx}>
-                    <div className="flex justify-between text-sm font-medium mb-2">
-                      <span className="text-gray-700 ">{stat.label}</span>
-                      <span className={stat.value > 0 ? "text-[#1a3a28] font-bold" : "text-gray-400"}>
-                        {stat.value > 0 ? `${stat.value}%` : '0%'}
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${stat.value}%` }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, ease: "easeOut", delay: idx * 0.1 }}
-                        className={`h-2.5 rounded-full ${stat.color}`}
-                      ></motion.div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-gray-100 flex flex-wrap gap-3">
-                <span className="bg-[#eaf2eb] text-[#2D5A40] px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
-                  <Heart size={16} /> Gut Friendly
+            {/* Compliance Badges */}
+            <div className="flex flex-wrap gap-3 mb-8">
+              {product.labTested && (
+                <span className="bg-[#eaf2eb] text-[#2D5A40] px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm border border-[#2D5A40]/10">
+                  <TestTube size={16} /> Lab Tested
                 </span>
-                <span className="bg-[#eaf2eb] text-[#2D5A40] px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
-                  <ShieldCheck size={16} /> Immunity Booster
+              )}
+              {product.fssaiCompliant && (
+                <span className="bg-[#fcf3ea] text-[#e0893b] px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm border border-[#e0893b]/10">
+                  <CheckCircle2 size={16} /> FSSAI Compliant
                 </span>
-              </div>
+              )}
+              {product.nablAccredited && (
+                <span className="bg-[#eaf1f5] text-[#2b5a7a] px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm border border-[#2b5a7a]/10">
+                  <Award size={16} /> NABL Accredited
+                </span>
+              )}
             </div>
+
+            {/* Nutrition Table */}
+            {product.hasNutritionData && product.nutritionPer100g && (
+              <div className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-sm border border-gray-100">
+                <h4 className="font-bold text-[#1a3a28] mb-6 flex items-center gap-2">
+                  <Leaf className="text-[#2D5A40] w-5 h-5" /> Nutritional Value <span className="text-gray-400 font-normal text-sm ml-1">(per 100g)</span>
+                </h4>
+                
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-6 gap-x-4">
+                  {[
+                    { key: 'energy', label: 'Energy', unit: 'Kcal' },
+                    { key: 'protein', label: 'Protein', unit: 'g' },
+                    { key: 'carbs', label: 'Carbs', unit: 'g' },
+                    { key: 'totalSugars', label: 'Total Sugars', unit: 'g' },
+                    { key: 'totalFat', label: 'Total Fat', unit: 'g' },
+                    { key: 'transFat', label: 'Trans Fat', unit: 'g' },
+                    { key: 'sodium', label: 'Sodium', unit: 'mg' },
+                    { key: 'calcium', label: 'Calcium', unit: 'mg' },
+                    { key: 'vitaminC', label: 'Vitamin C', unit: 'mg' }
+                  ].map(field => {
+                    const val = product.nutritionPer100g[field.key];
+                    if (val === null || val === undefined) return null;
+                    return (
+                      <div key={field.key} className="flex flex-col">
+                        <span className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">{field.label}</span>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-2xl font-bold text-[#1a3a28]">{val}</span>
+                          <span className="text-sm font-medium text-gray-500">{field.unit}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* REVIEWS SECTION */}

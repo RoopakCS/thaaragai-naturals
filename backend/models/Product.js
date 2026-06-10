@@ -21,7 +21,24 @@ const productSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
   }],
   averageRating: { type: Number, default: 0 },
-  numReviews: { type: Number, default: 0 }
-});
+  numReviews: { type: Number, default: 0 },
+  hasNutritionData: { type: Boolean, default: false },
+  labTested: { type: Boolean, default: false },
+  fssaiCompliant: { type: Boolean, default: false },
+  nablAccredited: { type: Boolean, default: false },
+  nutritionPer100g: {
+    energy: { type: Number, default: null },
+    protein: { type: Number, default: null },
+    carbs: { type: Number, default: null },
+    totalSugars: { type: Number, default: null },
+    totalFat: { type: Number, default: null },
+    transFat: { type: Number, default: null },
+    sodium: { type: Number, default: null },
+    calcium: { type: Number, default: null },
+    vitaminC: { type: Number, default: null }
+  },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+}, { timestamps: true });
 
 module.exports = mongoose.model('Product', productSchema);

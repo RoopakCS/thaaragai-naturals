@@ -4,7 +4,7 @@ const Order = require('../models/Order');
 const User = require('../models/User');
 const Product = require('../models/Product');
 const { verifyToken } = require('../middleware/auth');
-const { adminAuth } = require('../middleware/adminAuth');
+const { adminAuth, superAdminAuth } = require('../middleware/adminAuth');
 const { cloudinary } = require('../config/cloudinary');
 
 // Apply middleware to all routes in this file
@@ -52,6 +52,35 @@ router.get('/users', async (req, res) => {
   }
 });
 
+// PUT update user role (Super Admin only)
+router.put('/users/:id/role', superAdminAuth, async (req, res) => {
+  try {
+    const { role } = req.body;
+    if (!['user', 'admin', 'super_admin'].includes(role)) {
+      return res.status(400).json({ message: 'Invalid role' });
+    }
+    
+    // Prevent a super admin from demoting themselves to avoid locking out the system
+    if (req.params.id === req.user.id && role !== 'super_admin') {
+      return res.status(400).json({ message: 'Cannot demote your own account' });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { role },
+      { new: true }
+    ).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 // GET admin dashboard stats
 router.get('/stats', async (req, res) => {
   try {
@@ -81,7 +110,7 @@ router.put('/products/:id/stock', async (req, res) => {
     const { inStock } = req.body;
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      { inStock },
+      { inStock, updatedBy: req.user.id },
       { new: true }
     );
     
@@ -98,7 +127,7 @@ router.put('/products/:id/stock', async (req, res) => {
 // POST create new product
 router.post('/products', async (req, res) => {
   try {
-    const { name, category, price, weight, description, inStock, image, imagePublicId } = req.body;
+    const { name, category, price, weight, description, inStock, image, imagePublicId, hasNutritionData, labTested, fssaiCompliant, nablAccredited, nutritionPer100g } = req.body;
     
     // Validate required fields
     if (!name || !category || price === undefined) {
@@ -116,7 +145,13 @@ router.post('/products', async (req, res) => {
       description,
       inStock: inStock !== undefined ? inStock : true,
       image,
-      imagePublicId
+      imagePublicId,
+      hasNutritionData,
+      labTested,
+      fssaiCompliant,
+      nablAccredited,
+      nutritionPer100g,
+      createdBy: req.user.id
     });
 
     const savedProduct = await newProduct.save();
@@ -132,7 +167,7 @@ router.post('/products', async (req, res) => {
 // PUT update product details
 router.put('/products/:id', async (req, res) => {
   try {
-    const { name, category, price, weight, description, image, imagePublicId, inStock } = req.body;
+    const { name, category, price, weight, description, image, imagePublicId, inStock, hasNutritionData, labTested, fssaiCompliant, nablAccredited, nutritionPer100g } = req.body;
     
     const product = await Product.findById(req.params.id);
     if (!product) {
@@ -148,7 +183,7 @@ router.put('/products/:id', async (req, res) => {
 
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
-      { name, category, price, weight, description, image, imagePublicId, inStock },
+      { name, category, price, weight, description, image, imagePublicId, inStock, hasNutritionData, labTested, fssaiCompliant, nablAccredited, nutritionPer100g, updatedBy: req.user.id },
       { new: true }
     );
     

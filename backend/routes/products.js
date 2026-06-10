@@ -5,7 +5,9 @@ const { verifyToken } = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find()
+      .populate('createdBy', 'name email')
+      .populate('updatedBy', 'name email');
     res.json(products);
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -8,11 +8,11 @@ async function makeAdmin() {
   try {
     const user = await User.findOneAndUpdate(
       { email: "roopak@gmail.com" }, // Replace with actual email
-      { role: "admin" },
+      { role: "super_admin" },
       { new: true }
     );
     if (user) {
-      console.log("Admin created:", user.name, user.email);
+      console.log("Super Admin created:", user.name, user.email);
     } else {
       console.log("User not found with that email.");
     }

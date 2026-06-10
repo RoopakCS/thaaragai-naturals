@@ -39,15 +39,14 @@ export default function Admin() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState(null); // null means adding new
-  const [formData, setFormData] = useState({
-    name: '',
-    category: 'flours',
-    price: '',
-    weight: '',
-    description: '',
-    image: '',
-    inStock: true
-  });
+  const defaultFormState = {
+    name: '', category: 'flours', price: '', weight: '', description: '', image: '', inStock: true,
+    hasNutritionData: false, labTested: false, fssaiCompliant: false, nablAccredited: false,
+    nutritionPer100g: {
+      energy: '', protein: '', carbs: '', totalSugars: '', totalFat: '', transFat: '', sodium: '', calcium: '', vitaminC: ''
+    }
+  };
+  const [formData, setFormData] = useState(defaultFormState);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -57,7 +56,7 @@ export default function Admin() {
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    if (user?.role !== 'admin') return;
+    if (user?.role !== 'admin' && user?.role !== 'super_admin') return;
     
     const fetchData = async () => {
       setLoading(true);
@@ -131,9 +130,19 @@ export default function Admin() {
     }
   };
 
+  const handleRoleChange = async (id, newRole) => {
+    try {
+      await axiosInstance.put(`/api/admin/users/${id}/role`, { role: newRole });
+      setUsers(users.map(u => u._id === id ? { ...u, role: newRole } : u));
+    } catch (err) {
+      console.error(err);
+      alert('Failed to update user role');
+    }
+  };
+
   const openAddModal = () => {
     setEditingId(null);
-    setFormData({ name: '', category: 'flours', price: '', weight: '', description: '', image: '', inStock: true });
+    setFormData(defaultFormState);
     setIsModalOpen(true);
   };
 
@@ -146,7 +155,22 @@ export default function Admin() {
       weight: product.weight || '', 
       description: product.description || '', 
       image: product.image || '', 
-      inStock: product.inStock 
+      inStock: product.inStock,
+      hasNutritionData: product.hasNutritionData || false,
+      labTested: product.labTested || false,
+      fssaiCompliant: product.fssaiCompliant || false,
+      nablAccredited: product.nablAccredited || false,
+      nutritionPer100g: {
+        energy: product.nutritionPer100g?.energy ?? '',
+        protein: product.nutritionPer100g?.protein ?? '',
+        carbs: product.nutritionPer100g?.carbs ?? '',
+        totalSugars: product.nutritionPer100g?.totalSugars ?? '',
+        totalFat: product.nutritionPer100g?.totalFat ?? '',
+        transFat: product.nutritionPer100g?.transFat ?? '',
+        sodium: product.nutritionPer100g?.sodium ?? '',
+        calcium: product.nutritionPer100g?.calcium ?? '',
+        vitaminC: product.nutritionPer100g?.vitaminC ?? ''
+      }
     });
     setIsModalOpen(true);
   };
@@ -172,7 +196,7 @@ export default function Admin() {
     }
   };
 
-  if (!isAuthenticated || user?.role !== 'admin') {
+  if (!isAuthenticated || (user?.role !== 'admin' && user?.role !== 'super_admin')) {
     return (
       <div className="min-h-[calc(100dvh-88px)] bg-[#FDFAF5] flex items-center justify-center p-4 font-sans pb-24">
         <div className="bg-white p-10 rounded-[2rem] shadow-xl border border-gray-100 max-w-md w-full text-center">
@@ -477,6 +501,7 @@ export default function Admin() {
                                 <div>
                                   <div className="font-bold text-[#1a3a28] ">{p.name}</div>
                                   <div className="text-xs text-gray-500 font-medium mt-0.5">{p.weight && p.weight !== 'null' ? p.weight : '-'}</div>
+                                  {p.createdBy && <div className="text-[10px] font-medium text-[#2D6A2D] bg-[#e8f3ec] inline-block px-1.5 py-0.5 rounded mt-1">Added by {p.createdBy.name}</div>}
                                 </div>
                               </div>
                             </td>
@@ -544,6 +569,7 @@ export default function Admin() {
                             <div className="mt-1.5">
                               {p.price > 0 ? <span className="font-bold text-[#1a3a28]">₹{p.price}</span> : <span className="text-gray-400 text-xs font-bold uppercase">On Request</span>}
                             </div>
+                            {p.createdBy && <div className="text-[10px] font-medium text-[#2D6A2D] mt-1">Added by {p.createdBy.name}</div>}
                           </div>
                         </div>
                         
@@ -612,11 +638,23 @@ export default function Admin() {
                               {u.phone && <div className="text-xs text-gray-500 font-medium mt-0.5">{u.phone}</div>}
                             </td>
                             <td className="p-5">
-                              <span className={`px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5 ${
-                                u.role === 'admin' ? 'bg-[#1a3a28] text-white' : 'bg-[#eaf1f5] text-[#2b5a7a]'
-                              }`}>
-                                {u.role === 'admin' ? 'Administrator' : 'Customer'}
-                              </span>
+                              {user.role === 'super_admin' && u._id !== user._id ? (
+                                <select 
+                                  value={u.role || 'user'}
+                                  onChange={(e) => handleRoleChange(u._id, e.target.value)}
+                                  className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 outline-none focus:ring-1 focus:ring-[#2D6A2D] font-medium text-[#1a3a28] bg-white cursor-pointer"
+                                >
+                                  <option value="user">Customer</option>
+                                  <option value="admin">Admin</option>
+                                  <option value="super_admin">Super Admin</option>
+                                </select>
+                              ) : (
+                                <span className={`px-3 py-1 rounded-full text-xs font-bold inline-flex items-center gap-1.5 ${
+                                  u.role === 'super_admin' ? 'bg-[#8B1A1A] text-white' : u.role === 'admin' ? 'bg-[#1a3a28] text-white' : 'bg-[#eaf1f5] text-[#2b5a7a]'
+                                }`}>
+                                  {u.role === 'super_admin' ? 'Super Admin' : u.role === 'admin' ? 'Administrator' : 'Customer'}
+                                </span>
+                              )}
                             </td>
                             <td className="p-5 pr-8 text-sm text-gray-500 font-medium text-right">
                               {new Date(u.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
@@ -638,11 +676,23 @@ export default function Admin() {
                           <div className="font-bold text-[#1a3a28] text-base truncate">{u.name}</div>
                           <div className="text-sm text-gray-500 font-medium truncate mb-1">{u.email}</div>
                           <div className="flex items-center justify-between mt-1">
-                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${
-                              u.role === 'admin' ? 'bg-[#1a3a28] text-white' : 'bg-[#eaf1f5] text-[#2b5a7a]'
-                            }`}>
-                              {u.role === 'admin' ? 'Admin' : 'Customer'}
-                            </span>
+                            {user.role === 'super_admin' && u._id !== user._id ? (
+                              <select 
+                                value={u.role || 'user'}
+                                onChange={(e) => handleRoleChange(u._id, e.target.value)}
+                                className="text-[10px] border border-gray-200 rounded-md px-1 py-0.5 outline-none font-bold text-[#1a3a28] bg-white"
+                              >
+                                <option value="user">Customer</option>
+                                <option value="admin">Admin</option>
+                                <option value="super_admin">Super Admin</option>
+                              </select>
+                            ) : (
+                              <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${
+                                u.role === 'super_admin' ? 'bg-[#8B1A1A] text-white' : u.role === 'admin' ? 'bg-[#1a3a28] text-white' : 'bg-[#eaf1f5] text-[#2b5a7a]'
+                              }`}>
+                                {u.role === 'super_admin' ? 'Super Admin' : u.role === 'admin' ? 'Admin' : 'Customer'}
+                              </span>
+                            )}
                             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                               Joined {new Date(u.createdAt).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
                             </span>
@@ -745,6 +795,74 @@ export default function Admin() {
                       className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#2D6A2D] outline-none text-[#1a3a28] font-medium resize-none"
                       placeholder="Product details..."
                     />
+                  </div>
+                </div>
+
+                {/* COMPLIANCE & NUTRITION SECTION */}
+                <div className="pt-6 mt-6 border-t border-gray-100">
+                  <h4 className="text-sm font-bold text-[#1a3a28] uppercase tracking-wider mb-4">Compliance & Nutrition</h4>
+                  
+                  <div className="flex flex-wrap gap-6 mb-6">
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <button type="button" onClick={() => setFormData({...formData, labTested: !formData.labTested})} className={`w-12 h-6 rounded-full relative transition-colors ${formData.labTested ? 'bg-[#2D6A2D]' : 'bg-gray-300'}`}>
+                        <div className={`w-4 h-4 bg-white rounded-full shadow-md absolute top-1 transition-all ${formData.labTested ? 'right-1' : 'left-1'}`}></div>
+                      </button>
+                      <span className="text-sm font-bold text-gray-700">Lab Tested</span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <button type="button" onClick={() => setFormData({...formData, fssaiCompliant: !formData.fssaiCompliant})} className={`w-12 h-6 rounded-full relative transition-colors ${formData.fssaiCompliant ? 'bg-[#2D6A2D]' : 'bg-gray-300'}`}>
+                        <div className={`w-4 h-4 bg-white rounded-full shadow-md absolute top-1 transition-all ${formData.fssaiCompliant ? 'right-1' : 'left-1'}`}></div>
+                      </button>
+                      <span className="text-sm font-bold text-gray-700">FSSAI Compliant</span>
+                    </label>
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <button type="button" onClick={() => setFormData({...formData, nablAccredited: !formData.nablAccredited})} className={`w-12 h-6 rounded-full relative transition-colors ${formData.nablAccredited ? 'bg-[#2D6A2D]' : 'bg-gray-300'}`}>
+                        <div className={`w-4 h-4 bg-white rounded-full shadow-md absolute top-1 transition-all ${formData.nablAccredited ? 'right-1' : 'left-1'}`}></div>
+                      </button>
+                      <span className="text-sm font-bold text-gray-700">NABL Accredited</span>
+                    </label>
+                  </div>
+
+                  <div className="bg-[#FDFAF5] p-5 rounded-2xl border border-gray-200">
+                    <label className="flex items-center gap-3 cursor-pointer mb-4">
+                      <button type="button" onClick={() => setFormData({...formData, hasNutritionData: !formData.hasNutritionData})} className={`w-12 h-6 rounded-full relative transition-colors ${formData.hasNutritionData ? 'bg-[#2D6A2D]' : 'bg-gray-300'}`}>
+                        <div className={`w-4 h-4 bg-white rounded-full shadow-md absolute top-1 transition-all ${formData.hasNutritionData ? 'right-1' : 'left-1'}`}></div>
+                      </button>
+                      <span className="text-sm font-bold text-[#1a3a28]">Has Nutrition Data?</span>
+                    </label>
+
+                    {formData.hasNutritionData && (
+                      <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="grid grid-cols-2 sm:grid-cols-3 gap-4 overflow-hidden">
+                        {[
+                          { key: 'energy', label: 'Energy (Kcal)' },
+                          { key: 'protein', label: 'Protein (g)' },
+                          { key: 'carbs', label: 'Carbs (g)' },
+                          { key: 'totalSugars', label: 'Total Sugars (g)' },
+                          { key: 'totalFat', label: 'Total Fat (g)' },
+                          { key: 'transFat', label: 'Trans Fat (g)' },
+                          { key: 'sodium', label: 'Sodium (mg)' },
+                          { key: 'calcium', label: 'Calcium (mg)' },
+                          { key: 'vitaminC', label: 'Vitamin C (mg)' }
+                        ].map(field => (
+                          <div key={field.key}>
+                            <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">{field.label}</label>
+                            <input 
+                              type="number" step="any"
+                              value={formData.nutritionPer100g?.[field.key] ?? ''} 
+                              onChange={e => setFormData({
+                                ...formData, 
+                                nutritionPer100g: {
+                                  ...formData.nutritionPer100g,
+                                  [field.key]: e.target.value === '' ? null : Number(e.target.value)
+                                }
+                              })}
+                              className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-1 focus:ring-[#2D6A2D] outline-none text-[#1a3a28] font-medium"
+                              placeholder="0.0"
+                            />
+                          </div>
+                        ))}
+                      </motion.div>
+                    )}
                   </div>
                 </div>
 
