@@ -21,6 +21,7 @@ import axiosInstance from '../utils/axiosInstance';
 import heroImage from '../assets/product-hero.webp';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
+import NutritionPanel from '../components/NutritionPanel';
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -252,57 +253,15 @@ export default function ProductDetails() {
               We believe you deserve to know exactly what goes into your body. This product is naturally sourced and minimally processed.
             </p>
 
-            {/* Compliance Badges */}
-            <div className="flex flex-wrap gap-3 mb-8">
-              {product.labTested && (
-                <span className="bg-[#eaf2eb] text-[#2D5A40] px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm border border-[#2D5A40]/10">
-                  <TestTube size={16} /> Lab Tested
-                </span>
-              )}
-              {product.fssaiCompliant && (
-                <span className="bg-[#fcf3ea] text-[#e0893b] px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm border border-[#e0893b]/10">
-                  <CheckCircle2 size={16} /> FSSAI Compliant
-                </span>
-              )}
-              {product.nablAccredited && (
-                <span className="bg-[#eaf1f5] text-[#2b5a7a] px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm border border-[#2b5a7a]/10">
-                  <Award size={16} /> NABL Accredited
-                </span>
-              )}
-            </div>
-
             {/* Nutrition Table */}
             {product.hasNutritionData && product.nutritionPer100g && (
-              <div className="bg-white p-6 sm:p-8 rounded-[2rem] shadow-sm border border-gray-100">
-                <h4 className="font-bold text-[#1a3a28] mb-6 flex items-center gap-2">
-                  <Leaf className="text-[#2D5A40] w-5 h-5" /> Nutritional Value <span className="text-gray-400 font-normal text-sm ml-1">(per 100g)</span>
-                </h4>
-                
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-6 gap-x-4">
-                  {[
-                    { key: 'energy', label: 'Energy', unit: 'Kcal' },
-                    { key: 'protein', label: 'Protein', unit: 'g' },
-                    { key: 'carbs', label: 'Carbs', unit: 'g' },
-                    { key: 'totalSugars', label: 'Total Sugars', unit: 'g' },
-                    { key: 'totalFat', label: 'Total Fat', unit: 'g' },
-                    { key: 'transFat', label: 'Trans Fat', unit: 'g' },
-                    { key: 'sodium', label: 'Sodium', unit: 'mg' },
-                    { key: 'calcium', label: 'Calcium', unit: 'mg' },
-                    { key: 'vitaminC', label: 'Vitamin C', unit: 'mg' }
-                  ].map(field => {
-                    const val = product.nutritionPer100g[field.key];
-                    if (val === null || val === undefined) return null;
-                    return (
-                      <div key={field.key} className="flex flex-col">
-                        <span className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">{field.label}</span>
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-2xl font-bold text-[#1a3a28]">{val}</span>
-                          <span className="text-sm font-medium text-gray-500">{field.unit}</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+              <div className="mt-8">
+                <NutritionPanel 
+                  nutritionPer100g={product.nutritionPer100g}
+                  labTested={product.labTested}
+                  fssaiCompliant={product.fssaiCompliant}
+                  nablAccredited={product.nablAccredited}
+                />
               </div>
             )}
           </div>

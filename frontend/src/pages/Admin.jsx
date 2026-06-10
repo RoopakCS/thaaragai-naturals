@@ -725,7 +725,7 @@ export default function Admin() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }} 
               animate={{ opacity: 1, scale: 1, y: 0 }} 
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white rounded-[2rem] shadow-2xl p-6 sm:p-8 max-w-2xl w-full relative z-10 max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-[2rem] shadow-2xl p-6 sm:p-8 max-w-2xl w-full relative z-10 max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             >
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-2xl font-serif font-bold text-[#1a3a28] ">
@@ -832,35 +832,37 @@ export default function Admin() {
                     </label>
 
                     {formData.hasNutritionData && (
-                      <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="grid grid-cols-2 sm:grid-cols-3 gap-4 overflow-hidden">
-                        {[
-                          { key: 'energy', label: 'Energy (Kcal)' },
-                          { key: 'protein', label: 'Protein (g)' },
-                          { key: 'carbs', label: 'Carbs (g)' },
-                          { key: 'totalSugars', label: 'Total Sugars (g)' },
-                          { key: 'totalFat', label: 'Total Fat (g)' },
-                          { key: 'transFat', label: 'Trans Fat (g)' },
-                          { key: 'sodium', label: 'Sodium (mg)' },
-                          { key: 'calcium', label: 'Calcium (mg)' },
-                          { key: 'vitaminC', label: 'Vitamin C (mg)' }
-                        ].map(field => (
-                          <div key={field.key}>
-                            <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">{field.label}</label>
-                            <input 
-                              type="number" step="any"
-                              value={formData.nutritionPer100g?.[field.key] ?? ''} 
-                              onChange={e => setFormData({
-                                ...formData, 
-                                nutritionPer100g: {
-                                  ...formData.nutritionPer100g,
-                                  [field.key]: e.target.value === '' ? null : Number(e.target.value)
-                                }
-                              })}
-                              className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:ring-1 focus:ring-[#2D6A2D] outline-none text-[#1a3a28] font-medium"
-                              placeholder="0.0"
-                            />
-                          </div>
-                        ))}
+                      <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="overflow-hidden">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 p-1 mt-2">
+                          {[
+                            { key: 'energy', label: 'Energy (Kcal)' },
+                            { key: 'protein', label: 'Protein (g)' },
+                            { key: 'carbs', label: 'Carbs (g)' },
+                            { key: 'totalSugars', label: 'Total Sugars (g)' },
+                            { key: 'totalFat', label: 'Total Fat (g)' },
+                            { key: 'transFat', label: 'Trans Fat (g)' },
+                            { key: 'sodium', label: 'Sodium (mg)' },
+                            { key: 'calcium', label: 'Calcium (mg)' },
+                            { key: 'vitaminC', label: 'Vitamin C (mg)' }
+                          ].map(field => (
+                            <div key={field.key}>
+                              <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">{field.label}</label>
+                              <input 
+                                type="number" step="any"
+                                value={formData.nutritionPer100g?.[field.key] ?? ''} 
+                                onChange={e => setFormData({
+                                  ...formData, 
+                                  nutritionPer100g: {
+                                    ...formData.nutritionPer100g,
+                                    [field.key]: e.target.value === '' ? null : Number(e.target.value)
+                                  }
+                                })}
+                                className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 focus:border-[#2D6A2D] focus:ring-1 focus:ring-[#2D6A2D] outline-none text-[#1a3a28] font-medium transition-colors"
+                                placeholder="0.0"
+                              />
+                            </div>
+                          ))}
+                        </div>
                       </motion.div>
                     )}
                   </div>
