@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User } from 'lucide-react';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
-import logoCropped from '../assets/logo-cropped.jpg';
+import logo from '../assets/logos/Tharagai.png';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function Navbar() {
           {/* Brand - Logo */}
           <div className="flex-1 flex justify-start">
             <Link to="/" className="hover:opacity-80 transition-opacity flex items-center shrink-0">
-              <img src={logoCropped} alt="Thaaragai Naturals Logo" className="h-8 sm:h-10 w-auto object-contain" />
+              <img src={logo} alt="Thaaragai Naturals Logo" className="h-8 sm:h-10 w-auto object-contain" />
             </Link>
           </div>
 
