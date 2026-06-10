@@ -112,6 +112,7 @@ export default function Register() {
                 id="name"
                 type="text" 
                 name="name"
+                autoComplete="name"
                 required
                 value={formData.name}
                 onChange={handleChange}
@@ -126,6 +127,7 @@ export default function Register() {
                 id="email"
                 type="email" 
                 name="email"
+                autoComplete="email"
                 required
                 value={formData.email}
                 onChange={handleChange}
@@ -140,6 +142,7 @@ export default function Register() {
                 id="phone"
                 type="tel" 
                 name="phone"
+                autoComplete="tel"
                 value={formData.phone}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#2D6A2D] focus:border-transparent outline-none transition-all text-[#1a3a28] font-medium"
@@ -153,6 +156,7 @@ export default function Register() {
                 id="password"
                 type="password" 
                 name="password"
+                autoComplete="new-password"
                 required
                 value={formData.password}
                 onChange={handleChange}
@@ -167,6 +171,7 @@ export default function Register() {
                 id="confirmPassword"
                 type="password" 
                 name="confirmPassword"
+                autoComplete="new-password"
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
