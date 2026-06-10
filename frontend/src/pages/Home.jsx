@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Wheat, Coffee, Stethoscope, Cookie, Droplets, Heart, Package } from 'lucide-react';
+import { Wheat, Coffee, Stethoscope, Cookie, Droplets, Heart, Package, Leaf, Sparkles } from 'lucide-react';
 import heroImageDesktop from '../assets/Website Hero Image - Desktop.webp';
 import heroImageMobile from '../assets/Website Hero Image - Mobile.webp';
 import dosaMaavuImg from '../assets/category images/siruthaniya-dosa-maavu.webp';
@@ -243,67 +243,84 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 4 — WHY CHOOSE US (BENTO GRID) */}
-      <section ref={sec4Ref} className="bg-[#eaf2eb] py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-16 relative overflow-hidden group">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(45,90,64,0.03)_0%,transparent_100%)] pointer-events-none"></div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col items-center mb-12 sm:mb-16">
-            <span className="text-[#8B1A1A] font-medium tracking-wider uppercase text-xs sm:text-sm mb-3 flex items-center">
-              Our Promise
-            </span>
-            <h2 className="text-[#1a3a28] text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-center">Why Choose Us</h2>
+      {/* SECTION 4 — WHY CHOOSE US (EDITORIAL PILLARS) */}
+      <section ref={sec4Ref} className="bg-[#1a3a28] min-h-dvh flex flex-col justify-center py-12 sm:py-20 relative overflow-hidden text-[#FDFAF5]">
+        {/* Abstract subtle background element */}
+        <motion.div style={{ y: bento1Y }} className="absolute -left-40 top-20 pointer-events-none opacity-[0.03]">
+          <Leaf className="w-[500px] h-[500px]" />
+        </motion.div>
+
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-16 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-6">
+            <div>
+              <span className="text-[#a8d3b8] font-medium tracking-wider uppercase text-xs sm:text-sm mb-3 flex items-center gap-2">
+                <Sparkles size={16} /> The Thaaragai Standard
+              </span>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-white leading-tight">
+                Beyond <br className="hidden md:block" /> Organic.
+              </h2>
+            </div>
+            <div className="max-w-sm pb-1">
+              <p className="text-[#a8d3b8] text-sm sm:text-base leading-relaxed">
+                We don't just sell products; we share our heritage. Here is our unwavering promise to you and your family.
+              </p>
+            </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-4 sm:gap-5 lg:gap-6">
-            {/* Card 1: Full Width on Mobile, Large on Desktop */}
-            <motion.div 
-              style={{ y: bento1Y }}
-              className="lg:col-span-2 lg:row-span-2 bg-[#1a3a28] p-8 sm:p-10 md:p-14 lg:p-20 rounded-[2rem] sm:rounded-[3rem] flex flex-col md:flex-row items-center justify-between relative overflow-hidden shadow-xl origin-center border border-[#2D5A40]/30"
-              whileHover={{ scale: 1.02 }}
-            >
-              <motion.div style={{ scale: bentoIconScale }} className="absolute -right-10 -bottom-10 pointer-events-none origin-center">
-                <Heart className="w-40 h-40 sm:w-96 sm:h-96 text-white opacity-[0.03] transition-transform duration-700" />
-              </motion.div>
-              <div className="z-10 text-left max-w-xl w-full">
-                <div className="bg-[#2D5A40] w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mb-6 border border-white/10 shadow-inner">
-                  <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-[#a8d3b8]" />
-                </div>
-                <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-serif font-bold text-white mb-4">Homemade with Love</h3>
-                <p className="text-[#a8d3b8] text-sm sm:text-base leading-relaxed">No massive factories, no artificial preservatives. Every product is crafted with the same authentic care and attention as food made in your own kitchen.</p>
-              </div>
-            </motion.div>
 
-            {/* Card 2: One cell on Desktop */}
-            <motion.div 
-              style={{ y: bento2Y }}
-              className="lg:col-span-1 lg:row-span-1 bg-[#eaf2eb] p-6 sm:p-8 rounded-[2rem] relative overflow-hidden flex flex-col justify-between h-full shadow-sm origin-center min-h-[250px] border border-[#2D5A40]/10"
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="z-10">
-                <div className="bg-white w-12 h-12 rounded-full flex items-center justify-center mb-6 shadow-sm border border-[#2D5A40]/10">
-                  <Droplets className="w-6 h-6 text-[#2D5A40]" />
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-[#1a3a28] mb-3">Natural</h3>
-                <p className="text-sm sm:text-base text-[#4a392f] font-medium leading-relaxed">Traditional recipes passed down without any chemical additives.</p>
+          <div className="flex flex-col border-t border-white/10">
+            {/* Pillar 1 */}
+            <div className="group border-b border-white/10 py-6 sm:py-10 relative overflow-hidden transition-all duration-500 hover:bg-white/[0.03]">
+              <div className="absolute right-10 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-700 -translate-x-10 group-hover:translate-x-0 pointer-events-none hidden md:block">
+                <Heart className="w-32 h-32 text-[#a8d3b8] opacity-10" />
               </div>
-            </motion.div>
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12 relative z-10">
+                <div className="text-5xl sm:text-7xl font-serif font-bold text-white/10 group-hover:text-white/30 transition-colors duration-500 w-24">
+                  01
+                </div>
+                <div className="flex-1 md:pr-40">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4 group-hover:text-[#a8d3b8] transition-colors duration-300">Homemade with Love</h3>
+                  <p className="text-[#a8d3b8]/80 text-sm sm:text-base leading-relaxed max-w-2xl font-medium">
+                    No massive factories, no artificial preservatives. Every product is crafted with the same authentic care and attention as food made in your own kitchen.
+                  </p>
+                </div>
+              </div>
+            </div>
 
-            {/* Card 3: One cell on Desktop */}
-            <motion.div 
-              style={{ y: bento3Y }}
-              className="lg:col-span-1 lg:row-span-1 bg-white p-6 sm:p-8 rounded-[2rem] border border-gray-100 shadow-sm relative overflow-hidden flex flex-col justify-between h-full origin-center min-h-[250px]"
-              whileHover={{ scale: 1.02 }}
-            >
-              <motion.div style={{ scale: bentoIconScale }} className="absolute -right-8 -bottom-8 pointer-events-none origin-center">
-                <Package className="w-32 h-32 sm:w-48 sm:h-48 text-[#8B1A1A] opacity-5" />
-              </motion.div>
-              <div className="z-10">
-                <div className="bg-[#eaf2eb] w-12 h-12 rounded-full flex items-center justify-center mb-6 border border-[#8B1A1A]/10">
-                  <Package className="w-6 h-6 text-[#8B1A1A]" />
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-[#8B1A1A] mb-3">Fresh on Order</h3>
-                <p className="text-sm sm:text-base text-gray-600 leading-relaxed font-medium">Prepared fresh specifically for your order. No aged inventory.</p>
+            {/* Pillar 2 */}
+            <div className="group border-b border-white/10 py-6 sm:py-10 relative overflow-hidden transition-all duration-500 hover:bg-white/[0.03]">
+              <div className="absolute right-10 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-700 -translate-x-10 group-hover:translate-x-0 pointer-events-none hidden md:block">
+                <Droplets className="w-32 h-32 text-[#a8d3b8] opacity-10" />
               </div>
-            </motion.div>
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12 relative z-10">
+                <div className="text-5xl sm:text-7xl font-serif font-bold text-white/10 group-hover:text-white/30 transition-colors duration-500 w-24">
+                  02
+                </div>
+                <div className="flex-1 md:pr-40">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4 group-hover:text-[#a8d3b8] transition-colors duration-300">100% Natural</h3>
+                  <p className="text-[#a8d3b8]/80 text-sm sm:text-base leading-relaxed max-w-2xl font-medium">
+                    We rely strictly on traditional recipes passed down through generations. Zero chemical additives, zero shortcuts. Just pure, unadulterated nature.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Pillar 3 */}
+            <div className="group border-b border-white/10 py-6 sm:py-10 relative overflow-hidden transition-all duration-500 hover:bg-white/[0.03]">
+              <div className="absolute right-10 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-700 -translate-x-10 group-hover:translate-x-0 pointer-events-none hidden md:block">
+                <Package className="w-32 h-32 text-[#a8d3b8] opacity-10" />
+              </div>
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12 relative z-10">
+                <div className="text-5xl sm:text-7xl font-serif font-bold text-white/10 group-hover:text-white/30 transition-colors duration-500 w-24">
+                  03
+                </div>
+                <div className="flex-1 md:pr-40">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4 group-hover:text-[#a8d3b8] transition-colors duration-300">Fresh on Order</h3>
+                  <p className="text-[#a8d3b8]/80 text-sm sm:text-base leading-relaxed max-w-2xl font-medium">
+                    We don't believe in aged inventory. Your order is prepared fresh specifically for you, ensuring maximum nutritional value and taste upon arrival.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
