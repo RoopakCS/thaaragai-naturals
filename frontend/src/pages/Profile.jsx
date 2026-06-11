@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import axiosInstance from '../utils/axiosInstance';
+import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import { Loader2, LogOut, Package, User, MapPin, Edit2, Check, X, Navigation } from 'lucide-react';
 
@@ -85,7 +86,7 @@ export default function Profile() {
       setIsEditingContact(false);
     } catch (error) {
       console.error("Error saving contact", error);
-      alert("Failed to update profile.");
+      toast.error("Failed to update profile.");
     } finally {
       setSavingContact(false);
     }
@@ -101,7 +102,7 @@ export default function Profile() {
       setIsEditingAddress(false);
     } catch (error) {
       console.error("Error saving address", error);
-      alert("Failed to update address.");
+      toast.error("Failed to update address.");
     } finally {
       setSavingAddress(false);
     }
@@ -119,7 +120,7 @@ export default function Profile() {
 
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser");
+      toast.error("Geolocation is not supported by your browser");
       return;
     }
 
@@ -141,14 +142,14 @@ export default function Profile() {
           }
         } catch (error) {
           console.error("Error fetching location details:", error);
-          alert("Failed to get address from coordinates.");
+          toast.error("Failed to get address from coordinates.");
         } finally {
           setGettingLocation(false);
         }
       },
       (error) => {
         console.error("Geolocation error:", error);
-        alert("Unable to retrieve your location. Please check your browser permissions.");
+        toast.error("Unable to retrieve your location. Please check your browser permissions.");
         setGettingLocation(false);
       }
     );
@@ -190,7 +191,7 @@ export default function Profile() {
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-xl shadow-sm p-6 sm:p-8 border border-gray-100"
+              className="bg-white rounded-[2rem] shadow-sm p-6 sm:p-8 border border-gray-100"
             >
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-serif font-bold text-[#1a3a28] flex items-center">
@@ -267,7 +268,7 @@ export default function Profile() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-xl shadow-sm p-6 sm:p-8 border border-gray-100"
+              className="bg-white rounded-[2rem] shadow-sm p-6 sm:p-8 border border-gray-100"
             >
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-serif font-bold text-[#1a3a28] flex items-center">

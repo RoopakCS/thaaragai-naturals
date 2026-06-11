@@ -4,8 +4,9 @@ import { Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets, L
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
 import { useWishlistStore } from '../store/wishlistStore';
-import NutritionPanel from './NutritionPanel';
+
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 
 const categoryIcons = {
   'flours': Wheat,
@@ -25,13 +26,12 @@ export default function ProductCard({ product }) {
   const { toggleWishlist, isInWishlist } = useWishlistStore();
   const navigate = useNavigate();
   const [isAdding, setIsAdding] = useState(false);
-  const [showNutrition, setShowNutrition] = useState(false);
   const isWishlisted = isInWishlist(product._id);
 
   const handleToggleWishlist = async (e) => {
     e.stopPropagation();
     if (!isAuthenticated) {
-      alert("Please login to add to wishlist");
+      toast.error("Please login to add to wishlist");
       navigate('/login');
       return;
     }
@@ -42,12 +42,12 @@ export default function ProductCard({ product }) {
     }
   };
 
-  const hasLabData = product.labTested || product.fssaiCompliant || product.nablAccredited || product.nutritionPer100g;
+  const hasNutritionData = !!product.nutritionPer100g;
 
   const handleAddToCart = async (e) => {
     e.stopPropagation();
     if (!isAuthenticated) {
-      alert("Please login to add items to cart");
+      toast.error("Please login to add items to cart");
       navigate('/login');
       return;
     }
@@ -109,14 +109,13 @@ export default function ProductCard({ product }) {
                )}
             </div>
             
-            {hasLabData && (
-              <button 
-                onClick={(e) => { e.stopPropagation(); setShowNutrition(true); }}
-                className="mt-1 mb-2 inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#2D6A2D] border border-[#2D6A2D]/30 rounded-md hover:bg-[#2D6A2D]/5 transition-colors w-fit z-10 relative"
+            {hasNutritionData && (
+              <div 
+                className="mt-1 mb-2 inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#2D6A2D] border border-[#2D6A2D]/30 rounded-md bg-[#2D6A2D]/5 w-fit z-10 relative"
               >
                 <Leaf size={12} />
                 Nutrition Facts
-              </button>
+              </div>
             )}
 
             <div className="mt-auto pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 relative z-10">
@@ -149,37 +148,6 @@ export default function ProductCard({ product }) {
             </div>
          </div>
       </div>
-
-      <AnimatePresence>
-        {showNutrition && (
-          <div 
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-0 bg-black/40 backdrop-blur-sm"
-            onClick={(e) => { e.stopPropagation(); setShowNutrition(false); }}
-          >
-            <motion.div 
-              initial={{ opacity: 0, y: 100, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 100, scale: 0.95 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl bg-transparent"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button 
-                onClick={(e) => { e.stopPropagation(); setShowNutrition(false); }}
-                className="absolute top-4 right-4 z-10 bg-white/80 backdrop-blur p-1.5 rounded-full shadow-sm hover:bg-gray-100 transition-colors"
-              >
-                <X size={18} className="text-gray-600" />
-              </button>
-              <NutritionPanel 
-                nutritionPer100g={product.nutritionPer100g}
-                labTested={product.labTested}
-                fssaiCompliant={product.fssaiCompliant}
-                nablAccredited={product.nablAccredited}
-              />
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </>
   );
 }

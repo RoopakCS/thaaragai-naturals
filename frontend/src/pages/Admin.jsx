@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
+import { toast } from 'react-hot-toast';
 import { useAuthStore } from '../store/authStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart3, Package, ShoppingBag, Users, Menu, X, ArrowLeft, Loader2, IndianRupee, Plus, Search, ChevronDown, Edit2, Trash2 } from 'lucide-react';
@@ -39,6 +40,8 @@ export default function Admin() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState(null); // null means adding new
+  const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const defaultFormState = {
     name: '', category: 'flours', price: '', weight: '', description: '', image: '', inStock: true,
     hasNutritionData: false, labTested: false, fssaiCompliant: false, nablAccredited: false,
@@ -104,7 +107,7 @@ export default function Admin() {
       setOrders(orders.map(o => o._id === id ? { ...o, status: newStatus } : o));
     } catch (err) {
       console.error(err);
-      alert('Failed to update status');
+      toast.error('Failed to update status');
     }
   };
 
@@ -115,18 +118,27 @@ export default function Admin() {
       setProducts(products.map(p => p._id === id ? { ...p, inStock: newStock } : p));
     } catch (err) {
       console.error(err);
-      alert('Failed to update stock');
+      toast.error('Failed to update stock');
     }
   };
 
-  const handleDeleteProduct = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this product?")) return;
+  const handleDeleteProduct = (id) => {
+    setDeleteConfirmId(id);
+  };
+
+  const confirmDeleteProduct = async () => {
+    if (!deleteConfirmId) return;
+    setIsDeleting(true);
     try {
-      await axiosInstance.delete(`/api/admin/products/${id}`);
-      setProducts(products.filter(p => p._id !== id));
+      await axiosInstance.delete(`/api/admin/products/${deleteConfirmId}`);
+      setProducts(products.filter(p => p._id !== deleteConfirmId));
+      toast.success('Product deleted successfully');
     } catch (err) {
       console.error(err);
-      alert('Failed to delete product');
+      toast.error('Failed to delete product');
+    } finally {
+      setIsDeleting(false);
+      setDeleteConfirmId(null);
     }
   };
 
@@ -136,7 +148,7 @@ export default function Admin() {
       setUsers(users.map(u => u._id === id ? { ...u, role: newRole } : u));
     } catch (err) {
       console.error(err);
-      alert('Failed to update user role');
+      toast.error('Failed to update user role');
     }
   };
 
@@ -190,7 +202,7 @@ export default function Admin() {
       setIsModalOpen(false);
     } catch (err) {
       console.error(err);
-      alert('Failed to save product: ' + (err.response?.data?.message || err.message));
+      toast.error('Failed to save product: ' + (err.response?.data?.message || err.message));
     } finally {
       setIsSaving(false);
     }
@@ -201,7 +213,7 @@ export default function Admin() {
       <div className="min-h-[calc(100dvh-88px)] bg-[#eaf2eb] flex items-center justify-center p-4 font-sans pb-24">
         <div className="bg-white p-10 rounded-[2rem] shadow-xl border border-gray-100 max-w-md w-full text-center">
           <div className="text-6xl mb-6">🚫</div>
-          <h1 className="text-3xl font-serif font-bold text-[#1a3a28] mb-3">Access Denied</h1>
+          <h2 className="text-3xl font-serif font-bold text-[#1a3a28] mb-3">Access Denied</h2>
           <p className="text-gray-500 mb-8 font-medium">You need admin privileges to access this control panel.</p>
           <Link to="/" className="bg-[#2D6A2D] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#1a3a28] transition-colors inline-flex shadow-sm">
             Return to Home
@@ -905,7 +917,49 @@ export default function Admin() {
         )}
       </AnimatePresence>
 
-
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {deleteConfirmId && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 py-8">
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-[#1a3a28]/60 backdrop-blur-sm"
+              onClick={() => setDeleteConfirmId(null)}
+            />
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }} 
+              animate={{ opacity: 1, scale: 1, y: 0 }} 
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white rounded-[2rem] shadow-2xl w-full max-w-sm relative z-10 flex flex-col overflow-hidden"
+            >
+              <div className="p-6 text-center">
+                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Trash2 className="w-8 h-8 text-red-500" />
+                </div>
+                <h2 className="text-xl font-bold text-[#1a3a28] mb-2">Delete Product?</h2>
+                <p className="text-gray-500 font-medium text-sm">Are you sure you want to delete this product? This action cannot be undone.</p>
+              </div>
+              <div className="bg-gray-50 p-4 border-t border-gray-100 flex gap-3">
+                <button 
+                  onClick={() => setDeleteConfirmId(null)}
+                  disabled={isDeleting}
+                  className="flex-1 bg-white border border-gray-200 text-gray-700 px-4 py-3 rounded-xl font-bold hover:bg-gray-50 transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={confirmDeleteProduct}
+                  disabled={isDeleting}
+                  className="flex-1 bg-[#8B1A1A] text-white px-4 py-3 rounded-xl font-bold hover:bg-red-800 transition-colors shadow-md disabled:opacity-75 flex justify-center items-center"
+                >
+                  {isDeleting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Delete'}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

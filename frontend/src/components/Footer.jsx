@@ -108,7 +108,7 @@ export default function Footer() {
                     <MapPin className="w-3.5 h-3.5"/> Location
                   </span>
                   <span className="text-base font-medium text-white/80 leading-relaxed">
-                    Ramanathapuram,<br/>Tamil Nadu
+                    Vallabai Nagar, 5th Street,<br/> Ramanathapuram, Tamil Nadu - 623504.
                   </span>
                 </div>
               </li>

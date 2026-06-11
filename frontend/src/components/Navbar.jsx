@@ -32,9 +32,8 @@ export default function Navbar() {
     <nav className="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-md py-3 sm:py-4 px-4 sm:px-6 lg:px-8 xl:px-16 transition-all duration-300">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center h-8 sm:h-10">
-          {/* Brand - Logo */}
           <div className="flex-1 flex justify-start">
-            <Link to={isAuthenticated ? '/products' : '/'} className="hover:opacity-80 transition-opacity flex items-center shrink-0">
+            <Link to="/" className="hover:opacity-80 transition-opacity flex items-center shrink-0">
               <img src={logo} alt="Thaaragai Naturals Logo" className="h-8 sm:h-10 w-auto object-contain" />
             </Link>
           </div>

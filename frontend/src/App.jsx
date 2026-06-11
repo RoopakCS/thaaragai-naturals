@@ -51,10 +51,35 @@ function ScrollToTop() {
   return null;
 }
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   return (
     <Router>
       <ScrollToTop />
+      <Toaster 
+        position="top-center" 
+        toastOptions={{
+          duration: 3000,
+          style: {
+            borderRadius: '1rem',
+            background: '#333',
+            color: '#fff',
+          },
+          success: {
+            style: {
+              background: '#2D5A40',
+              color: '#fff',
+            },
+          },
+          error: {
+            style: {
+              background: '#8B1A1A',
+              color: '#fff',
+            },
+          },
+        }} 
+      />
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-[#1a3a28] text-white px-4 py-2 rounded-lg z-[100] font-bold">
         Skip to main content
       </a>

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
 import axiosInstance from '../utils/axiosInstance';
-import { Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets, Trash2, Loader2, Minus, Plus, MapPin, X } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets, Trash2, Loader2, Minus, Plus, MapPin, X, Truck, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '../components/ProductCard';
 
@@ -22,11 +23,27 @@ export default function Cart() {
   const { items, totalItems, totalPrice, updateQuantity, removeItem, clearCart } = useCartStore();
   const { user, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
   
   const [updatingId, setUpdatingId] = useState(null);
   const [isOrdering, setIsOrdering] = useState(false);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [isConfirmClearOpen, setIsConfirmClearOpen] = useState(false);
+  const [isClearing, setIsClearing] = useState(false);
   const [suggestedProducts, setSuggestedProducts] = useState([]);
+
+  useEffect(() => {
+    if (location.state?.openCheckout) {
+      if (isAuthenticated) {
+        setIsCheckoutModalOpen(true);
+        // Clear the state so refresh doesn't reopen it
+        navigate(location.pathname, { replace: true });
+      } else {
+        toast.error("Please login to proceed to checkout.");
+        navigate('/login');
+      }
+    }
+  }, [location.state, isAuthenticated, navigate, location.pathname]);
   
   useEffect(() => {
     if (items.length === 0 && suggestedProducts.length === 0) {
@@ -46,7 +63,6 @@ export default function Cart() {
   // Checkout Form State
   const [checkoutForm, setCheckoutForm] = useState({
     name: '',
-    phone: '',
     address: ''
   });
 
@@ -64,7 +80,6 @@ export default function Cart() {
 
       setCheckoutForm({
         name: user.name || '',
-        phone: user.phone || '',
         address: formattedAddress
       });
     }
@@ -87,15 +102,21 @@ export default function Cart() {
     setUpdatingId(null);
   };
 
-  const handleClearCart = async () => {
-    if (window.confirm("Are you sure you want to clear your cart?")) {
-      await clearCart();
-    }
+  const handleClearCart = () => {
+    setIsConfirmClearOpen(true);
+  };
+
+  const confirmClearCart = async () => {
+    setIsClearing(true);
+    await clearCart();
+    setIsClearing(false);
+    setIsConfirmClearOpen(false);
+    toast.success("Cart cleared");
   };
 
   const openCheckout = () => {
     if (!isAuthenticated) {
-      alert("Please login to proceed to checkout.");
+      toast.error("Please login to proceed to checkout.");
       navigate('/login');
       return;
     }
@@ -129,7 +150,7 @@ export default function Cart() {
         message += `• ${item.name} ${item.weight && item.weight !== 'null' ? `(${item.weight})` : ''} x${item.quantity}\n`;
       });
       message += `\n*Subtotal: ₹${totalPrice}*\n`;
-      message += `\n*Delivery Details:*\nName: ${checkoutForm.name}\nPhone: ${checkoutForm.phone}\nAddress: ${checkoutForm.address}\n\n`;
+      message += `\n*Delivery Details:*\nName: ${checkoutForm.name}\nAddress: ${checkoutForm.address}\n\n`;
       message += `Please let me know the total including shipping. Thank you!`;
 
       // 3. Cleanup and redirect
@@ -140,7 +161,7 @@ export default function Cart() {
       
     } catch (error) {
       console.error("Error placing order:", error);
-      alert("Failed to place order. Please try again.");
+      toast.error("Failed to place order. Please try again.");
     } finally {
       setIsOrdering(false);
     }
@@ -153,7 +174,7 @@ export default function Cart() {
         <div className="px-2 sm:px-3 lg:px-4 pt-0 pb-8">
           <section className="bg-[#1a3a28] rounded-[2rem] sm:rounded-[2.5rem] text-white pt-16 sm:pt-24 pb-32 sm:pb-40 px-4 sm:px-6 lg:px-8 xl:px-16 text-center relative overflow-hidden">
             <div className="max-w-4xl mx-auto relative z-10">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4 sm:mb-6">Your Cart.</h1>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-bold mb-4 sm:mb-6">Your Cart.</h2>
               <p className="text-[#a8d3b8] text-sm sm:text-base md:text-xl max-w-2xl mx-auto leading-relaxed">
                 Review your selected items before proceeding.
               </p>
@@ -349,7 +370,7 @@ export default function Cart() {
               <div className="bg-[#eaf2eb] p-6 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
                 <div className="flex items-center gap-3">
                   <div className="bg-[#2D6A2D]/10 p-2.5 rounded-xl">
-                    <MapPin className="w-6 h-6 text-[#2D6A2D]" />
+                    <Truck className="w-6 h-6 text-[#2D6A2D]" />
                   </div>
                   <div>
                     <h2 className="text-xl font-serif font-bold text-[#1a3a28] ">Delivery Details</h2>
@@ -379,17 +400,6 @@ export default function Cart() {
                       />
                     </div>
                     
-                    <div className="sm:col-span-2">
-                      <label htmlFor="checkout-phone" className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">WhatsApp Number *</label>
-                      <input 
-                        id="checkout-phone"
-                        type="tel" required
-                        value={checkoutForm.phone}
-                        onChange={(e) => setCheckoutForm({...checkoutForm, phone: e.target.value})}
-                        className="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#2D6A2D] focus:border-transparent outline-none text-[#1a3a28] font-medium"
-                      />
-                      <p className="text-xs text-gray-400 mt-1.5 font-medium">We will contact this number for delivery confirmation.</p>
-                    </div>
 
                     <div className="sm:col-span-2">
                       <label htmlFor="checkout-address" className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Complete Shipping Address *</label>
@@ -406,7 +416,7 @@ export default function Cart() {
                   
                   {/* Info Box */}
                   <div className="bg-[#eaf1f5] border border-[#2b5a7a]/20 p-4 rounded-xl mt-6 flex gap-3">
-                    <span className="text-[#2b5a7a] mt-0.5">ℹ️</span>
+                    <Info className="w-5 h-5 text-[#2b5a7a] mt-0.5 shrink-0" />
                     <p className="text-[#2b5a7a] text-sm font-medium leading-relaxed">
                       By proceeding, you will be redirected to WhatsApp to confirm your final order details and shipping costs with our team.
                     </p>
@@ -435,6 +445,50 @@ export default function Cart() {
                     </svg>
                   )}
                   Confirm & WhatsApp
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* CONFIRM CLEAR MODAL */}
+      <AnimatePresence>
+        {isConfirmClearOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 py-8">
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-[#1a3a28]/60 backdrop-blur-sm"
+              onClick={() => setIsConfirmClearOpen(false)}
+            />
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }} 
+              animate={{ opacity: 1, scale: 1, y: 0 }} 
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white rounded-[2rem] shadow-2xl w-full max-w-sm relative z-10 flex flex-col overflow-hidden"
+            >
+              <div className="p-6 text-center">
+                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Trash2 className="w-8 h-8 text-red-500" />
+                </div>
+                <h2 className="text-xl font-bold text-[#1a3a28] mb-2">Clear Cart?</h2>
+                <p className="text-gray-500 font-medium text-sm">Are you sure you want to remove all items from your cart?</p>
+              </div>
+              <div className="bg-gray-50 p-4 border-t border-gray-100 flex gap-3">
+                <button 
+                  onClick={() => setIsConfirmClearOpen(false)}
+                  disabled={isClearing}
+                  className="flex-1 bg-white border border-gray-200 text-gray-700 px-4 py-3 rounded-xl font-bold hover:bg-gray-50 transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={confirmClearCart}
+                  disabled={isClearing}
+                  className="flex-1 bg-[#8B1A1A] text-white px-4 py-3 rounded-xl font-bold hover:bg-red-800 transition-colors shadow-md disabled:opacity-75 flex justify-center items-center"
+                >
+                  {isClearing ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Clear Cart'}
                 </button>
               </div>
             </motion.div>

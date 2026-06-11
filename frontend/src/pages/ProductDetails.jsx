@@ -18,6 +18,7 @@ const categoryIcons = {
   'personal-care': Droplets
 };
 import axiosInstance from '../utils/axiosInstance';
+import { toast } from 'react-hot-toast';
 import heroImage from '../assets/product-hero.webp';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
@@ -47,7 +48,7 @@ export default function ProductDetails() {
 
   const handleToggleWishlist = async () => {
     if (!isAuthenticated) {
-      alert("Please login to add to wishlist");
+      toast.error("Please login to add to wishlist");
       navigate('/login');
       return;
     }
@@ -102,7 +103,7 @@ export default function ProductDetails() {
 
   const handleAddToCart = async () => {
     if (!isAuthenticated) {
-      alert("Please login to add items to cart");
+      toast.error("Please login to add items to cart");
       navigate('/login');
       return;
     }
@@ -117,7 +118,7 @@ export default function ProductDetails() {
 
   const handleOpenReview = () => {
     if (!isAuthenticated) {
-      alert("Please login to write a review");
+      toast.error("Please login to write a review");
       navigate('/login');
       return;
     }
@@ -140,10 +141,10 @@ export default function ProductDetails() {
       });
       setIsReviewModalOpen(false);
       setReviewForm({ rating: 5, comment: '' });
-      alert("Review added successfully!");
+      toast.success("Review added successfully!");
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || "Failed to submit review");
+      toast.error(error.response?.data?.message || "Failed to submit review");
     } finally {
       setSubmittingReview(false);
     }
@@ -246,20 +247,11 @@ export default function ProductDetails() {
                   {added ? 'Added to Cart' : 'Add to Cart'}
                 </button>
 
-                <a
-                  href={`https://wa.me/919952981365?text=${encodeURIComponent(`Hi, I'd like to order ${quantity}x ${product.name}.`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-[#25D366] text-white p-4 rounded-full font-bold shadow-lg hover:bg-green-600 transition-colors shrink-0 w-full sm:w-auto flex items-center justify-center"
-                  title="Order via WhatsApp"
-                >
-                  <MessageCircle size={24} className="mr-2 sm:mr-0" />
-                  <span className="sm:hidden">Order via WhatsApp</span>
-                </a>
+
                 
                 <button
                   onClick={handleToggleWishlist}
-                  className={`p-4 rounded-full font-bold shadow-lg transition-colors shrink-0 w-full sm:w-auto flex items-center justify-center group ${isWishlisted ? 'bg-red-50 text-red-500' : 'bg-gray-100 text-gray-500 hover:bg-red-50 hover:text-red-500'}`}
+                  className={`p-4 rounded-full font-bold shadow-lg transition-colors shrink-0 w-full sm:w-auto flex items-center justify-center group ${isWishlisted ? 'bg-rose-50 text-rose-500' : 'bg-gray-100 text-gray-500 hover:bg-rose-50 hover:text-rose-500'}`}
                   title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
                 >
                   <Heart size={24} fill={isWishlisted ? "currentColor" : "none"} className="mr-2 sm:mr-0 transition-colors" />

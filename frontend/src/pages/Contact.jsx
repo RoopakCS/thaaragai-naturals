@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 import { MapPin, Mail, MessageCircle, ArrowRight } from 'lucide-react';
 
 export default function Contact() {
@@ -19,7 +20,7 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
-      alert('Please fill in all required fields');
+      toast.error('Please fill in all required fields');
       return;
     }
 
@@ -32,7 +33,7 @@ Message: ${formData.message}`;
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/919952981365?text=${encodedMessage}`;
 
-    alert("Message sent! We'll get back to you soon 🌿");
+    toast.success("Message sent! We'll get back to you soon 🌿");
     window.open(whatsappUrl, '_blank');
     
     setFormData({ name: '', email: '', phone: '', subject: 'Product Enquiry', message: '' });

@@ -1,7 +1,11 @@
 import { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Wheat, Coffee, Stethoscope, Cookie, Droplets, Heart, Package, Leaf, Sparkles, ArrowLeft, ArrowRight, Star } from 'lucide-react';
+import { Wheat, Coffee, Stethoscope, Cookie, Droplets, Heart, Package, Leaf, Sparkles, ArrowLeft, ArrowRight, Star, Clock, BookOpen, Award, Activity, CheckCircle, ChevronRight, ShoppingBag, Flame, Moon, Sun } from 'lucide-react';
+import { useAuthStore } from '../store/authStore';
+import { useWishlistStore } from '../store/wishlistStore';
+import { useCartStore } from '../store/cartStore';
+
 import heroImageDesktop from '../assets/Website Hero Image - Desktop.webp';
 import heroImageMobile from '../assets/Website Hero Image - Mobile.webp';
 import dosaMaavuImg from '../assets/category images/siruthaniya-dosa-maavu.webp';
@@ -13,6 +17,17 @@ import nalunguMaavuImg from '../assets/category images/nalungu-maavu.webp';
 import './Home.css';
 
 export default function Home() {
+  const { isAuthenticated, user } = useAuthStore();
+  const { items: wishlistItems, fetchWishlist } = useWishlistStore();
+  const { items: cartItems, totalPrice, fetchCart } = useCartStore();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchWishlist();
+      fetchCart();
+    }
+  }, [isAuthenticated, fetchWishlist, fetchCart]);
+
   // GTA VI Style Hero Parallax
   const heroRef = useRef(null);
   const { scrollYProgress: heroProgress } = useScroll({
@@ -26,28 +41,7 @@ export default function Home() {
   const imgY = useTransform(heroProgress, [0, 1], [0, 100]);
   const bgScale = useTransform(heroProgress, [0, 1], [1, 1.15]);
 
-  // Section 3: Categories Parallax
-  const sec3Ref = useRef(null);
-  const { scrollYProgress: sec3Progress } = useScroll({ target: sec3Ref, offset: ["start end", "end start"] });
-  const sec3BgYUp = useTransform(sec3Progress, [0, 1], [200, -200]);
-  const sec3BgYDown = useTransform(sec3Progress, [0, 1], [-200, 200]);
-  const sec3TextY = useTransform(sec3Progress, [0, 1], [100, -100]);
-
-  // Section 4: Bento Grid Parallax
-  const sec4Ref = useRef(null);
-  const { scrollYProgress: sec4Progress } = useScroll({ target: sec4Ref, offset: ["start end", "end start"] });
-  const bento1Y = useTransform(sec4Progress, [0, 1], [50, -50]);
-  const bento2Y = useTransform(sec4Progress, [0, 1], [120, -120]);
-  const bento3Y = useTransform(sec4Progress, [0, 1], [80, -80]);
-  const bentoIconScale = useTransform(sec4Progress, [0, 1], [0.8, 1.3]);
-
-  // Section 5: CTA Parallax
-  const sec5Ref = useRef(null);
-  const { scrollYProgress: sec5Progress } = useScroll({ target: sec5Ref, offset: ["start end", "end end"] });
-  const ctaScale = useTransform(sec5Progress, [0, 1], [0.85, 1]);
-  const ctaBgYUp = useTransform(sec5Progress, [0, 1], [150, -150]);
-  const ctaBgYDown = useTransform(sec5Progress, [0, 1], [-150, 150]);
-
+  // Shared Categories Data
   const categories = [
     { name: 'Millet Flours', slug: 'flours', color: 'bg-[#1a3a28]', image: dosaMaavuImg },
     { name: 'Herbal Drinks', slug: 'beverages', color: 'bg-[#1a3a28]', image: gheeImg },
@@ -56,15 +50,6 @@ export default function Home() {
     { name: 'Laddus', slug: 'laddus', color: 'bg-[#1a3a28]', image: laddusImg },
     { name: 'Personal Care', slug: 'personal-care', color: 'bg-[#1a3a28]', image: nalunguMaavuImg },
   ];
-
-  const scrollContainer = useRef(null);
-  
-  const scroll = (direction) => {
-    if (scrollContainer.current) {
-      const scrollAmount = direction === 'left' ? -350 : 350;
-      scrollContainer.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
 
   return (
     <div className="bg-[#eaf2eb] min-h-dvh pb-8">
@@ -77,7 +62,6 @@ export default function Home() {
           style={{ scale: bgScale }}
           className="absolute inset-0 bg-gradient-to-br from-[#1a3a28] via-[#0f2418] to-[#2D5A40] z-0 origin-center"
         >
-          {/* Ambient Glows/Blobs for depth behind image */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#2D6A2D] blur-[120px] rounded-full pointer-events-none opacity-40"></div>
           <div className="absolute bottom-0 left-1/4 w-3/4 h-64 bg-white/10 blur-[100px] rounded-full pointer-events-none"></div>
         </motion.div>
@@ -113,7 +97,6 @@ export default function Home() {
               Rooted in Nature, Made with Love.
             </motion.p>
             
-            {/* Action Buttons (Mobile & Desktop) */}
             <motion.div 
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} 
               className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-lg px-4 relative z-40 pointer-events-auto mt-2"
@@ -154,6 +137,281 @@ export default function Home() {
         </section>
       </div>
 
+      {isAuthenticated ? (
+        <LoggedInDashboard user={user} categories={categories} wishlistItems={wishlistItems} cartItems={cartItems} totalPrice={totalPrice} />
+      ) : (
+        <GuestSections categories={categories} />
+      )}
+
+    </div>
+  );
+}
+
+// ---------------------------------------------------------
+// LOGGED IN USER VIEW - "THE WELLNESS DASHBOARD"
+// ---------------------------------------------------------
+function LoggedInDashboard({ user, categories, wishlistItems, cartItems, totalPrice }) {
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good Morning';
+    if (hour < 18) return 'Good Afternoon';
+    return 'Good Evening';
+  };
+
+  const getMilletFact = () => {
+    const facts = [
+      { title: 'Iron Powerhouse', desc: 'Pearl Millet (Kambu) has the highest iron content among all grains, making it a powerful natural remedy to maintain energy levels.' },
+      { title: 'Ancient Heritage', desc: 'Foxtail Millet (Thinai) was deeply revered in ancient Sangam literature and has been a staple in Tamil diets for over 3,000 years.' },
+      { title: 'Calcium Rich', desc: 'Finger Millet (Ragi) contains 3 times more calcium than milk, making it an incredible natural source for bone health in growing children and adults.' },
+      { title: 'Blood Sugar Friendly', desc: 'Millets are completely gluten-free and have a very low glycemic index, providing steady energy without the sugar spikes of polished rice.' },
+      { title: 'Climate Smart', desc: 'Millets require 70% less water than rice. By eating millets, you are directly supporting sustainable, eco-friendly farming practices.' }
+    ];
+    // Use the day of the year to cycle through facts so it changes daily
+    const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+    return facts[dayOfYear % facts.length];
+  };
+
+  const name = user?.name?.split(' ')[0] || 'Friend';
+  const milletFact = getMilletFact();
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16 space-y-12 pb-24">
+      {/* Greeting Header */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="pt-8 pb-4"
+      >
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#1a3a28] mb-2">
+          {getGreeting()}, {name}.
+        </h2>
+        <p className="text-[#4a392f] text-lg opacity-80 font-medium">
+          Welcome back to your natural wellness journey.
+        </p>
+      </motion.div>
+
+      {/* Main Dashboard Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* ROW 1: Your Pantry */}
+        <div className="lg:col-span-2 flex flex-col">
+          <div className="bg-[#faf9f6] rounded-[2rem] p-5 sm:p-6 shadow-inner border border-[#1a3a28]/5 relative overflow-hidden group h-full flex flex-col justify-center">
+            
+            <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-5 relative z-10 gap-4">
+              <div className="flex items-center gap-3">
+                <div className="bg-[#eaf2eb] p-2.5 rounded-2xl shadow-sm border border-white">
+                  <ShoppingBag className="w-5 h-5 text-[#2D5A40]" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-serif font-bold text-[#1a3a28]">
+                    Your Pantry
+                  </h3>
+                  {cartItems && cartItems.length > 0 && (
+                    <p className="text-[10px] font-bold text-[#2D5A40] uppercase tracking-widest mt-0.5">
+                      {cartItems.length} Items • Total ₹{totalPrice}
+                    </p>
+                  )}
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 w-full xl:w-auto overflow-x-auto pb-1 xl:pb-0 [&::-webkit-scrollbar]:hidden">
+                <Link to="/products" className="text-xs font-bold text-[#4a392f] bg-white border border-black/5 hover:border-black/10 px-4 py-2 rounded-full whitespace-nowrap transition-all hover:shadow-sm">
+                  Browse
+                </Link>
+                <Link to="/cart" className="text-xs font-bold text-[#2D5A40] bg-[#eaf2eb] hover:bg-[#d4e6d7] px-4 py-2 rounded-full whitespace-nowrap transition-all">
+                  View Cart
+                </Link>
+                {cartItems && cartItems.length > 0 && (
+                  <Link to="/cart" state={{ openCheckout: true }} className="bg-[#1a3a28] text-white px-5 py-2 rounded-full text-xs font-bold hover:bg-[#2D5A40] transition-all shadow-md hover:shadow-lg whitespace-nowrap flex items-center gap-1.5">
+                    Checkout <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            {cartItems && cartItems.length > 0 ? (
+              <div className="relative">
+                {/* Fade out gradient for scroll indication */}
+                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#faf9f6] to-transparent z-10 pointer-events-none rounded-r-[2rem]"></div>
+                
+                <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden scroll-smooth relative z-0">
+                  {cartItems.map(item => {
+                    const productId = item.product?._id || item.product;
+                    const productImage = item.product?.image;
+                    const category = item.product?.category || 'default';
+                    
+                    const getCategoryIcon = (cat) => {
+                      switch(cat) {
+                        case 'flours': return <Wheat className="w-8 h-8 text-[#2D5A40]" />;
+                        case 'beverages': return <Coffee className="w-8 h-8 text-[#2D5A40]" />;
+                        case 'health-mixes': return <Stethoscope className="w-8 h-8 text-[#2D5A40]" />;
+                        case 'podis': return <Sparkles className="w-8 h-8 text-[#2D5A40]" />;
+                        case 'laddus': return <Cookie className="w-8 h-8 text-[#2D5A40]" />;
+                        case 'personal-care': return <Droplets className="w-8 h-8 text-[#2D5A40]" />;
+                        default: return <Package className="w-8 h-8 text-[#2D5A40]" />;
+                      }
+                    };
+
+                    return (
+                    <Link to={`/product/${productId}`} key={productId} className="min-w-[180px] sm:min-w-[200px] flex-shrink-0 snap-center group/card bg-white border border-black/5 rounded-[1.5rem] p-3 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                      <div className="bg-[#f8fbf8] rounded-[1.25rem] h-32 sm:h-36 mb-3 overflow-hidden relative flex items-center justify-center border border-black/[0.02]">
+                        {productImage ? (
+                          <img src={productImage} alt={item.name} className="w-[85%] h-[85%] object-contain transition-transform duration-500" />
+                        ) : (
+                          <div className="w-[85%] h-[85%] flex items-center justify-center bg-[#f0f7f0] rounded-full border border-[#2D5A40]/10">
+                            {getCategoryIcon(category)}
+                          </div>
+                        )}
+                        
+                        {/* Quantity Badge */}
+                        <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-md text-[#1a3a28] text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full z-20 shadow-sm border border-black/5">
+                          Qty: {item.quantity}
+                        </div>
+                      </div>
+                      <div className="px-2 pb-1">
+                        <p className="font-bold text-[#1a3a28] truncate text-sm mb-1">{item.name}</p>
+                        <p className="text-[#2D5A40] font-bold text-sm">₹{item.price * item.quantity}</p>
+                      </div>
+                    </Link>
+                  )})}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white border border-dashed border-[#a8d3b8] rounded-[1.5rem] p-6 sm:p-8 text-center relative z-10 flex flex-col items-center justify-center h-full">
+                <div className="w-12 h-12 bg-[#eaf2eb] rounded-full flex items-center justify-center mb-3 border-2 border-white shadow-sm">
+                  <Leaf className="w-5 h-5 text-[#2D5A40]" />
+                </div>
+                <h4 className="text-lg font-serif text-[#1a3a28] font-bold mb-1">Your pantry is waiting</h4>
+                <p className="text-[#4a392f] text-xs sm:text-sm opacity-80 mb-5 max-w-sm mx-auto leading-relaxed">
+                  Start filling your virtual shelves with our natural, stone-ground products and traditional wellness items.
+                </p>
+                <Link to="/products" className="inline-flex items-center gap-1.5 bg-[#1a3a28] text-white px-6 py-2.5 rounded-full text-xs font-bold hover:bg-[#2D5A40] transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                  Explore Products <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ROW 1: Wisdom of Millets */}
+        <div className="lg:col-span-1 flex flex-col">
+          <div className="bg-white rounded-[2rem] p-6 sm:p-8 shadow-sm border border-[#1a3a28]/5 relative overflow-hidden group h-full flex flex-col">
+            
+            <h3 className="text-xl font-serif font-bold text-[#1a3a28] mb-6 flex items-center gap-3 relative z-10">
+              <div className="bg-[#eaf2eb] p-2.5 rounded-2xl shadow-sm border border-white">
+                <Wheat className="w-5 h-5 text-[#2D5A40]" />
+              </div>
+              Wisdom of Millets
+            </h3>
+            
+            <div className="relative z-10 flex flex-col h-full">
+              <div className="p-4 bg-[#f8fbf8] rounded-2xl border border-[#a8d3b8]/30 mb-6">
+                <h4 className="font-bold text-[#1a3a28] mb-2 flex items-center gap-2">
+                  {milletFact.title}
+                  <span className="bg-[#eaf2eb] text-[#2D5A40] text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">Daily Fact</span>
+                </h4>
+                <p className="text-sm text-[#4a392f] opacity-80 leading-relaxed">
+                  {milletFact.desc}
+                </p>
+              </div>
+              
+              <Link to="/products?category=flours" className="mt-auto w-full block text-center border-2 border-[#1a3a28] text-[#1a3a28] px-6 py-2.5 rounded-full text-sm font-bold hover:bg-[#1a3a28] hover:text-white transition-colors">
+                Shop Millets
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* ROW 2: Spotlight Category */}
+        <div className="lg:col-span-2 flex flex-col">
+          <div className="bg-[#1a3a28] rounded-[2rem] p-8 sm:p-10 shadow-xl relative overflow-hidden text-white group h-full flex flex-col justify-center">
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-125"></div>
+            
+            <span className="bg-white/10 backdrop-blur-md text-[#a8d3b8] border border-white/20 px-4 py-1.5 rounded-full text-xs font-bold mb-6 inline-flex items-center uppercase tracking-wider w-max">
+              Community Favorite
+            </span>
+
+            <h3 className="text-4xl font-serif font-bold mb-4 leading-tight relative z-10">{categories[0].name}</h3>
+            <p className="text-white/80 text-sm sm:text-base leading-relaxed max-w-[200px] sm:max-w-md mb-8 relative z-10">
+              Currently loved by our community. Wholesome, stone-ground flours to bring the forgotten flavors of our ancestors back to your modern kitchen.
+            </p>
+
+            <div className="flex items-center gap-4 relative z-10">
+              <Link to={`/products?category=${categories[0].slug}`}>
+                <button className="bg-white text-[#1a3a28] px-6 py-3 rounded-full text-sm font-bold hover:bg-[#eaf2eb] transition-colors shadow-lg cursor-pointer">
+                  Shop {categories[0].name}
+                </button>
+              </Link>
+            </div>
+            
+            <img 
+              src={categories[0].image} 
+              alt={categories[0].name} 
+              className="absolute -right-6 -bottom-6 w-40 h-40 sm:-right-10 sm:-bottom-10 sm:w-64 sm:h-64 lg:w-80 lg:h-80 object-contain drop-shadow-2xl opacity-30 sm:opacity-90 pointer-events-none transition-all duration-700 z-0" 
+            />
+          </div>
+        </div>
+
+        {/* ROW 2: Quick Categories */}
+        <div className="lg:col-span-1 flex flex-col">
+          <div className="grid grid-cols-2 gap-4 h-full">
+            {categories.slice(0, 4).map((cat) => (
+              <Link 
+                to={`/products?category=${cat.slug}`} 
+                key={cat.slug}
+                className={`${cat.color} rounded-3xl p-5 relative overflow-hidden group flex flex-col h-full min-h-[160px] shadow-sm border border-black/5 hover:-translate-y-1 transition-all duration-300`}
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-transparent z-0"></div>
+                <h4 className="text-white font-bold z-10 text-sm leading-tight mb-auto drop-shadow-md">
+                  {cat.name}
+                </h4>
+                <img 
+                  src={cat.image} 
+                  alt={cat.name} 
+                  className="absolute -right-4 -bottom-4 w-28 h-28 object-contain z-0 drop-shadow-lg transition-all duration-500" 
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------
+// GUEST VIEW - THE ORIGINAL SECTIONS
+// ---------------------------------------------------------
+function GuestSections({ categories }) {
+  // Section 3: Categories Parallax
+  const sec3Ref = useRef(null);
+  const { scrollYProgress: sec3Progress } = useScroll({ target: sec3Ref, offset: ["start end", "end start"] });
+  const sec3BgYDown = useTransform(sec3Progress, [0, 1], [-200, 200]);
+  const sec3TextY = useTransform(sec3Progress, [0, 1], [100, -100]);
+
+  // Section 4: Bento Grid Parallax
+  const sec4Ref = useRef(null);
+  const { scrollYProgress: sec4Progress } = useScroll({ target: sec4Ref, offset: ["start end", "end start"] });
+  const bento1Y = useTransform(sec4Progress, [0, 1], [50, -50]);
+
+  // Section 5: CTA Parallax
+  const sec5Ref = useRef(null);
+  const { scrollYProgress: sec5Progress } = useScroll({ target: sec5Ref, offset: ["start end", "end end"] });
+  const ctaScale = useTransform(sec5Progress, [0, 1], [0.85, 1]);
+  const ctaBgYUp = useTransform(sec5Progress, [0, 1], [150, -150]);
+
+  const scrollContainer = useRef(null);
+  const scroll = (direction) => {
+    if (scrollContainer.current) {
+      const scrollAmount = direction === 'left' ? -350 : 350;
+      scrollContainer.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <>
       {/* SECTION 2 — MARQUEE STRIP */}
       <section className="bg-[#eaf2eb] text-[#1a3a28] py-4 overflow-hidden whitespace-nowrap border-y border-[#2D5A40]/10">
         <motion.div 
@@ -192,44 +450,25 @@ export default function Home() {
               </p>
             </div>
             <div className="mt-8 md:mt-0 flex-shrink-0 flex items-center gap-4">
-              {/* Desktop Scroll Navigation Buttons */}
               <div className="hidden md:flex gap-3 mr-2">
-                <button 
-                  onClick={() => scroll('left')}
-                  className="p-3 rounded-full border-2 border-[#1a3a28]/10 text-[#1a3a28] hover:bg-[#1a3a28] hover:border-[#1a3a28] hover:text-white transition-all duration-300"
-                  aria-label="Scroll left"
-                >
+                <button onClick={() => scroll('left')} className="p-3 rounded-full border-2 border-[#1a3a28]/10 text-[#1a3a28] hover:bg-[#1a3a28] hover:border-[#1a3a28] hover:text-white transition-all duration-300">
                   <ArrowLeft className="w-5 h-5" />
                 </button>
-                <button 
-                  onClick={() => scroll('right')}
-                  className="p-3 rounded-full border-2 border-[#1a3a28]/10 text-[#1a3a28] hover:bg-[#1a3a28] hover:border-[#1a3a28] hover:text-white transition-all duration-300"
-                  aria-label="Scroll right"
-                >
+                <button onClick={() => scroll('right')} className="p-3 rounded-full border-2 border-[#1a3a28]/10 text-[#1a3a28] hover:bg-[#1a3a28] hover:border-[#1a3a28] hover:text-white transition-all duration-300">
                   <ArrowRight className="w-5 h-5" />
                 </button>
               </div>
               <Link to="/products">
-                <motion.button 
-                  whileHover={{ scale: 1.05 }}
-                  className="bg-white border-2 border-[#1a3a28] text-[#1a3a28] px-8 py-3.5 rounded-full font-bold hover:bg-[#1a3a28] hover:text-white transition-colors shadow-sm"
-                >
+                <motion.button whileHover={{ scale: 1.05 }} className="bg-white border-2 border-[#1a3a28] text-[#1a3a28] px-8 py-3.5 rounded-full font-bold hover:bg-[#1a3a28] hover:text-white transition-colors shadow-sm">
                   Explore All
                 </motion.button>
               </Link>
             </div>
           </motion.div>
           
-          <div 
-            ref={scrollContainer} 
-            className="flex overflow-x-auto gap-4 md:gap-6 pb-12 pt-4 px-2 -mx-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth"
-          >
+          <div ref={scrollContainer} className="flex overflow-x-auto gap-4 md:gap-6 pb-12 pt-4 px-2 -mx-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden scroll-smooth">
             {categories.map((cat) => (
-              <Link 
-                to={`/products?category=${cat.slug}`} 
-                key={cat.slug} 
-                className="shrink-0 snap-center"
-              >
+              <Link to={`/products?category=${cat.slug}`} key={cat.slug} className="shrink-0 snap-center">
                 <motion.div 
                   className={`${cat.color} w-44 h-64 sm:w-56 sm:h-80 md:w-72 md:h-[26rem] rounded-[2rem] p-6 md:p-8 relative overflow-hidden flex flex-col cursor-pointer border border-black/5 group-hover:shadow-2xl transition-all duration-300`}
                   whileHover={{ y: -10, scale: 1.02, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)" }}
@@ -251,9 +490,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 4 — WHY CHOOSE US (EDITORIAL PILLARS) */}
+      {/* SECTION 4 — WHY CHOOSE US */}
       <section ref={sec4Ref} className="bg-[#1a3a28] min-h-dvh flex flex-col justify-center py-12 sm:py-20 relative overflow-hidden text-[#FDFAF5]">
-        {/* Abstract subtle background element */}
         <motion.div style={{ y: bento1Y }} className="absolute -left-40 top-20 pointer-events-none opacity-[0.03]">
           <Leaf className="w-[500px] h-[500px]" />
         </motion.div>
@@ -276,59 +514,28 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col border-t border-white/10">
-            {/* Pillar 1 */}
-            <div className="group border-b border-white/10 py-6 sm:py-10 relative overflow-hidden transition-all duration-500 hover:bg-white/[0.03]">
-              <div className="absolute right-10 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-700 -translate-x-10 group-hover:translate-x-0 pointer-events-none hidden md:block">
-                <Heart className="w-32 h-32 text-[#a8d3b8] opacity-10" />
-              </div>
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12 relative z-10">
-                <div className="text-5xl sm:text-7xl font-serif font-bold text-white/10 group-hover:text-white/30 transition-colors duration-500 w-24">
-                  01
+            {[
+              { num: '01', title: 'Homemade with Love', desc: 'No massive factories, no artificial preservatives. Every product is crafted with the same authentic care and attention as food made in your own kitchen.', icon: Heart },
+              { num: '02', title: '100% Natural', desc: 'We rely strictly on traditional recipes passed down through generations. Zero chemical additives, zero shortcuts. Just pure, unadulterated nature.', icon: Droplets },
+              { num: '03', title: 'Fresh on Order', desc: 'We don\'t believe in aged inventory. Your order is prepared fresh specifically for you, ensuring maximum nutritional value and taste upon arrival.', icon: Package }
+            ].map((pillar) => (
+              <div key={pillar.num} className="group border-b border-white/10 py-6 sm:py-10 relative overflow-hidden transition-all duration-500 hover:bg-white/[0.03]">
+                <div className="absolute right-10 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-700 -translate-x-10 group-hover:translate-x-0 pointer-events-none hidden md:block">
+                  <pillar.icon className="w-32 h-32 text-[#a8d3b8] opacity-10" />
                 </div>
-                <div className="flex-1 md:pr-40">
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4 group-hover:text-[#a8d3b8] transition-colors duration-300">Homemade with Love</h3>
-                  <p className="text-[#a8d3b8]/80 text-sm sm:text-base leading-relaxed max-w-2xl font-medium">
-                    No massive factories, no artificial preservatives. Every product is crafted with the same authentic care and attention as food made in your own kitchen.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Pillar 2 */}
-            <div className="group border-b border-white/10 py-6 sm:py-10 relative overflow-hidden transition-all duration-500 hover:bg-white/[0.03]">
-              <div className="absolute right-10 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-700 -translate-x-10 group-hover:translate-x-0 pointer-events-none hidden md:block">
-                <Droplets className="w-32 h-32 text-[#a8d3b8] opacity-10" />
-              </div>
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12 relative z-10">
-                <div className="text-5xl sm:text-7xl font-serif font-bold text-white/10 group-hover:text-white/30 transition-colors duration-500 w-24">
-                  02
-                </div>
-                <div className="flex-1 md:pr-40">
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4 group-hover:text-[#a8d3b8] transition-colors duration-300">100% Natural</h3>
-                  <p className="text-[#a8d3b8]/80 text-sm sm:text-base leading-relaxed max-w-2xl font-medium">
-                    We rely strictly on traditional recipes passed down through generations. Zero chemical additives, zero shortcuts. Just pure, unadulterated nature.
-                  </p>
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12 relative z-10">
+                  <div className="text-5xl sm:text-7xl font-serif font-bold text-white/10 group-hover:text-white/30 transition-colors duration-500 w-24">
+                    {pillar.num}
+                  </div>
+                  <div className="flex-1 md:pr-40">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4 group-hover:text-[#a8d3b8] transition-colors duration-300">{pillar.title}</h3>
+                    <p className="text-[#a8d3b8]/80 text-sm sm:text-base leading-relaxed max-w-2xl font-medium">
+                      {pillar.desc}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Pillar 3 */}
-            <div className="group border-b border-white/10 py-6 sm:py-10 relative overflow-hidden transition-all duration-500 hover:bg-white/[0.03]">
-              <div className="absolute right-10 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-700 -translate-x-10 group-hover:translate-x-0 pointer-events-none hidden md:block">
-                <Package className="w-32 h-32 text-[#a8d3b8] opacity-10" />
-              </div>
-              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12 relative z-10">
-                <div className="text-5xl sm:text-7xl font-serif font-bold text-white/10 group-hover:text-white/30 transition-colors duration-500 w-24">
-                  03
-                </div>
-                <div className="flex-1 md:pr-40">
-                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-4 group-hover:text-[#a8d3b8] transition-colors duration-300">Fresh on Order</h3>
-                  <p className="text-[#a8d3b8]/80 text-sm sm:text-base leading-relaxed max-w-2xl font-medium">
-                    We don't believe in aged inventory. Your order is prepared fresh specifically for you, ensuring maximum nutritional value and taste upon arrival.
-                  </p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -336,15 +543,11 @@ export default function Home() {
       {/* SECTION 5 — CTA BANNER & REVIEWS */}
       <section ref={sec5Ref} className="bg-[#eaf2eb] py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 xl:px-16 relative overflow-hidden">
         <motion.div style={{ scale: ctaScale }} className="max-w-7xl mx-auto bg-[#1a3a28] rounded-[2rem] sm:rounded-[3rem] p-8 sm:p-12 lg:p-20 relative overflow-hidden shadow-2xl origin-bottom">
-           
-           {/* Background Texture/Art */}
            <motion.div style={{ y: ctaBgYUp }} className="absolute -right-20 -top-20 pointer-events-none z-0 opacity-5">
              <Heart className="w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] text-white -rotate-12" />
            </motion.div>
 
            <div className="flex flex-col lg:flex-row justify-between items-center gap-16 lg:gap-20 relative z-10">
-             
-             {/* Left: Huge Typography CTA */}
              <div className="flex-1 max-w-2xl w-full">
                <span className="text-[#a8d3b8] tracking-[0.2em] uppercase text-xs sm:text-sm font-bold mb-6 block">
                  Embrace the Tradition
@@ -375,7 +578,6 @@ export default function Home() {
                </div>
              </div>
 
-             {/* Right: The Google Review Card */}
              <div className="w-full lg:w-[420px] shrink-0">
                <div className="bg-[#eaf2eb] rounded-[2rem] p-8 sm:p-10 shadow-2xl relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 border border-white/40">
                   <div className="absolute -right-6 -top-6 w-32 h-32 bg-[#4285F4]/10 rounded-full blur-2xl transition-all duration-500 group-hover:scale-150"></div>
@@ -417,6 +619,6 @@ export default function Home() {
            </div>
         </motion.div>
       </section>
-    </div>
+    </>
   );
 }
