@@ -14,10 +14,13 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : ['http://localhost:5173'];
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV === 'development') {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.warn(`CORS blocked request from origin: ${origin}`);
+      const error = new Error(`Not allowed by CORS. Origin: ${origin}`);
+      error.status = 403;
+      callback(error);
     }
   },
   credentials: true
@@ -58,6 +61,38 @@ app.use((req, res, next) => {
 });
 app.use(mongoSanitize());
 
+// Database Connection Middleware for Serverless Environment
+let isConnected = false;
+const connectDB = async () => {
+  if (isConnected) return;
+  const mongoUri = process.env.MONGO_URI;
+  if (!mongoUri) {
+    throw new Error('MONGO_URI is not defined in the environment variables');
+  }
+  try {
+    const db = await mongoose.connect(mongoUri);
+    isConnected = db.connections[0].readyState === 1;
+    console.log('Successfully connected to MongoDB');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw error;
+  }
+};
+
+app.use(async (req, res, next) => {
+  // Only connect to DB for API routes, skip for basic health check or others if needed
+  if (req.path.startsWith('/api/') && req.path !== '/api/health') {
+    try {
+      await connectDB();
+      next();
+    } catch (err) {
+      next(err);
+    }
+  } else {
+    next();
+  }
+});
+
 const productRoutes = require('./routes/products');
 const authRoutes = require('./routes/auth');
 const cartRoutes = require('./routes/cart');
@@ -77,25 +112,12 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// Database Connection & Server Start
-const mongoUri = process.env.MONGO_URI;
-if (!mongoUri) {
-  console.error('MONGO_URI is not defined in the environment variables');
-  process.exit(1);
-}
-
-mongoose.connect(mongoUri)
-  .then(() => {
-    console.log('Successfully connected to MongoDB');
-    if (process.env.NODE_ENV !== 'production') {
-      app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
-      });
-    }
-  })
-  .catch((error) => {
-    console.error('MongoDB connection error:', error);
+// Server Start for Local Development
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
+}
 
 // Global Error Handler
 app.use((err, req, res, next) => {
