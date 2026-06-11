@@ -3,6 +3,8 @@ import { Suspense, lazy, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import InstallPWA from './components/InstallPWA';
+import PushNotificationManager from './components/PushNotificationManager';
 import { Loader2 } from 'lucide-react';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -105,6 +107,8 @@ function App() {
         </Suspense>
       </main>
       <ConditionalFooter />
+      <InstallPWA />
+      <PushNotificationManager />
     </Router>
   );
 }

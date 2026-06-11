@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
   verificationOTP: { type: String },
   otpExpiresAt: { type: Date },
   wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
+  pushSubscriptions: { type: Array, default: [] },
   createdAt: { type: Date, default: Date.now }
 });
 

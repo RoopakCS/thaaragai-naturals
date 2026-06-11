@@ -40,7 +40,7 @@ export default function Footer() {
               </Link>
               
               {/* Social Links */}
-              <a href="https://instagram.com/thaaragainaturals" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-[#a8d3b8] hover:border-[#a8d3b8] hover:text-[#041209] transition-all duration-300 text-white/80 group flex items-center justify-center">
+              <a href="https://instagram.com/thaaragai.naturals" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-[#a8d3b8] hover:border-[#a8d3b8] hover:text-[#041209] transition-all duration-300 text-white/80 group flex items-center justify-center">
                 <svg className="w-4 h-4 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
                 </svg>

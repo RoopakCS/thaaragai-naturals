@@ -30,6 +30,14 @@ router.post('/', verifyToken, async (req, res) => {
       await cart.save();
     }
     
+    // Notify admins asynchronously
+    const { sendNotificationToAdmins } = require('../utils/push');
+    sendNotificationToAdmins({
+      title: 'New Order Received!',
+      body: `Order ${orderNumber} has been placed.`,
+      url: '/admin/orders'
+    }).catch(err => console.error('Failed to send admin push notification', err));
+
     res.status(201).json(order);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

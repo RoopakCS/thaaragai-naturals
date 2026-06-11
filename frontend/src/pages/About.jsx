@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import heroImage from '../assets/product-hero.webp';
@@ -7,6 +8,23 @@ import heroImageMobile from '../assets/Website Hero Image - Mobile.webp';
 import { Leaf, Heart, ShieldCheck, Clock } from 'lucide-react';
 
 export default function About() {
+  const [formData, setFormData] = useState({ name: '', phone: '', comment: '' });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.comment) return;
+    
+    const text = `Hello Thaaragai Naturals!%0A%0A*Name:* ${formData.name}%0A*Phone:* ${formData.phone}%0A*Message:* ${formData.comment}`;
+    window.open(`https://wa.me/919952981365?text=${text}`, '_blank');
+    
+    setFormData({ name: '', phone: '', comment: '' });
+  };
+
   return (
     <div className="bg-[#eaf2eb] min-h-dvh font-sans pb-24 overflow-hidden">
       
@@ -143,10 +161,14 @@ export default function About() {
           {/* Form */}
           <div className="md:w-1/2 w-full">
             <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#1a3a28] mb-12">Get in touch</h2>
-            <form className="flex flex-col gap-8">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-8">
               <div className="relative">
                 <input 
                   type="text" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Name" 
                   className="w-full border-b-2 border-gray-300 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] placeholder-gray-400 font-medium"
                 />
@@ -154,22 +176,29 @@ export default function About() {
               <div className="relative">
                 <input 
                   type="tel" 
-                  placeholder="Phone" 
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Phone (Optional)" 
                   className="w-full border-b-2 border-gray-300 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] placeholder-gray-400 font-medium"
                 />
               </div>
               <div className="relative">
                 <input 
                   type="text" 
-                  placeholder="Comment" 
+                  name="comment"
+                  value={formData.comment}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Message" 
                   className="w-full border-b-2 border-gray-300 py-3 bg-transparent focus:outline-none focus:border-[#2D5A40] transition-colors text-lg text-[#1a3a28] placeholder-gray-400 font-medium"
                 />
               </div>
               <button 
-                type="button"
+                type="submit"
                 className="bg-[#1a3a28] text-white px-10 py-4 rounded-full font-bold hover:bg-[#2D5A40] transition-colors mt-6 self-start md:w-auto w-full text-lg shadow-lg"
               >
-                Send Message
+                Send Message via WhatsApp
               </button>
             </form>
           </div>

@@ -106,7 +106,7 @@ Message: ${formData.message}`;
 
             {/* Instagram Card */}
             <motion.a 
-              href="https://instagram.com/thaaragainaturals"
+              href="https://instagram.com/thaaragai.naturals"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}
@@ -121,7 +121,7 @@ Message: ${formData.message}`;
                 <h3 className="text-xl font-bold text-[#1a3a28] mb-2">Follow our journey</h3>
                 <p className="text-gray-500 font-medium mb-3">Join our growing community.</p>
                 <div className="text-[#2D5A40] font-bold flex items-center gap-2 group-hover:text-[#1a3a28] transition-colors break-all">
-                  @thaaragainaturals <ArrowRight className="w-4 h-4 shrink-0 hidden sm:block" />
+                  @thaaragai.naturals <ArrowRight className="w-4 h-4 shrink-0 hidden sm:block" />
                 </div>
               </div>
             </motion.a>

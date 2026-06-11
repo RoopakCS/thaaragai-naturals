@@ -30,12 +30,22 @@ router.put('/orders/:id/status', async (req, res) => {
       req.params.id,
       { status },
       { new: true }
-    ).populate('user', 'name email');
+    ).populate('user', 'name email pushSubscriptions'); // also populate pushSubscriptions if user is not fully populated, but User schema defines it.
     
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });
     }
     
+    // Notify customer
+    if (order.user) {
+      const { sendNotificationToUser } = require('../utils/push');
+      sendNotificationToUser(order.user, {
+        title: 'Order Status Updated',
+        body: `Your order ${order.orderNumber} is now ${status}.`,
+        url: '/orders'
+      }).catch(err => console.error('Failed to send push notification to user', err));
+    }
+
     res.status(200).json(order);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

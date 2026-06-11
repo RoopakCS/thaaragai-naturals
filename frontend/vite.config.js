@@ -18,6 +18,9 @@ export default defineConfig({
       ext: '.br',
     }),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.js',
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', '180x180.png', 'Tharagai.png'],
       manifest: {
@@ -25,7 +28,7 @@ export default defineConfig({
         short_name: 'Thaaragai',
         description: 'Experience the pure essence of traditional Tamil wisdom, crafted with love in Ramanathapuram.',
         theme_color: '#a8d3b8',
-        background_color: '#041209',
+        background_color: '#ffffff',
         display: 'standalone',
         icons: [
           {

@@ -382,4 +382,32 @@ const toggleWishlist = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout, getProfile, updateProfile, verifyOTP, resendOTP, googleAuth, getWishlist, toggleWishlist };
+const subscribePush = async (req, res) => {
+  try {
+    const { subscription } = req.body;
+    if (!subscription) {
+      return res.status(400).json({ message: 'Subscription is required' });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Check if subscription already exists to prevent duplicates
+    const exists = user.pushSubscriptions.some(
+      sub => sub.endpoint === subscription.endpoint
+    );
+
+    if (!exists) {
+      user.pushSubscriptions.push(subscription);
+      await user.save();
+    }
+
+    res.status(200).json({ message: 'Push subscription saved successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { register, login, logout, getProfile, updateProfile, verifyOTP, resendOTP, googleAuth, getWishlist, toggleWishlist, subscribePush };
