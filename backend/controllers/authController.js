@@ -349,4 +349,37 @@ const googleAuth = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout, getProfile, updateProfile, verifyOTP, resendOTP, googleAuth };
+const getWishlist = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate('wishlist');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user.wishlist);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const toggleWishlist = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const index = user.wishlist.indexOf(productId);
+    if (index === -1) {
+      user.wishlist.push(productId);
+    } else {
+      user.wishlist.splice(index, 1);
+    }
+
+    await user.save();
+    
+    // Return the updated populated wishlist
+    const updatedUser = await User.findById(req.user.id).populate('wishlist');
+    res.json(updatedUser.wishlist);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { register, login, logout, getProfile, updateProfile, verifyOTP, resendOTP, googleAuth, getWishlist, toggleWishlist };

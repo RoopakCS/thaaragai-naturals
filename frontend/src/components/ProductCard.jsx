@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets, Loader2, Leaf, X } from 'lucide-react';
+import { Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets, Loader2, Leaf, X, Heart } from 'lucide-react';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
+import { useWishlistStore } from '../store/wishlistStore';
 import NutritionPanel from './NutritionPanel';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -21,9 +22,25 @@ export default function ProductCard({ product }) {
   const [added, setAdded] = useState(false);
   const addItem = useCartStore(state => state.addItem);
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const { toggleWishlist, isInWishlist } = useWishlistStore();
   const navigate = useNavigate();
   const [isAdding, setIsAdding] = useState(false);
   const [showNutrition, setShowNutrition] = useState(false);
+  const isWishlisted = isInWishlist(product._id);
+
+  const handleToggleWishlist = async (e) => {
+    e.stopPropagation();
+    if (!isAuthenticated) {
+      alert("Please login to add to wishlist");
+      navigate('/login');
+      return;
+    }
+    try {
+      await toggleWishlist(product._id);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const hasLabData = product.labTested || product.fssaiCompliant || product.nablAccredited || product.nutritionPer100g;
 
@@ -72,6 +89,13 @@ export default function ProductCard({ product }) {
            {/* Badges absolute top */}
            <div className="absolute top-4 left-4 flex flex-col gap-2">
            </div>
+           
+           <button 
+             onClick={handleToggleWishlist}
+             className={`absolute top-4 right-4 z-10 bg-white/80 backdrop-blur p-2 rounded-full shadow-sm transition-colors group ${isWishlisted ? 'text-red-500 hover:bg-red-50' : 'text-gray-400 hover:text-red-500 hover:bg-red-50'}`}
+           >
+             <Heart size={18} fill={isWishlisted ? "currentColor" : "none"} className="transition-colors" />
+           </button>
          </div>
 
          {/* Content Area */}

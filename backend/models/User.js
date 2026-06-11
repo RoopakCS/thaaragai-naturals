@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   wantsNewsletter: { type: Boolean, default: false },
   verificationOTP: { type: String },
   otpExpiresAt: { type: Date },
+  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
   createdAt: { type: Date, default: Date.now }
 });
 

@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Phone, Mail, MapPin } from 'lucide-react';
+import { useAuthStore } from '../store/authStore';
 
 export default function Footer() {
+  const { isAuthenticated } = useAuthStore();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -19,7 +21,8 @@ export default function Footer() {
             <img 
               src="/Tharagai.png" 
               alt="Thaaragai Naturals" 
-              className="h-16 sm:h-20 lg:h-24 w-auto brightness-0 invert opacity-95 mb-6" 
+              draggable="false"
+              className="h-16 sm:h-20 lg:h-24 w-auto brightness-0 invert opacity-95 mb-6 select-none" 
             />
             <p className="text-[#a8d3b8]/80 text-base sm:text-lg font-light mb-8 max-w-sm leading-relaxed">
               Experience the pure essence of traditional Tamil wisdom, crafted with love in Ramanathapuram.
@@ -49,11 +52,18 @@ export default function Footer() {
           <div className="lg:col-span-3 lg:col-start-7">
             <h3 className="text-xs uppercase tracking-[0.2em] text-[#a8d3b8]/50 mb-6 font-semibold">Explore</h3>
             <ul className="space-y-4">
-              {[
-                { name: 'Home', path: '/' },
-                { name: 'Our Products', path: '/products' },
-                { name: 'Our Story', path: '/about' }
-              ].map((item) => (
+              {(isAuthenticated 
+                ? [
+                    { name: 'Shop All', path: '/products' },
+                    { name: 'My Orders', path: '/orders' },
+                    { name: 'My Profile', path: '/profile' }
+                  ]
+                : [
+                    { name: 'Home', path: '/' },
+                    { name: 'Our Products', path: '/products' },
+                    { name: 'Our Story', path: '/about' }
+                  ]
+              ).map((item) => (
                 <li key={item.name}>
                   <Link 
                     to={item.path} 

@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Menu, X, User } from 'lucide-react';
+import { ShoppingCart, Menu, X, User, Heart } from 'lucide-react';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
+import { useWishlistStore } from '../store/wishlistStore';
 import logo from '../assets/logos/Tharagai.png';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { totalItems, fetchCart } = useCartStore();
+  const { fetchWishlist, items: wishlistItems } = useWishlistStore();
   const { user, isAuthenticated, logout } = useAuthStore();
   const location = useLocation();
   const navigate = useNavigate();
@@ -15,15 +17,20 @@ export default function Navbar() {
   useEffect(() => {
     if (isAuthenticated) {
       fetchCart();
+      fetchWishlist();
     }
-  }, [isAuthenticated, fetchCart]);
+  }, [isAuthenticated, fetchCart, fetchWishlist]);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Products', path: '/products' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
-  ];
+  const navLinks = isAuthenticated 
+    ? [
+        { name: 'Shop All', path: '/products' }
+      ]
+    : [
+        { name: 'Home', path: '/' },
+        { name: 'Products', path: '/products' },
+        { name: 'About', path: '/about' },
+        { name: 'Contact', path: '/contact' },
+      ];
 
   return (
     <nav className="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-md py-3 sm:py-4 px-4 sm:px-6 lg:px-8 xl:px-16 transition-all duration-300">
@@ -31,7 +38,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-8 sm:h-10">
           {/* Brand - Logo */}
           <div className="flex-1 flex justify-start">
-            <Link to="/" className="hover:opacity-80 transition-opacity flex items-center shrink-0">
+            <Link to={isAuthenticated ? '/products' : '/'} className="hover:opacity-80 transition-opacity flex items-center shrink-0">
               <img src={logo} alt="Thaaragai Naturals Logo" className="h-8 sm:h-10 w-auto object-contain" />
             </Link>
           </div>
@@ -66,9 +73,19 @@ export default function Navbar() {
             )}
 
             {isAuthenticated ? (
-              <Link to="/profile" className="hover:opacity-60 transition-opacity flex items-center">
-                <User className="w-[20px] h-[20px]" strokeWidth={1.5} />
-              </Link>
+              <>
+                <Link to="/wishlist" className="relative hover:opacity-60 transition-opacity flex items-center">
+                  <Heart className="w-[20px] h-[20px]" strokeWidth={1.5} />
+                  {wishlistItems?.length > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-[#e03b3b] text-white text-[10px] font-bold rounded-full w-[16px] h-[16px] flex items-center justify-center shadow-sm">
+                      {wishlistItems.length}
+                    </span>
+                  )}
+                </Link>
+                <Link to="/profile" className="hover:opacity-60 transition-opacity flex items-center">
+                  <User className="w-[20px] h-[20px]" strokeWidth={1.5} />
+                </Link>
+              </>
             ) : (
               <Link to="/login" className="hover:opacity-60 transition-opacity">
                 <User className="w-[20px] h-[20px]" strokeWidth={1.5} />

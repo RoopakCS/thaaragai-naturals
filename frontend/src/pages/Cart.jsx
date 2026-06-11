@@ -5,6 +5,7 @@ import { useAuthStore } from '../store/authStore';
 import axiosInstance from '../utils/axiosInstance';
 import { Wheat, Coffee, Stethoscope, Sparkles, Cookie, Package, Box, Droplets, Trash2, Loader2, Minus, Plus, MapPin, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ProductCard from '../components/ProductCard';
 
 const categoryIcons = {
   'flours': Wheat,
@@ -25,6 +26,22 @@ export default function Cart() {
   const [updatingId, setUpdatingId] = useState(null);
   const [isOrdering, setIsOrdering] = useState(false);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [suggestedProducts, setSuggestedProducts] = useState([]);
+  
+  useEffect(() => {
+    if (items.length === 0 && suggestedProducts.length === 0) {
+      const fetchSuggested = async () => {
+        try {
+          const res = await axiosInstance.get('/api/products');
+          const inStock = res.data.filter(p => p.inStock);
+          setSuggestedProducts(inStock.slice(0, 4));
+        } catch(e) {
+          console.error(e);
+        }
+      }
+      fetchSuggested();
+    }
+  }, [items.length, suggestedProducts.length]);
   
   // Checkout Form State
   const [checkoutForm, setCheckoutForm] = useState({
@@ -145,7 +162,7 @@ export default function Cart() {
         </div>
 
         <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-16 -mt-20 sm:-mt-24 text-center">
-          <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl p-12 sm:p-20 border border-gray-100 flex flex-col items-center justify-center">
+          <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl p-12 sm:p-20 border border-gray-100 flex flex-col items-center justify-center mb-12">
             <div className="bg-gray-50 rounded-full p-8 mb-6 inline-block">
               <Package className="w-20 h-20 text-gray-300" />
             </div>
@@ -158,6 +175,19 @@ export default function Cart() {
               Browse Products
             </Link>
           </div>
+
+          {/* Suggested Products Section */}
+          {suggestedProducts.length > 0 && (
+            <div className="text-left mt-16">
+              <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1a3a28] mb-8">Popular Right Now</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 text-left">
+                {suggestedProducts.map((p) => (
+                  <ProductCard key={p._id} product={p} />
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
     );

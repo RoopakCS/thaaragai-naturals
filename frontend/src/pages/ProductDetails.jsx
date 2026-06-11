@@ -21,30 +21,55 @@ import axiosInstance from '../utils/axiosInstance';
 import heroImage from '../assets/product-hero.webp';
 import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
+import { useWishlistStore } from '../store/wishlistStore';
 import NutritionPanel from '../components/NutritionPanel';
+import ProductCard from '../components/ProductCard';
 
 export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   
   const addItem = useCartStore(state => state.addItem);
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const { toggleWishlist, isInWishlist } = useWishlistStore();
   const [isAdding, setIsAdding] = useState(false);
   const [added, setAdded] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const isWishlisted = product ? isInWishlist(product._id) : false;
 
   // Review states
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
   const [submittingReview, setSubmittingReview] = useState(false);
 
+  const handleToggleWishlist = async () => {
+    if (!isAuthenticated) {
+      alert("Please login to add to wishlist");
+      navigate('/login');
+      return;
+    }
+    try {
+      await toggleWishlist(product._id);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const response = await axiosInstance.get(`/api/products/${id}`);
         setProduct(response.data);
+        
+        // Fetch related products
+        const allProductsRes = await axiosInstance.get('/api/products');
+        const related = allProductsRes.data
+          .filter(p => p.category === response.data.category && p._id !== response.data._id && p.inStock)
+          .slice(0, 4);
+        setRelatedProducts(related);
       } catch (error) {
         console.error('Failed to fetch product:', error);
       } finally {
@@ -229,8 +254,17 @@ export default function ProductDetails() {
                   title="Order via WhatsApp"
                 >
                   <MessageCircle size={24} className="mr-2 sm:mr-0" />
-                  <span className="sm:hidden font-bold">Buy via WhatsApp</span>
+                  <span className="sm:hidden">Order via WhatsApp</span>
                 </a>
+                
+                <button
+                  onClick={handleToggleWishlist}
+                  className={`p-4 rounded-full font-bold shadow-lg transition-colors shrink-0 w-full sm:w-auto flex items-center justify-center group ${isWishlisted ? 'bg-red-50 text-red-500' : 'bg-gray-100 text-gray-500 hover:bg-red-50 hover:text-red-500'}`}
+                  title={isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+                >
+                  <Heart size={24} fill={isWishlisted ? "currentColor" : "none"} className="mr-2 sm:mr-0 transition-colors" />
+                  <span className="sm:hidden">{isWishlisted ? "Wishlisted" : "Add to Wishlist"}</span>
+                </button>
               </div>
             ) : (
               <a
@@ -331,6 +365,20 @@ export default function ProductDetails() {
           </div>
 
         </div>
+      </div>
+
+      {/* Related Products Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16">
+        {relatedProducts.length > 0 && (
+          <div className="mt-16 sm:mt-24">
+            <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1a3a28] mb-8">You Might Also Like</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+              {relatedProducts.map((relProduct) => (
+                <ProductCard key={relProduct._id} product={relProduct} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Write Review Modal */}

@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useAuthStore } from '../store/authStore';
 import heroImage from '../assets/product-hero.webp';
 import spllingGhee from '../assets/splling-ghee.webp'
 import shopBanner from '../assets/shop-banner.webp'
@@ -7,6 +9,15 @@ import heroImageMobile from '../assets/Website Hero Image - Mobile.webp';
 import { Leaf, Heart, ShieldCheck, Clock } from 'lucide-react';
 
 export default function About() {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuthStore();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/products');
+    }
+  }, [isAuthenticated, navigate]);
+
   return (
     <div className="bg-[#eaf2eb] min-h-dvh font-sans pb-24 overflow-hidden">
       

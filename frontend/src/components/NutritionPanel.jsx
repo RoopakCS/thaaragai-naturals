@@ -127,24 +127,24 @@ export default function NutritionPanel({ nutritionPer100g, labTested, fssaiCompl
       </div>
 
       {/* SECTION 3 - Quick Facts */}
-      <div className="grid grid-cols-3 gap-0 mb-8 bg-white border border-[#F2E8D5] rounded-[1.5rem] overflow-hidden shadow-sm">
-        <div className="text-center p-4">
-          <div className="font-serif font-bold text-2xl text-[#1a3a28]">
+      <div className="grid grid-cols-3 gap-0 mb-8 bg-white border border-[#F2E8D5] rounded-[1.5rem] overflow-hidden shadow-sm items-stretch">
+        <div className="text-center p-3 sm:p-4 flex flex-col justify-center items-center h-full">
+          <div className="font-serif font-bold text-xl sm:text-2xl text-[#1a3a28] leading-none mb-1">
             {caloriesPerServing !== null ? caloriesPerServing : '--'}
           </div>
-          <div className="text-[9px] font-bold uppercase tracking-widest text-[#2D5A40] mt-1">
+          <div className="text-[8px] sm:text-[9px] font-bold uppercase tracking-widest text-[#2D5A40] mt-1 text-center">
             Kcal / Serving
           </div>
         </div>
-        <div className="text-center p-4 border-l border-[#F2E8D5]">
-          <div className="font-serif font-bold text-2xl text-[#1a3a28]">{proteinGrade}</div>
-          <div className="text-[9px] font-bold uppercase tracking-widest text-[#2D5A40] mt-1">
+        <div className="text-center p-3 sm:p-4 border-l border-[#F2E8D5] flex flex-col justify-center items-center h-full">
+          <div className="font-serif font-bold text-xl sm:text-2xl text-[#1a3a28] leading-none mb-1">{proteinGrade}</div>
+          <div className="text-[8px] sm:text-[9px] font-bold uppercase tracking-widest text-[#2D5A40] mt-1 text-center">
             Protein
           </div>
         </div>
-        <div className="text-center p-4 border-l border-[#F2E8D5]">
-          <div className="font-serif font-bold text-2xl text-[#1a3a28]">{sugarStatus}</div>
-          <div className="text-[9px] font-bold uppercase tracking-widest text-[#2D5A40] mt-1">
+        <div className="text-center p-3 sm:p-4 border-l border-[#F2E8D5] flex flex-col justify-center items-center h-full">
+          <div className="font-serif font-bold text-xl sm:text-2xl text-[#1a3a28] leading-none mb-1">{sugarStatus}</div>
+          <div className="text-[8px] sm:text-[9px] font-bold uppercase tracking-widest text-[#2D5A40] mt-1 text-center">
             Sugar
           </div>
         </div>

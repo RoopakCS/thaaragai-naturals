@@ -19,6 +19,8 @@ const Profile = lazy(() => import('./pages/Profile'));
 const VerifyOTP = lazy(() => import('./pages/VerifyOTP'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
+const Wishlist = lazy(() => import('./pages/Wishlist'));
+
 function PageLoader() {
   return (
     <div className="min-h-dvh flex items-center justify-center bg-[#eaf2eb]">
@@ -29,7 +31,7 @@ function PageLoader() {
 
 function ConditionalFooter() {
   const location = useLocation();
-  const hideFooterRoutes = ['/login', '/register', '/admin', '/cart', '/orders', '/products'];
+  const hideFooterRoutes = ['/login', '/register', '/admin', '/cart', '/orders', '/products', '/wishlist'];
   
   const shouldHide = 
     hideFooterRoutes.includes(location.pathname) || 
@@ -54,6 +56,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+            <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { register, login, getProfile, updateProfile, verifyOTP, resendOTP, logout, googleAuth } = require('../controllers/authController');
+const { register, login, getProfile, updateProfile, verifyOTP, resendOTP, logout, googleAuth, getWishlist, toggleWishlist } = require('../controllers/authController');
 const { verifyToken } = require('../middleware/auth');
 
 // Note: try { } catch (e) {} error handling and validate() res.status() are inside controllers
@@ -12,5 +12,7 @@ router.post('/verify-otp', verifyOTP);
 router.post('/resend-otp', resendOTP);
 router.get('/profile', verifyToken, getProfile);
 router.put('/profile', verifyToken, updateProfile);
+router.get('/wishlist', verifyToken, getWishlist);
+router.post('/wishlist/:productId', verifyToken, toggleWishlist);
 
 module.exports = router;
