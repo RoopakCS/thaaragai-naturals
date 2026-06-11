@@ -334,7 +334,7 @@ export default function Admin() {
                   <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse min-w-[800px]">
                       <thead>
-                        <tr className="bg-[#eaf2eb] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
+                        <tr className="bg-white text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
                           <th className="p-5 pl-8 font-bold">Order Details</th>
                           <th className="p-5 font-bold">Customer</th>
                           <th className="p-5 font-bold">Amount</th>
@@ -438,7 +438,7 @@ export default function Admin() {
                 <div className="bg-white shadow-sm rounded-[2rem] overflow-hidden border border-gray-100 flex flex-col">
                   
                   {/* Toolbar */}
-                  <div className="p-6 border-b border-gray-100 bg-[#eaf2eb] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                  <div className="p-6 border-b border-gray-100 bg-white flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     <div className="flex flex-col sm:flex-row gap-3 flex-1">
                       <div className="relative flex-1 sm:max-w-xs">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -478,7 +478,7 @@ export default function Admin() {
                   <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse min-w-[800px]">
                       <thead>
-                        <tr className="bg-[#eaf2eb] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
+                        <tr className="bg-white text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
                           <th className="p-5 pl-8 font-bold">Product</th>
                           <th className="p-5 font-bold">Category</th>
                           <th className="p-5 font-bold">Price</th>
@@ -615,7 +615,7 @@ export default function Admin() {
                   <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse min-w-[700px]">
                       <thead>
-                        <tr className="bg-[#eaf2eb] text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
+                        <tr className="bg-white text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
                           <th className="p-5 pl-8 font-bold">Customer Details</th>
                           <th className="p-5 font-bold">Contact</th>
                           <th className="p-5 font-bold">Role</th>
@@ -891,7 +891,12 @@ export default function Admin() {
                     className="bg-[#2D6A2D] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#1a3a28] transition-colors flex items-center shadow-md"
                   >
                     {isSaving ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : (editingId ? <Edit2 className="w-5 h-5 mr-2" /> : <Plus className="w-5 h-5 mr-2" />)}
-                    {editingId ? 'Save Changes' : 'Add Product'}
+                    {editingId ? (
+                      <>
+                        <span className="hidden sm:inline">Save Changes</span>
+                        <span className="sm:hidden">Save</span>
+                      </>
+                    ) : 'Add Product'}
                   </button>
                 </div>
               </form>

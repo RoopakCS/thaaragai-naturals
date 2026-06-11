@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  tamilName: { type: String, default: "" },
   category: {
     type: String,
     required: true,

@@ -245,26 +245,28 @@ export default function ProductDetails() {
           </div>
 
           {/* TRANSPARENCY & NUTRITION SECTION */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-serif font-bold text-[#1a3a28] mb-6 flex items-center gap-2">
-              <Info className="text-[#2D5A40]" /> Quality & Nutrition
-            </h3>
-            <p className="text-gray-600 mb-6 leading-relaxed font-medium">
-              We believe you deserve to know exactly what goes into your body. This product is naturally sourced and minimally processed.
-            </p>
-
-            {/* Nutrition Table */}
-            {product.hasNutritionData && product.nutritionPer100g && (
-              <div className="mt-8">
-                <NutritionPanel 
-                  nutritionPer100g={product.nutritionPer100g}
-                  labTested={product.labTested}
-                  fssaiCompliant={product.fssaiCompliant}
-                  nablAccredited={product.nablAccredited}
-                />
-              </div>
-            )}
-          </div>
+          {product.hasNutritionData && (
+            <div className="mb-12">
+              <h3 className="text-2xl font-serif font-bold text-[#1a3a28] mb-6 flex items-center gap-2">
+                <Info className="text-[#2D5A40]" /> Quality & Nutrition
+              </h3>
+              <p className="text-gray-600 mb-6 leading-relaxed font-medium">
+                We believe you deserve to know exactly what goes into your body. This product is naturally sourced and minimally processed.
+              </p>
+  
+              {/* Nutrition Table */}
+              {product.nutritionPer100g && (
+                <div className="mt-8">
+                  <NutritionPanel 
+                    nutritionPer100g={product.nutritionPer100g}
+                    labTested={product.labTested}
+                    fssaiCompliant={product.fssaiCompliant}
+                    nablAccredited={product.nablAccredited}
+                  />
+                </div>
+              )}
+            </div>
+          )}
 
           {/* REVIEWS SECTION */}
           <div>

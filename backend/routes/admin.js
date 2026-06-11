@@ -127,7 +127,7 @@ router.put('/products/:id/stock', async (req, res) => {
 // POST create new product
 router.post('/products', async (req, res) => {
   try {
-    const { name, category, price, weight, description, inStock, image, imagePublicId, hasNutritionData, labTested, fssaiCompliant, nablAccredited, nutritionPer100g } = req.body;
+    const { name, tamilName, category, price, weight, description, inStock, image, imagePublicId, hasNutritionData, labTested, fssaiCompliant, nablAccredited, nutritionPer100g } = req.body;
     
     // Validate required fields
     if (!name || !category || price === undefined) {
@@ -139,6 +139,7 @@ router.post('/products', async (req, res) => {
 
     const newProduct = new Product({
       name,
+      tamilName,
       category,
       price,
       weight,
@@ -167,7 +168,7 @@ router.post('/products', async (req, res) => {
 // PUT update product details
 router.put('/products/:id', async (req, res) => {
   try {
-    const { name, category, price, weight, description, image, imagePublicId, inStock, hasNutritionData, labTested, fssaiCompliant, nablAccredited, nutritionPer100g } = req.body;
+    const { name, tamilName, category, price, weight, description, image, imagePublicId, inStock, hasNutritionData, labTested, fssaiCompliant, nablAccredited, nutritionPer100g } = req.body;
     
     const product = await Product.findById(req.params.id);
     if (!product) {
@@ -183,7 +184,7 @@ router.put('/products/:id', async (req, res) => {
 
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
-      { name, category, price, weight, description, image, imagePublicId, inStock, hasNutritionData, labTested, fssaiCompliant, nablAccredited, nutritionPer100g, updatedBy: req.user.id },
+      { name, tamilName, category, price, weight, description, image, imagePublicId, inStock, hasNutritionData, labTested, fssaiCompliant, nablAccredited, nutritionPer100g, updatedBy: req.user.id },
       { new: true }
     );
     
