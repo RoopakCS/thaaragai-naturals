@@ -21,16 +21,12 @@ export default function Navbar() {
     }
   }, [isAuthenticated, fetchCart, fetchWishlist]);
 
-  const navLinks = isAuthenticated 
-    ? [
-        { name: 'Shop All', path: '/products' }
-      ]
-    : [
-        { name: 'Home', path: '/' },
-        { name: 'Products', path: '/products' },
-        { name: 'About', path: '/about' },
-        { name: 'Contact', path: '/contact' },
-      ];
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Products', path: '/products' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+  ];
 
   return (
     <nav className="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-md py-3 sm:py-4 px-4 sm:px-6 lg:px-8 xl:px-16 transition-all duration-300">

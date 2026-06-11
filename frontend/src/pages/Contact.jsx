@@ -1,18 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Mail, MessageCircle, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
 
 export default function Contact() {
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuthStore();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/products');
-    }
-  }, [isAuthenticated, navigate]);
 
   const [formData, setFormData] = useState({
     name: '',

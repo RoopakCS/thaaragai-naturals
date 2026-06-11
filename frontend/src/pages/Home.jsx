@@ -12,19 +12,7 @@ import laddusImg from '../assets/category images/millet-laddus-big.webp';
 import nalunguMaavuImg from '../assets/category images/nalungu-maavu.webp';
 import './Home.css';
 
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
-
 export default function Home() {
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuthStore();
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/products');
-    }
-  }, [isAuthenticated, navigate]);
-
   // GTA VI Style Hero Parallax
   const heroRef = useRef(null);
   const { scrollYProgress: heroProgress } = useScroll({

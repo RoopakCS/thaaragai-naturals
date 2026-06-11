@@ -54,14 +54,16 @@ export default function Footer() {
             <ul className="space-y-4">
               {(isAuthenticated 
                 ? [
-                    { name: 'Shop All', path: '/products' },
+                    { name: 'Products', path: '/products' },
                     { name: 'My Orders', path: '/orders' },
-                    { name: 'My Profile', path: '/profile' }
+                    { name: 'Our Story', path: '/about' },
+                    { name: 'Contact Us', path: '/contact' }
                   ]
                 : [
                     { name: 'Home', path: '/' },
                     { name: 'Our Products', path: '/products' },
-                    { name: 'Our Story', path: '/about' }
+                    { name: 'Our Story', path: '/about' },
+                    { name: 'Contact Us', path: '/contact' }
                   ]
               ).map((item) => (
                 <li key={item.name}>
