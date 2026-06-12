@@ -44,6 +44,18 @@ router.get('/google-merchant.xml', async (req, res) => {
       const price = `${product.price}.00 INR`; // Assuming price is in INR
       const id = escapeXml(product.sku || product._id.toString());
 
+      let formattedWeight = '500 g'; // Default shipping weight if missing
+      if (product.weight) {
+        // e.g., "500g" -> "500 g", "1kg" -> "1 kg"
+        const match = product.weight.match(/(\d+(?:\.\d+)?)\s*(g|kg|ml|l)/i);
+        if (match) {
+          let unit = match[2].toLowerCase();
+          if (unit === 'ml') unit = 'g'; // Google expects mass units for shipping
+          if (unit === 'l') unit = 'kg';
+          formattedWeight = `${match[1]} ${unit}`;
+        }
+      }
+
       xml += `    <item>
       <g:id>${id}</g:id>
       <g:title>${title}</g:title>
@@ -52,6 +64,7 @@ router.get('/google-merchant.xml', async (req, res) => {
       <g:image_link>${imageLink}</g:image_link>
       <g:availability>${availability}</g:availability>
       <g:price>${price}</g:price>
+      <g:shipping_weight>${formattedWeight}</g:shipping_weight>
       <g:condition>new</g:condition>
       <g:brand>Thaaragai Naturals</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
