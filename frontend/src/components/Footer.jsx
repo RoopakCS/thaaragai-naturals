@@ -57,13 +57,15 @@ export default function Footer() {
                     { name: 'Products', path: '/products' },
                     { name: 'My Orders', path: '/orders' },
                     { name: 'Our Story', path: '/about' },
-                    { name: 'Contact Us', path: '/contact' }
+                    { name: 'Contact Us', path: '/contact' },
+                    { name: 'Return Policy', path: '/return-policy' }
                   ]
                 : [
                     { name: 'Home', path: '/' },
                     { name: 'Our Products', path: '/products' },
                     { name: 'Our Story', path: '/about' },
-                    { name: 'Contact Us', path: '/contact' }
+                    { name: 'Contact Us', path: '/contact' },
+                    { name: 'Return Policy', path: '/return-policy' }
                   ]
               ).map((item) => (
                 <li key={item.name}>

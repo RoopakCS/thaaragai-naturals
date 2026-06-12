@@ -20,6 +20,7 @@ const Admin = lazy(() => import('./pages/Admin'));
 const Profile = lazy(() => import('./pages/Profile'));
 const VerifyOTP = lazy(() => import('./pages/VerifyOTP'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const ReturnPolicy = lazy(() => import('./pages/ReturnPolicy'));
 
 const Wishlist = lazy(() => import('./pages/Wishlist'));
 
@@ -102,6 +103,7 @@ function App() {
             <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/admin" element={<ProtectedRoute requireAdmin><Admin /></ProtectedRoute>} />
+            <Route path="/return-policy" element={<ReturnPolicy />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
