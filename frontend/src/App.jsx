@@ -6,6 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import InstallPWA from './components/InstallPWA';
 import PushNotificationManager from './components/PushNotificationManager';
 import { Loader2 } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 
 const Home = lazy(() => import('./pages/Home'));
 const Products = lazy(() => import('./pages/Products'));
@@ -111,6 +112,7 @@ function App() {
       <ConditionalFooter />
       <InstallPWA />
       <PushNotificationManager />
+      <Analytics />
     </Router>
   );
 }
