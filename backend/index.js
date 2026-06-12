@@ -99,6 +99,7 @@ const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/orders');
 const adminRoutes = require('./routes/admin');
 const uploadRoutes = require('./routes/upload');
+const feedRoutes = require('./routes/feed');
 
 // Routes
 app.use('/api/products', productRoutes);
@@ -107,6 +108,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/feed', feedRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });

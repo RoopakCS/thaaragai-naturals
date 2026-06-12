@@ -6,6 +6,7 @@ const Product = require('../models/Product');
 const { verifyToken } = require('../middleware/auth');
 const { adminAuth, superAdminAuth } = require('../middleware/adminAuth');
 const { cloudinary } = require('../config/cloudinary');
+const { generateSKU } = require('../utils/skuGenerator');
 
 // Apply middleware to all routes in this file
 router.use(verifyToken, adminAuth);
@@ -147,8 +148,11 @@ router.post('/products', async (req, res) => {
       return res.status(400).json({ message: 'Name, category, and price are required' });
     }
 
+    const sku = await generateSKU(category, weight, name);
+
     const newProduct = new Product({
       name,
+      sku,
       tamilName,
       category,
       price,

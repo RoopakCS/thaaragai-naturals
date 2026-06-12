@@ -492,6 +492,7 @@ export default function Admin() {
                       <thead>
                         <tr className="bg-white text-[#1a3a28] text-xs uppercase tracking-wider border-b border-gray-100">
                           <th className="p-5 pl-8 font-bold">Product</th>
+                          <th className="p-5 font-bold">SKU</th>
                           <th className="p-5 font-bold">Category</th>
                           <th className="p-5 font-bold">Price</th>
                           <th className="p-5 font-bold text-center">Visibility</th>
@@ -516,6 +517,9 @@ export default function Admin() {
                                   {p.createdBy && <div className="text-[10px] font-medium text-[#2D6A2D] bg-[#e8f3ec] inline-block px-1.5 py-0.5 rounded mt-1">Added by {p.createdBy.name}</div>}
                                 </div>
                               </div>
+                            </td>
+                            <td className="p-5 text-gray-600">
+                              <span className="font-mono text-xs bg-gray-50 px-2 py-1 rounded border">{p.sku || '-'}</span>
                             </td>
                             <td className="p-5 text-sm text-gray-500 font-medium capitalize">
                               <span className="bg-gray-100 px-3 py-1 rounded-lg">{p.category.replace('-', ' ')}</span>
