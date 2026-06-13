@@ -9,8 +9,8 @@ import { useCartStore } from '../store/cartStore';
 import heroImageDesktop from '../assets/Website Hero Image - Desktop.webp';
 import heroImageMobile from '../assets/Website Hero Image - Mobile.webp';
 import dosaMaavuImg from '../assets/category images/siruthaniya-dosa-maavu.webp';
-import gheeImg from '../assets/category images/ghee.webp';
-import chappathiMaavuImg from '../assets/category images/siruthaniya-chappathi-maavu.webp';
+// import gheeImg from '../assets/category images/ghee.webp';
+import healthMixesImg from '../assets/category images/uzhunthangali-maavu.webp';
 import idlyPodiImg from '../assets/category images/Idly Podi.webp';
 import laddusImg from '../assets/category images/millet-laddus-big.webp';
 import nalunguMaavuImg from '../assets/category images/nalungu-maavu.webp';
@@ -44,8 +44,8 @@ export default function Home() {
   // Shared Categories Data
   const categories = [
     { name: 'Millet Flours', slug: 'flours', color: 'bg-[#1a3a28]', image: dosaMaavuImg },
-    { name: 'Herbal Drinks', slug: 'beverages', color: 'bg-[#1a3a28]', image: gheeImg },
-    { name: 'Health Mixes', slug: 'health-mixes', color: 'bg-[#1a3a28]', image: chappathiMaavuImg },
+    // { name: 'Herbal Drinks', slug: 'beverages', color: 'bg-[#1a3a28]', image: gheeImg },
+    { name: 'Health Mixes', slug: 'health-mixes', color: 'bg-[#1a3a28]', image: healthMixesImg },
     { name: 'Podis', slug: 'podis', color: 'bg-[#1a3a28]', image: idlyPodiImg },
     { name: 'Laddus', slug: 'laddus', color: 'bg-[#1a3a28]', image: laddusImg },
     { name: 'Personal Care', slug: 'personal-care', color: 'bg-[#1a3a28]', image: nalunguMaavuImg },

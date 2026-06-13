@@ -209,6 +209,11 @@ export default function ProductDetails() {
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#1a3a28] leading-tight mb-2">
             {product.name}
           </h1>
+          {product.tamilName && (
+            <h2 className="text-2xl font-serif text-[#2D5A40] mb-4">
+              {product.tamilName}
+            </h2>
+          )}
           
           <p className="text-[#2D5A40] font-medium text-lg mb-6 flex items-center gap-2">
             Category: <span className="capitalize">{product.category.replace('-', ' ')}</span>

@@ -7,6 +7,7 @@ import InstallPWA from './components/InstallPWA';
 import PushNotificationManager from './components/PushNotificationManager';
 import { Loader2 } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
+import StickyCartBar from './components/StickyCartBar';
 
 const Home = lazy(() => import('./pages/Home'));
 const Products = lazy(() => import('./pages/Products'));
@@ -109,6 +110,7 @@ function App() {
           </Routes>
         </Suspense>
       </main>
+      <StickyCartBar />
       <ConditionalFooter />
       <InstallPWA />
       <PushNotificationManager />
