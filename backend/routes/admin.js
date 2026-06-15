@@ -15,7 +15,7 @@ router.use(verifyToken, adminAuth);
 router.get('/orders', async (req, res) => {
   try {
     const orders = await Order.find()
-      .populate('user', 'name email')
+      .populate('user', 'name email phone')
       .sort({ createdAt: -1 });
     res.status(200).json(orders);
   } catch (error) {
@@ -31,7 +31,7 @@ router.put('/orders/:id/status', async (req, res) => {
       req.params.id,
       { status },
       { new: true }
-    ).populate('user', 'name email pushSubscriptions'); // also populate pushSubscriptions if user is not fully populated, but User schema defines it.
+    ).populate('user', 'name email phone pushSubscriptions'); // also populate pushSubscriptions if user is not fully populated, but User schema defines it.
     
     if (!order) {
       return res.status(404).json({ message: 'Order not found' });

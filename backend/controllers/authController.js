@@ -17,8 +17,8 @@ const register = async (req, res) => {
     const { name, email, password, phone, wantsNewsletter } = req.body;
 
     // Input validate
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Name, email, and password are required' });
+    if (!name || !email || !password || !phone) {
+      return res.status(400).json({ message: 'Name, email, phone, and password are required' });
     }
 
     // Check if email already exists

@@ -137,12 +137,13 @@ export default function Register() {
             </div>
 
             <div>
-              <label htmlFor="phone" className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Phone Number <span className="text-gray-400 font-normal lowercase tracking-normal">(optional)</span></label>
+              <label htmlFor="phone" className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Phone Number *</label>
               <input 
                 id="phone"
                 type="tel" 
                 name="phone"
                 autoComplete="tel"
+                required
                 value={formData.phone}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#2D6A2D] focus:border-transparent outline-none transition-all text-[#1a3a28] font-medium"

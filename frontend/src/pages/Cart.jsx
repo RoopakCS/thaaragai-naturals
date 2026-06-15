@@ -63,6 +63,7 @@ export default function Cart() {
   // Checkout Form State
   const [checkoutForm, setCheckoutForm] = useState({
     name: '',
+    phone: '',
     address: ''
   });
 
@@ -80,6 +81,7 @@ export default function Cart() {
 
       setCheckoutForm({
         name: user.name || '',
+        phone: user.phone || '',
         address: formattedAddress
       });
     }
@@ -138,7 +140,8 @@ export default function Cart() {
           weight: item.weight
         })),
         totalAmount: totalPrice,
-        shippingAddress: checkoutForm.address // New backend field
+        shippingAddress: checkoutForm.address,
+        phone: checkoutForm.phone
       };
 
       const res = await axiosInstance.post('/api/orders', orderPayload);
@@ -150,7 +153,7 @@ export default function Cart() {
         message += `• ${item.name} ${item.weight && item.weight !== 'null' ? `(${item.weight})` : ''} x${item.quantity}\n`;
       });
       message += `\n*Subtotal: ₹${totalPrice}*\n`;
-      message += `\n*Delivery Details:*\nName: ${checkoutForm.name}\nAddress: ${checkoutForm.address}\n\n`;
+      message += `\n*Delivery Details:*\nName: ${checkoutForm.name}\nPhone: ${checkoutForm.phone}\nAddress: ${checkoutForm.address}\n\n`;
       message += `Please let me know the total including shipping. Thank you!`;
 
       // 3. Cleanup and redirect
@@ -389,7 +392,7 @@ export default function Cart() {
               <div className="p-6 sm:p-8 overflow-y-auto flex-grow">
                 <form id="checkout-form" onSubmit={handleConfirmOrder} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div className="sm:col-span-2">
+                    <div className="sm:col-span-1">
                       <label htmlFor="checkout-name" className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Full Name *</label>
                       <input 
                         id="checkout-name"
@@ -400,6 +403,17 @@ export default function Cart() {
                       />
                     </div>
                     
+                    <div className="sm:col-span-1">
+                      <label htmlFor="checkout-phone" className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Phone Number *</label>
+                      <input 
+                        id="checkout-phone"
+                        type="tel" required
+                        value={checkoutForm.phone}
+                        onChange={(e) => setCheckoutForm({...checkoutForm, phone: e.target.value})}
+                        className="w-full px-4 py-3.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#2D6A2D] focus:border-transparent outline-none text-[#1a3a28] font-medium"
+                        placeholder="WhatsApp number"
+                      />
+                    </div>
 
                     <div className="sm:col-span-2">
                       <label htmlFor="checkout-address" className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Complete Shipping Address *</label>

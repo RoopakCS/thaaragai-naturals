@@ -101,10 +101,21 @@ export default function Admin() {
     return result;
   }, [products, productSearch, productCategory, productSort]);
 
-  const handleStatusChange = async (id, newStatus) => {
+  const handleStatusChange = async (order, newStatus) => {
     try {
-      await axiosInstance.put(`/api/admin/orders/${id}/status`, { status: newStatus });
-      setOrders(orders.map(o => o._id === id ? { ...o, status: newStatus } : o));
+      await axiosInstance.put(`/api/admin/orders/${order._id}/status`, { status: newStatus });
+      setOrders(orders.map(o => o._id === order._id ? { ...o, status: newStatus } : o));
+      
+      if (newStatus === 'delivered') {
+        const phone = order.user?.phone;
+        if (phone) {
+          const message = `Hello ${order.user?.name || 'Customer'},\n\nThank you for ordering from Thaaragai Naturals! 🙏\n\nYour order #${order.orderNumber || order._id.slice(-6).toUpperCase()} has been delivered.\n\nWe'd love to hear your feedback! Please leave a review for us on Google: https://g.page/r/CScIpdbE-YMuEBM/review\n\nThank you! ✨`;
+          const encodedMessage = encodeURIComponent(message);
+          if (window.confirm("Order marked as delivered. Do you want to send a WhatsApp message to the customer?")) {
+            window.open(`https://wa.me/${phone.replace(/\D/g, '')}?text=${encodedMessage}`, '_blank');
+          }
+        }
+      }
     } catch (err) {
       console.error(err);
       toast.error('Failed to update status');
@@ -383,7 +394,7 @@ export default function Admin() {
                             <td className="p-5 pr-8 text-right">
                               <select 
                                 value={o.status}
-                                onChange={(e) => handleStatusChange(o._id, e.target.value)}
+                                onChange={(e) => handleStatusChange(o, e.target.value)}
                                 className="text-sm border border-gray-200 rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-[#2D6A2D] focus:border-transparent font-medium text-[#1a3a28] bg-white cursor-pointer shadow-sm hover:border-gray-300 transition-all"
                               >
                                 <option value="pending">Mark Pending</option>
@@ -429,7 +440,7 @@ export default function Admin() {
                           </span>
                           <select 
                             value={o.status}
-                            onChange={(e) => handleStatusChange(o._id, e.target.value)}
+                            onChange={(e) => handleStatusChange(o, e.target.value)}
                             className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 outline-none focus:ring-1 focus:ring-[#2D6A2D] font-medium text-[#1a3a28] bg-white cursor-pointer"
                           >
                             <option value="pending">Mark Pending</option>

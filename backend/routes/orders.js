@@ -6,8 +6,14 @@ const { verifyToken } = require('../middleware/auth');
 
 router.post('/', verifyToken, async (req, res) => {
   try {
-    const { items, totalAmount, shippingAddress } = req.body;
+    const { items, totalAmount, shippingAddress, phone } = req.body;
     
+    // Update user phone number if provided
+    if (phone) {
+      const User = require('../models/User');
+      await User.findByIdAndUpdate(req.user.id, { phone });
+    }
+
     // Generate random 6 digit order number
     const orderNumber = `TN-${Math.floor(100000 + Math.random() * 900000)}`;
 
